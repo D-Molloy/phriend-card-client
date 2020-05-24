@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Login</router-link> |
-      <router-link to="/signup">Signup</router-link>
-    </div>
+    <Loading />
     <router-view />
   </div>
 </template>
+<script>
+import Loading from "./components/Loading.vue";
 
+export default {
+  name: "app",
+  components: {
+    Loading
+  }
+};
+</script>
 <style>
 body {
   margin: 0;
