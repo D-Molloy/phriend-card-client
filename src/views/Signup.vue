@@ -64,20 +64,19 @@ export default {
   }),
 
   methods: {
-    signup(e) {
-      e.preventDefault();
+    signup() {
       this.errors = {};
       API.createUser(this.form)
         .then(({ data }) => {
-          console.log("Create Success:", data);
           this.message = data;
           setTimeout(() => {
+            this.message = "";
+            this.form = initialState;
             this.$router.push("/");
           }, 2000);
         })
         .catch(err => {
           this.errors = err.response.data;
-          console.log(err.response.data);
         });
     }
   }

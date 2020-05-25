@@ -11,7 +11,7 @@
         autofocus
         required
       />
-
+      <p v-if="errors.email">{{ errors.email }}</p>
       <input
         type="password"
         v-model="form.password"
@@ -19,6 +19,7 @@
         autocomplete="current-password"
         required
       />
+      <p v-if="errors.password">{{ errors.password }}</p>
       <button>Login</button>
     </form>
     <div id="nav">
@@ -30,6 +31,7 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
+import API from "../utils/API.js";
 const initialState = {
   email: "",
   password: ""
@@ -40,13 +42,19 @@ export default {
     form: initialState,
     errors: {}
   }),
-
+  // TODO: redirect if phriendToken in localStorage
   methods: {
-    loginUser(e) {
-      e.preventDefault();
-      if (this.form.email && this.form.password) {
-        console.log("submitting form");
-      }
+    loginUser() {
+      // e.preventDefault();
+      this.errors = {};
+      API.loginUser(this.form)
+        .then(({ data: { token } }) => {
+          localStorage.setItem("phriendToken", token);
+          this.$router.push("/dashboard");
+        })
+        .catch(err => {
+          this.errors = err.response.data;
+        });
     }
   }
   // components: { Navbar }
