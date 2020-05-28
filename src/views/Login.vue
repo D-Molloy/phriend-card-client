@@ -42,6 +42,11 @@ export default {
     form: initialState,
     errors: {}
   }),
+  mounted() {
+    if (localStorage.getItem("phriendToken")) {
+      this.$router.push("/dashboard");
+    }
+  },
   // TODO: redirect if phriendToken in localStorage
   methods: {
     loginUser() {
