@@ -22,7 +22,7 @@
           <a :href="show.phishnetUrl" target="_blank" rel="noopener noreferrer"
             >View show details on Phish.net</a
           >
-          <div v-for="(value, key) in show.setlist" :key="value">
+          <div v-for="(value, key) in show.setlist" :key="key">
             <!-- Need to update to 'Set' when adding new shows -->
             <p v-if="key.substring(0, 3) === 'set'">
               {{ key }}: <span>{{ value.join(", ") }}</span>
@@ -39,8 +39,12 @@
           <h3>{{ venue.venue }}, {{ venue.location }}</h3>
           <p>Shows at venue: {{ venue.shows.length }}</p>
           <p>Avg Show Score: {{ venue.venueRating.toFixed(3) }}</p>
-          <div class="show_container">
-            <div class="show_div" v-for="show in venue.shows" :key="show.date">
+          <div class="venue_show_container">
+            <div
+              class="venue_show_div"
+              v-for="show in venue.shows"
+              :key="show.date"
+            >
               <a
                 :href="show.phishnetUrl"
                 target="_blank"
@@ -52,6 +56,14 @@
               <p>Rating: {{ show.rating.toFixed(3) }}</p>
             </div>
           </div>
+        </div>
+        <h1>Your Song Summary</h1>
+        <p>Total songs heard: {{ user.totalSongsHeard }}</p>
+        <div v-for="song in user.songFrequency" :key="song[0]">
+          <h4>
+            <span>{{ song[0] }}</span> (<span>{{ song[1] }}</span
+            >)
+          </h4>
         </div>
       </template>
       <template v-else>
@@ -70,14 +82,15 @@
   max-width: 90%;
 }
 
-.show_container {
+.venue_show_container {
   border: 1px solid green;
   display: flex;
   overflow-x: auto;
 }
-.show_div {
+.venue_show_div {
   border: 1px solid black;
   margin: 0 10px;
+  padding: 5px;
 }
 </style>
 
@@ -97,7 +110,6 @@ export default {
     const token = localStorage.getItem("phriendToken");
     if (token) {
       API.getUserInfo(token).then(({ data }) => {
-        console.log(data);
         this.user = data;
       });
     } else {
