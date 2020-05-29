@@ -69,8 +69,35 @@
       <template v-else>
         <h1>Add a show to see your PhriendCard.</h1>
       </template>
+      <div>
+        <h3>Add a new show</h3>
+        <select name="year" id="year" v-model="showYear" required>
+          <option value="" default>Select year</option>
+          <option v-for="year in dates.years" :key="year" :value="year">{{
+            year
+          }}</option>
+          <!-- <option value="saab">Saab</option>
+          <option value="audi">Audi</option> -->
+        </select>
+        <select name="month" id="month" v-model="showMonth" required>
+          <option value="" default>Select month</option>
+          <option v-for="month in 12" :key="month" :value="month">{{
+            month
+          }}</option>
+        </select>
+        <select name="day" id="day" v-model="showDay" required>
+          <option value="" default>Select day</option>
+          <option v-for="day in 31" :key="day" :value="day">{{ day }}</option>
+        </select>
+        <button
+          @click="addNewShow"
+          :disabled="!showYear || !showMonth || !showDay"
+        >
+          Add Show
+        </button>
+      </div>
     </div>
-
+    <!-- wait for content to load -->
     <div v-else>
       <Loading />
     </div>
@@ -98,6 +125,7 @@
 <script>
 import Loading from "@/components/Loading.vue";
 import API from "../utils/API.js";
+import dates from "../utils/dates.js";
 export default {
   name: "dashboard",
   components: {
@@ -105,20 +133,34 @@ export default {
   },
   data: () => ({
     user: {},
-    errors: {}
+    token: "",
+    errors: {},
+    dates: dates,
+    showYear: "",
+    showMonth: "",
+    showDay: ""
   }),
   mounted() {
     const token = localStorage.getItem("phriendToken");
+    // TODO: add token to localStorage and prevent from making request every page load
     if (token) {
-      API.getUserInfo(token).then(({ data }) => {
+      this.token = token;
+      API.getUserInfo(this.token).then(({ data }) => {
         this.user = data;
       });
     } else {
       this.$router.push("/");
     }
+  },
+  methods: {
+    addNewShow() {
+      console.log(`${this.showYear}-${this.showMonth}-${this.showDay}`);
+      API.addNewShow(this.token)
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => console.log(err));
+    }
   }
-  // methods: {
-
-  // }
 };
 </script>
