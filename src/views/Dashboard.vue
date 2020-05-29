@@ -91,6 +91,7 @@
   border: 1px solid black;
   margin: 0 10px;
   padding: 5px;
+  min-width: 100px;
 }
 </style>
 
