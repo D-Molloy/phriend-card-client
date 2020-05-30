@@ -71,7 +71,7 @@
       </template>
       <div>
         <h3>Add a new show</h3>
-        <select name="year" id="year" v-model="showYear" required>
+        <select name="year" id="year" v-model="newShow.year" required>
           <option value="" default>Select year</option>
           <option v-for="year in dates.years" :key="year" :value="year">{{
             year
@@ -79,13 +79,13 @@
           <!-- <option value="saab">Saab</option>
           <option value="audi">Audi</option> -->
         </select>
-        <select name="month" id="month" v-model="showMonth" required>
+        <select name="month" id="month" v-model="newShow.month" required>
           <option value="" default>Select month</option>
           <option v-for="month in 12" :key="month" :value="month">{{
             month
           }}</option>
         </select>
-        <select name="day" id="day" v-model="showDay" required>
+        <select name="day" id="day" v-model="newShow.day" required>
           <option value="" default>Select day</option>
           <option v-for="day in 31" :key="day" :value="day">{{ day }}</option>
         </select>
@@ -136,30 +136,52 @@ export default {
     token: "",
     errors: {},
     dates: dates,
-    showYear: "",
-    showMonth: "",
-    showDay: ""
+    newShow: {
+      year: "",
+      month: "",
+      day: ""
+    }
+    // showYear: "",
+    // showMonth: "",
+    // showDay: ""
   }),
   mounted() {
     const token = localStorage.getItem("phriendToken");
+    const phriendData = JSON.parse(localStorage.getItem("phriendData"));
     // TODO: add token to localStorage and prevent from making request every page load
-    if (token) {
-      this.token = token;
-      API.getUserInfo(this.token).then(({ data }) => {
-        this.user = data;
-      });
-    } else {
+    // if !token, redirect to login
+    // if token (loggedin) and  phrienddata, use phriend data
+    //else make reqst
+    if (!token) {
+      console.log("No token");
       this.$router.push("/");
+    }
+
+    this.token = token;
+    if (phriendData) {
+      this.user = phriendData;
+    } else {
+      API.getUserInfo(this.token)
+        .then(({ data }) => {
+          this.user = data;
+
+          localStorage.setItem("phriendData", JSON.stringify(data));
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
   methods: {
     addNewShow() {
-      console.log(`${this.showYear}-${this.showMonth}-${this.showDay}`);
-      API.addNewShow(this.token)
-        .then(data => {
-          console.log(data);
-        })
-        .catch(err => console.log(err));
+      console.log(this.newShow);
+      // API.addNewShow(this.token)
+      //   .then(data => {
+      //     console.log(data);
+      //     this.user = data;
+      //     localStorage.setItem("phriendData", JSON.stringify(data));
+      //   })
+      //   .catch(err => console.log(err));
     }
   }
 };
