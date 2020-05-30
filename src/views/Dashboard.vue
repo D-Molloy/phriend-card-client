@@ -79,24 +79,32 @@
           <!-- <option value="saab">Saab</option>
           <option value="audi">Audi</option> -->
         </select>
+        <p v-if="errors.year">{{ errors.year }}</p>
         <select name="month" id="month" v-model="newShow.month" required>
           <option value="" default>Select month</option>
-          <option v-for="month in 12" :key="month" :value="month">{{
+          <option v-for="month in dates.months" :key="month" :value="month">{{
             month
           }}</option>
         </select>
+        <p v-if="errors.month">{{ errors.month }}</p>
+
         <select name="day" id="day" v-model="newShow.day" required>
           <option value="" default>Select day</option>
-          <option v-for="day in 31" :key="day" :value="day">{{ day }}</option>
+          <option v-for="day in dates.days" :key="day" :value="day">{{
+            day
+          }}</option>
         </select>
+        <p v-if="errors.day">{{ errors.day }}</p>
         <button
           @click="addNewShow"
-          :disabled="!showYear || !showMonth || !showDay"
+          :disabled="!newShow.year || !newShow.month || !newShow.day"
         >
           Add Show
         </button>
+        <p v-if="errors.message">{{errors.message}}</p>
       </div>
     </div>
+    <!-- :disabled="!showYear || !showMonth || !showDay" -->
     <!-- wait for content to load -->
     <div v-else>
       <Loading />
@@ -141,22 +149,15 @@ export default {
       month: "",
       day: ""
     }
-    // showYear: "",
-    // showMonth: "",
-    // showDay: ""
   }),
   mounted() {
     const token = localStorage.getItem("phriendToken");
     const phriendData = JSON.parse(localStorage.getItem("phriendData"));
-    // TODO: add token to localStorage and prevent from making request every page load
-    // if !token, redirect to login
-    // if token (loggedin) and  phrienddata, use phriend data
-    //else make reqst
+
     if (!token) {
       console.log("No token");
       this.$router.push("/");
     }
-
     this.token = token;
     if (phriendData) {
       this.user = phriendData;
@@ -174,15 +175,17 @@ export default {
   },
   methods: {
     addNewShow() {
-      console.log(this.newShow);
-      // API.addNewShow(this.token)
-      //   .then(data => {
-      //     console.log(data);
-      //     this.user = data;
-      //     localStorage.setItem("phriendData", JSON.stringify(data));
-      //   })
-      //   .catch(err => console.log(err));
+      this.errors={};
+      API.addNewShow(this.token, this.newShow)
+        .then(({data}) => {
+          this.user = data;
+          localStorage.setItem("phriendData", JSON.stringify(data));
+        })
+        .catch(err => {
+          this.errors = err.response.data;
+        });
     }
+    // TODO: add a logout
   }
 };
 </script>
