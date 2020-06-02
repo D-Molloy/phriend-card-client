@@ -24,7 +24,7 @@
           >
           <div v-for="(value, key) in show.setlist" :key="key">
             <!-- Need to update to 'Set' when adding new shows -->
-            <p v-if="key.substring(0, 3) === 'set'">
+            <p v-if="key.substring(0, 3) === 'Set'">
               {{ key }}: <span>{{ value.join(", ") }}</span>
             </p>
           </div>
@@ -155,7 +155,7 @@ export default {
     const phriendData = JSON.parse(localStorage.getItem("phriendData"));
 
     if (!token) {
-      console.log("No token");
+      localStorage.clear();
       this.$router.push("/");
     }
     this.token = token;
@@ -165,11 +165,10 @@ export default {
       API.getUserInfo(this.token)
         .then(({ data }) => {
           this.user = data;
-
           localStorage.setItem("phriendData", JSON.stringify(data));
         })
         .catch(err => {
-          console.log(err);
+          this.errors = err.response.data;
         });
     }
   },
@@ -184,7 +183,7 @@ export default {
         .catch(err => {
           console.log("err.response", err.response);
           if (err.response.status === 403) {
-            localStorage.clear()
+            localStorage.clear();
             this.$router.push("/");
           }
           this.errors = err.response.data;
