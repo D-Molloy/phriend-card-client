@@ -101,7 +101,7 @@
         >
           Add Show
         </button>
-        <p v-if="errors.message">{{errors.message}}</p>
+        <p v-if="errors.message">{{ errors.message }}</p>
       </div>
     </div>
     <!-- :disabled="!showYear || !showMonth || !showDay" -->
@@ -175,13 +175,18 @@ export default {
   },
   methods: {
     addNewShow() {
-      this.errors={};
+      this.errors = {};
       API.addNewShow(this.token, this.newShow)
-        .then(({data}) => {
+        .then(({ data }) => {
           this.user = data;
           localStorage.setItem("phriendData", JSON.stringify(data));
         })
         .catch(err => {
+          console.log("err.response", err.response);
+          if (err.response.status === 403) {
+            localStorage.clear()
+            this.$router.push("/");
+          }
           this.errors = err.response.data;
         });
     }
