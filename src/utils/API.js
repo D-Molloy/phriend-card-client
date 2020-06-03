@@ -16,6 +16,10 @@ export default {
   getUserInfo: function(token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     return axios.get("/api/setlist/");
+  },
+  addNewShow: function(token, showDate) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    return axios.post("/api/setlist/", showDate);
   }
   // // Dashboard - get all staff (private)
   // getStaff: function (token) {

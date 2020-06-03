@@ -24,7 +24,7 @@
           >
           <div v-for="(value, key) in show.setlist" :key="key">
             <!-- Need to update to 'Set' when adding new shows -->
-            <p v-if="key.substring(0, 3) === 'set'">
+            <p v-if="key.substring(0, 3) === 'Set'">
               {{ key }}: <span>{{ value.join(", ") }}</span>
             </p>
           </div>
@@ -69,8 +69,43 @@
       <template v-else>
         <h1>Add a show to see your PhriendCard.</h1>
       </template>
-    </div>
+      <div>
+        <h3>Add a new show</h3>
+        <select name="year" id="year" v-model="newShow.year" required>
+          <option value="" default>Select year</option>
+          <option v-for="year in dates.years" :key="year" :value="year">{{
+            year
+          }}</option>
+          <!-- <option value="saab">Saab</option>
+          <option value="audi">Audi</option> -->
+        </select>
+        <p v-if="errors.year">{{ errors.year }}</p>
+        <select name="month" id="month" v-model="newShow.month" required>
+          <option value="" default>Select month</option>
+          <option v-for="month in dates.months" :key="month" :value="month">{{
+            month
+          }}</option>
+        </select>
+        <p v-if="errors.month">{{ errors.month }}</p>
 
+        <select name="day" id="day" v-model="newShow.day" required>
+          <option value="" default>Select day</option>
+          <option v-for="day in dates.days" :key="day" :value="day">{{
+            day
+          }}</option>
+        </select>
+        <p v-if="errors.day">{{ errors.day }}</p>
+        <button
+          @click="addNewShow"
+          :disabled="!newShow.year || !newShow.month || !newShow.day"
+        >
+          Add Show
+        </button>
+        <p v-if="errors.message">{{ errors.message }}</p>
+      </div>
+    </div>
+    <!-- :disabled="!showYear || !showMonth || !showDay" -->
+    <!-- wait for content to load -->
     <div v-else>
       <Loading />
     </div>
@@ -98,6 +133,7 @@
 <script>
 import Loading from "@/components/Loading.vue";
 import API from "../utils/API.js";
+import dates from "../utils/dates.js";
 export default {
   name: "dashboard",
   components: {
@@ -105,20 +141,55 @@ export default {
   },
   data: () => ({
     user: {},
-    errors: {}
+    token: "",
+    errors: {},
+    dates: dates,
+    newShow: {
+      year: "",
+      month: "",
+      day: ""
+    }
   }),
   mounted() {
     const token = localStorage.getItem("phriendToken");
-    if (token) {
-      API.getUserInfo(token).then(({ data }) => {
-        this.user = data;
-      });
-    } else {
+    const phriendData = JSON.parse(localStorage.getItem("phriendData"));
+
+    if (!token) {
+      localStorage.clear();
       this.$router.push("/");
     }
+    this.token = token;
+    if (phriendData) {
+      this.user = phriendData;
+    } else {
+      API.getUserInfo(this.token)
+        .then(({ data }) => {
+          this.user = data;
+          localStorage.setItem("phriendData", JSON.stringify(data));
+        })
+        .catch(err => {
+          this.errors = err.response.data;
+        });
+    }
+  },
+  methods: {
+    addNewShow() {
+      this.errors = {};
+      API.addNewShow(this.token, this.newShow)
+        .then(({ data }) => {
+          this.user = data;
+          localStorage.setItem("phriendData", JSON.stringify(data));
+        })
+        .catch(err => {
+          console.log("err.response", err.response);
+          if (err.response.status === 403) {
+            localStorage.clear();
+            this.$router.push("/");
+          }
+          this.errors = err.response.data;
+        });
+    }
+    // TODO: add a logout
   }
-  // methods: {
-
-  // }
 };
 </script>
