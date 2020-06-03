@@ -57,14 +57,10 @@
             </div>
           </div>
         </div>
-        <h1>Your Song Summary</h1>
-        <p>Total songs heard: {{ user.totalSongsHeard }}</p>
-        <div v-for="song in user.songFrequency" :key="song[0]">
-          <h4>
-            <span>{{ song[0] }}</span> (<span>{{ song[1] }}</span
-            >)
-          </h4>
-        </div>
+        <song-frequency
+          :songs="user.songFrequency"
+          :total-songs-heard="user.totalSongsHeard"
+        />
       </template>
       <template v-else>
         <h1>Add a show to see your PhriendCard.</h1>
@@ -76,8 +72,6 @@
           <option v-for="year in dates.years" :key="year" :value="year">{{
             year
           }}</option>
-          <!-- <option value="saab">Saab</option>
-          <option value="audi">Audi</option> -->
         </select>
         <p v-if="errors.year">{{ errors.year }}</p>
         <select name="month" id="month" v-model="newShow.month" required>
@@ -87,7 +81,6 @@
           }}</option>
         </select>
         <p v-if="errors.month">{{ errors.month }}</p>
-
         <select name="day" id="day" v-model="newShow.day" required>
           <option value="" default>Select day</option>
           <option v-for="day in dates.days" :key="day" :value="day">{{
@@ -104,10 +97,8 @@
         <p v-if="errors.message">{{ errors.message }}</p>
       </div>
     </div>
-    <!-- :disabled="!showYear || !showMonth || !showDay" -->
-    <!-- wait for content to load -->
     <div v-else>
-      <Loading />
+      <loading-spinner />
     </div>
   </div>
 </template>
@@ -131,13 +122,16 @@
 </style>
 
 <script>
-import Loading from "@/components/Loading.vue";
+import LoadingSpinner from "@/components/loading-spinner.vue";
+import SongFrequency from "@/components/SongFrequency.vue";
 import API from "../utils/API.js";
 import dates from "../utils/dates.js";
+
 export default {
   name: "dashboard",
   components: {
-    Loading
+    "loading-spinner": LoadingSpinner,
+    "song-frequency": SongFrequency
   },
   data: () => ({
     user: {},

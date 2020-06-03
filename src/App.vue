@@ -1,16 +1,15 @@
 <template>
   <div id="app">
-    <Loading />
+    <loading-spinner />
     <router-view />
   </div>
 </template>
 <script>
-import Loading from "./components/Loading.vue";
-
+import LoadingSpinner from "./components/loading-spinner.vue";
 export default {
   name: "app",
   components: {
-    Loading
+    "loading-spinner": LoadingSpinner
   }
 };
 </script>
