@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="overview_container">
     <h1>Your Song Summary</h1>
     <p>Total songs heard: {{ totalSongsHeard }}</p>
     <!-- TODO: remove outer-div when possible -->

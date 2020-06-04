@@ -8,34 +8,7 @@
         <p>Total songs heard: {{ user.totalSongsHeard }}</p>
         <p>Total venues: {{ user.venueSummary.length }}</p>
         <shows-overview :shows="user.shows" />
-
-        <h1>Your Venue Summary</h1>
-        <div
-          class="card"
-          v-for="venue in user.venueSummary"
-          :key="venue.location"
-        >
-          <h3>{{ venue.venue }}, {{ venue.location }}</h3>
-          <p>Shows at venue: {{ venue.shows.length }}</p>
-          <p>Avg Show Score: {{ venue.venueRating.toFixed(3) }}</p>
-          <div class="venue_show_container">
-            <div
-              class="venue_show_div"
-              v-for="show in venue.shows"
-              :key="show.date"
-            >
-              <a
-                :href="show.phishnetUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="View show details on Phish.net"
-                >{{ show.date }}</a
-              >
-              <p>{{ show.day }}</p>
-              <p>Rating: {{ show.rating.toFixed(3) }}</p>
-            </div>
-          </div>
-        </div>
+        <venues-overview :venues="user.venueSummary" />
         <song-frequency
           :songs="user.songFrequency"
           :total-songs-heard="user.totalSongsHeard"
@@ -86,6 +59,10 @@
   border: 1px solid black;
   max-width: 90%;
 }
+.overview_container {
+  max-height: 400px;
+  overflow: auto;
+}
 
 .venue_show_container {
   border: 1px solid green;
@@ -104,6 +81,7 @@
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import SongFrequency from "@/components/SongFrequency.vue";
 import ShowsOverview from "@/components/ShowsOverview.vue";
+import VenuesOverview from "@/components/VenuesOverview.vue";
 import API from "../utils/API.js";
 import dates from "../utils/dates.js";
 
@@ -112,7 +90,8 @@ export default {
   components: {
     "loading-spinner": LoadingSpinner,
     "song-frequency": SongFrequency,
-    "shows-overview": ShowsOverview
+    "shows-overview": ShowsOverview,
+    "venues-overview": VenuesOverview
   },
   data: () => ({
     user: {},

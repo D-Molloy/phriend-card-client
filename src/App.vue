@@ -5,12 +5,8 @@
   </div>
 </template>
 <script>
-import LoadingSpinner from "./components/LoadingSpinner.vue";
 export default {
-  name: "app",
-  components: {
-    "loading-spinner": LoadingSpinner
-  }
+  name: "app"
 };
 </script>
 <style>
