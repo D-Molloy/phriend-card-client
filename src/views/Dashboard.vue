@@ -7,6 +7,7 @@
         <p>Avg. Show Score: {{ user.showScoreAverage.toFixed(3) }}</p>
         <p>Total songs heard: {{ user.totalSongsHeard }}</p>
         <p>Total venues: {{ user.venueSummary.length }}</p>
+        <scores-by-day :days="user.avgShowScoreByDay" />
         <scores-by-year :years="user.avgShowScoreByYear" />
         <shows-overview :shows="user.shows" />
         <venues-overview :venues="user.venueSummary" />
@@ -84,7 +85,8 @@ import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import SongFrequency from "@/components/SongFrequency.vue";
 import ShowsOverview from "@/components/ShowsOverview.vue";
 import VenuesOverview from "@/components/VenuesOverview.vue";
-import ScoreByYear from "@/components/ScoreByYear.vue";
+import ScoresByYear from "@/components/ScoresByYear.vue";
+import ScoresByDay from "@/components/ScoresByDay.vue";
 import API from "../utils/API.js";
 import dates from "../utils/dates.js";
 
@@ -95,7 +97,8 @@ export default {
     "song-frequency": SongFrequency,
     "shows-overview": ShowsOverview,
     "venues-overview": VenuesOverview,
-    "scores-by-year": ScoreByYear
+    "scores-by-year": ScoresByYear,
+    "scores-by-day": ScoresByDay
   },
   data: () => ({
     user: {},
