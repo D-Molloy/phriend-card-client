@@ -7,6 +7,7 @@
         <p>Avg. Show Score: {{ user.showScoreAverage.toFixed(3) }}</p>
         <p>Total songs heard: {{ user.totalSongsHeard }}</p>
         <p>Total venues: {{ user.venueSummary.length }}</p>
+        <scores-by-year :years="user.avgShowScoreByYear" />
         <shows-overview :shows="user.shows" />
         <venues-overview :venues="user.venueSummary" />
         <song-frequency
@@ -62,6 +63,7 @@
 .overview_container {
   max-height: 400px;
   overflow: auto;
+  border: 1px solid grey;
 }
 
 .venue_show_container {
@@ -82,6 +84,7 @@ import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import SongFrequency from "@/components/SongFrequency.vue";
 import ShowsOverview from "@/components/ShowsOverview.vue";
 import VenuesOverview from "@/components/VenuesOverview.vue";
+import ScoreByYear from "@/components/ScoreByYear.vue";
 import API from "../utils/API.js";
 import dates from "../utils/dates.js";
 
@@ -91,7 +94,8 @@ export default {
     "loading-spinner": LoadingSpinner,
     "song-frequency": SongFrequency,
     "shows-overview": ShowsOverview,
-    "venues-overview": VenuesOverview
+    "venues-overview": VenuesOverview,
+    "scores-by-year": ScoreByYear
   },
   data: () => ({
     user: {},
