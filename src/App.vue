@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import LoadingSpinner from "./components/loading-spinner.vue";
+import LoadingSpinner from "./components/LoadingSpinner.vue";
 export default {
   name: "app",
   components: {

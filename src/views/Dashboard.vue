@@ -7,28 +7,7 @@
         <p>Avg. Show Score: {{ user.showScoreAverage.toFixed(3) }}</p>
         <p>Total songs heard: {{ user.totalSongsHeard }}</p>
         <p>Total venues: {{ user.venueSummary.length }}</p>
-
-        <h1>Your Shows ({{ user.shows.length }})</h1>
-        <!-- add remove show button -->
-        <div class="card" v-for="show in user.shows" :key="show._id">
-          <h3>
-            {{ show.venue }}, {{ show.location }} ------ {{ show.day }},
-            {{ show.date }}
-          </h3>
-          <p>
-            Show Rating: {{ show.rating.toFixed(3) }} | Show Song Count:
-            {{ show.setlist.songCount }}
-          </p>
-          <a :href="show.phishnetUrl" target="_blank" rel="noopener noreferrer"
-            >View show details on Phish.net</a
-          >
-          <div v-for="(value, key) in show.setlist" :key="key">
-            <!-- Need to update to 'Set' when adding new shows -->
-            <p v-if="key.substring(0, 3) === 'Set'">
-              {{ key }}: <span>{{ value.join(", ") }}</span>
-            </p>
-          </div>
-        </div>
+        <shows-overview :shows="user.shows" />
 
         <h1>Your Venue Summary</h1>
         <div
@@ -122,8 +101,9 @@
 </style>
 
 <script>
-import LoadingSpinner from "@/components/loading-spinner.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import SongFrequency from "@/components/SongFrequency.vue";
+import ShowsOverview from "@/components/ShowsOverview.vue";
 import API from "../utils/API.js";
 import dates from "../utils/dates.js";
 
@@ -131,7 +111,8 @@ export default {
   name: "dashboard",
   components: {
     "loading-spinner": LoadingSpinner,
-    "song-frequency": SongFrequency
+    "song-frequency": SongFrequency,
+    "shows-overview": ShowsOverview
   },
   data: () => ({
     user: {},
