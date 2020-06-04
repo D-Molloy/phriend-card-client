@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <h1>Avg Show Score By Year</h1>
     <ol class="overview_container">
       <li v-for="year in years" :key="year.year">
