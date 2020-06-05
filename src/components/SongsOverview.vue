@@ -15,7 +15,7 @@
 </template>
 <script>
 export default {
-  name: "SongFrequency",
+  name: "SongsOverview",
   props: {
     songs: {
       type: Array

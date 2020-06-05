@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <loading-spinner />
     <router-view />
   </div>
 </template>
@@ -12,6 +11,10 @@ export default {
 <style>
 body {
   margin: 0;
+}
+#app {
+  width: 90%;
+  margin: auto;
 }
 /* * {
   border: 1px solid black;

@@ -1,24 +1,37 @@
 <template>
   <div>
-    <div class="dashboard" align="center" v-if="user.username">
-      <h1>{{ user.username }}'s Phriendcard</h1>
-      <template v-if="user.showScoreAverage">
-        <p>Shows Attended: {{ user.shows.length }}</p>
-        <p>Avg. Show Score: {{ user.showScoreAverage.toFixed(3) }}</p>
-        <p>Total songs heard: {{ user.totalSongsHeard }}</p>
-        <p>Total venues: {{ user.venueSummary.length }}</p>
-        <scores-by-day :days="user.avgShowScoreByDay" />
-        <scores-by-year :years="user.avgShowScoreByYear" />
+    <div v-if="loading">
+      <loading-spinner />
+    </div>
+    <div class="dashboard" align="center" v-else>
+      <div class="nav_tabs" v-if="user.showScoreAverage">
+        <p @click="activeTab = 'overview'">Overview</p>
+        <p @click="activeTab = 'shows'">Shows</p>
+        <p @click="activeTab = 'venues'">Venues</p>
+        <p @click="activeTab = 'songs'">Songs</p>
+      </div>
+      <div v-if="activeTab === 'overview'">
+        <h1>{{ user.username }}'s Phriendcard</h1>
+        <template v-if="user.showScoreAverage">
+          <user-overview :user="user" />
+        </template>
+        <template v-else>
+          <h1>Add a show to see your PhriendCard.</h1>
+        </template>
+      </div>
+      <div v-if="activeTab === 'shows'">
         <shows-overview :shows="user.shows" />
+      </div>
+      <div v-if="activeTab === 'venues'">
         <venues-overview :venues="user.venueSummary" />
-        <song-frequency
+      </div>
+      <div v-if="activeTab === 'songs'">
+        <songs-overview
           :songs="user.songFrequency"
           :total-songs-heard="user.totalSongsHeard"
         />
-      </template>
-      <template v-else>
-        <h1>Add a show to see your PhriendCard.</h1>
-      </template>
+      </div>
+      <!-- NEW SHOW FORM -->
       <div>
         <h3>Add a new show</h3>
         <select name="year" id="year" v-model="newShow.year" required>
@@ -51,12 +64,13 @@
         <p v-if="errors.message">{{ errors.message }}</p>
       </div>
     </div>
-    <div v-else>
-      <loading-spinner />
-    </div>
   </div>
 </template>
 <style>
+.nav_tabs {
+  display: flex;
+  justify-content: space-between;
+}
 .card {
   border: 1px solid black;
   max-width: 90%;
@@ -82,11 +96,11 @@
 
 <script>
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import SongFrequency from "@/components/SongFrequency.vue";
+import UserOverview from "@/components/UserOverview.vue"
+import SongsOverview from "@/components/SongsOverview.vue";
 import ShowsOverview from "@/components/ShowsOverview.vue";
 import VenuesOverview from "@/components/VenuesOverview.vue";
-import ScoresByYear from "@/components/ScoresByYear.vue";
-import ScoresByDay from "@/components/ScoresByDay.vue";
+
 import API from "../utils/API.js";
 import dates from "../utils/dates.js";
 
@@ -94,17 +108,18 @@ export default {
   name: "dashboard",
   components: {
     "loading-spinner": LoadingSpinner,
-    "song-frequency": SongFrequency,
+    "user-overview": UserOverview,
+    "songs-overview": SongsOverview,
     "shows-overview": ShowsOverview,
     "venues-overview": VenuesOverview,
-    "scores-by-year": ScoresByYear,
-    "scores-by-day": ScoresByDay
   },
   data: () => ({
     user: {},
     token: "",
     errors: {},
+    loading: true,
     dates: dates,
+    activeTab: "overview",
     newShow: {
       year: "",
       month: "",
@@ -117,16 +132,18 @@ export default {
 
     if (!token) {
       localStorage.clear();
-      this.$router.push("/");
+      return this.$router.push("/");
     }
     this.token = token;
     if (phriendData) {
       this.user = phriendData;
+      this.loading = false;
     } else {
       API.getUserInfo(this.token)
         .then(({ data }) => {
           this.user = data;
           localStorage.setItem("phriendData", JSON.stringify(data));
+          this.loading = false;
         })
         .catch(err => {
           this.errors = err.response.data;
@@ -135,19 +152,22 @@ export default {
   },
   methods: {
     addNewShow() {
+      this.loading = true;
       this.errors = {};
       API.addNewShow(this.token, this.newShow)
         .then(({ data }) => {
           this.user = data;
           localStorage.setItem("phriendData", JSON.stringify(data));
+          this.loading = false;
         })
         .catch(err => {
           console.log("err.response", err.response);
           if (err.response.status === 403) {
             localStorage.clear();
-            this.$router.push("/");
+            return this.$router.push("/");
           }
           this.errors = err.response.data;
+          this.loading = false;
         });
     }
     // TODO: add a logout
