@@ -10,7 +10,7 @@
         <p @click="activeTab = 'venues'">Venues</p>
         <p @click="activeTab = 'songs'">Songs</p>
       </div>
-      <div v-if="activeTab === 'overview'">
+      <div v-show="activeTab === 'overview'">
         <h1>{{ user.username }}'s Phriendcard</h1>
         <template v-if="user.showScoreAverage">
           <user-overview :user="user" />
@@ -19,13 +19,13 @@
           <h1>Add a show to see your PhriendCard.</h1>
         </template>
       </div>
-      <div v-if="activeTab === 'shows'">
+      <div v-show="activeTab === 'shows'">
         <shows-overview :shows="user.shows" />
       </div>
-      <div v-if="activeTab === 'venues'">
+      <div v-show="activeTab === 'venues'">
         <venues-overview :venues="user.venueSummary" />
       </div>
-      <div v-if="activeTab === 'songs'">
+      <div v-show="activeTab === 'songs'">
         <songs-overview
           :songs="user.songFrequency"
           :total-songs-heard="user.totalSongsHeard"
@@ -96,7 +96,7 @@
 
 <script>
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import UserOverview from "@/components/UserOverview.vue"
+import UserOverview from "@/components/UserOverview.vue";
 import SongsOverview from "@/components/SongsOverview.vue";
 import ShowsOverview from "@/components/ShowsOverview.vue";
 import VenuesOverview from "@/components/VenuesOverview.vue";
@@ -111,7 +111,7 @@ export default {
     "user-overview": UserOverview,
     "songs-overview": SongsOverview,
     "shows-overview": ShowsOverview,
-    "venues-overview": VenuesOverview,
+    "venues-overview": VenuesOverview
   },
   data: () => ({
     user: {},

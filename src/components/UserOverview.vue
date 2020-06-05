@@ -1,9 +1,23 @@
 <template>
   <div>
-    <p>Shows Attended: {{ user.shows.length }}</p>
     <p>Avg. Show Score: {{ user.showScoreAverage.toFixed(3) }}</p>
-    <p>Total songs heard: {{ user.totalSongsHeard }}</p>
-    <p>Total venues: {{ user.venueSummary.length }}</p>
+    <p>Shows Attended: {{ user.shows.length }}</p>
+    <hr />
+    <p>Total Venues: {{ user.venueSummary.length }}</p>
+    <p>
+      Favorite venue: {{ user.venueSummary[0].venue }} ({{
+        user.venueSummary[0].shows.length
+      }}
+      show{{ user.venueSummary[0].shows.length > 1 ? "s" : "" }})
+    </p>
+    <p>Top Venue: {{ topShow.venue }} ({{ topShow.venueRating.toFixed(3) }})</p>
+    <hr />
+    <p>Songs heard: {{ user.totalSongsHeard }}</p>
+    <p>Frequent Songs:</p>
+    <p v-for="song in user.songFrequency.slice(0, 4)" :key="song[0]">
+      {{ song[0] }} x {{ song[1] }}
+    </p>
+    <hr />
     <scores-by-day :days="user.avgShowScoreByDay" />
     <scores-by-year :years="user.avgShowScoreByYear" />
     <div>
@@ -68,6 +82,18 @@ export default {
   components: {
     "scores-by-year": ScoresByYear,
     "scores-by-day": ScoresByDay
+  },
+  data: () => ({
+    topShow: {}
+  }),
+  mounted() {
+    this.topShow = this.user.venueSummary.reduce((best, currentValue) => {
+      if (best.venueRating > currentValue.venueRating) {
+        return best;
+      } else {
+        return currentValue;
+      }
+    }, this.user.venueSummary[0]);
   }
 };
 </script>
