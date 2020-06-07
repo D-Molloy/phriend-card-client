@@ -14,7 +14,7 @@
     <hr />
     <p>Songs heard: {{ user.totalSongsHeard }}</p>
     <p>Frequent Songs:</p>
-    <p v-for="song in user.songFrequency.slice(0, 4)" :key="song[0]">
+    <p v-for="song in user.songFrequency.slice(0, 3)" :key="song[0]">
       {{ song[0] }} x {{ song[1] }}
     </p>
     <hr />
