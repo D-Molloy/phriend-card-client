@@ -5,7 +5,6 @@ import axios from "axios";
 export default {
   // Signin - create new account
   createUser: newUserCreds => {
-    console.log("newUserCreds", newUserCreds);
     return axios.post(`/api/auth/create`, newUserCreds);
   },
   // Login - login existing user
@@ -21,9 +20,4 @@ export default {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     return axios.post("/api/setlist/", showDate);
   }
-  // // Dashboard - get all staff (private)
-  // getStaff: function (token) {
-  //   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  //   return axios.get('/api/data');
-  // },
 };

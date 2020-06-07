@@ -47,10 +47,8 @@ export default {
       this.$router.push("/dashboard");
     }
   },
-  // TODO: redirect if phriendToken in localStorage
   methods: {
     loginUser() {
-      // e.preventDefault();
       this.errors = {};
       API.loginUser(this.form)
         .then(({ data: { token } }) => {

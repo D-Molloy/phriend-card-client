@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-  name: "Loading"
+  name: "LoadingSpinner"
 };
 </script>
 <style>

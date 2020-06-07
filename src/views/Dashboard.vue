@@ -1,74 +1,37 @@
 <template>
   <div>
-    <div class="dashboard" align="center" v-if="user.username">
-      <h1>{{ user.username }}'s Phriendcard</h1>
-      <template v-if="user.showScoreAverage">
-        <p>Shows Attended: {{ user.shows.length }}</p>
-        <p>Avg. Show Score: {{ user.showScoreAverage.toFixed(3) }}</p>
-        <p>Total songs heard: {{ user.totalSongsHeard }}</p>
-        <p>Total venues: {{ user.venueSummary.length }}</p>
-
-        <h1>Your Shows ({{ user.shows.length }})</h1>
-        <!-- add remove show button -->
-        <div class="card" v-for="show in user.shows" :key="show._id">
-          <h3>
-            {{ show.venue }}, {{ show.location }} ------ {{ show.day }},
-            {{ show.date }}
-          </h3>
-          <p>
-            Show Rating: {{ show.rating.toFixed(3) }} | Show Song Count:
-            {{ show.setlist.songCount }}
-          </p>
-          <a :href="show.phishnetUrl" target="_blank" rel="noopener noreferrer"
-            >View show details on Phish.net</a
-          >
-          <div v-for="(value, key) in show.setlist" :key="key">
-            <!-- Need to update to 'Set' when adding new shows -->
-            <p v-if="key.substring(0, 3) === 'Set'">
-              {{ key }}: <span>{{ value.join(", ") }}</span>
-            </p>
-          </div>
-        </div>
-
-        <h1>Your Venue Summary</h1>
-        <div
-          class="card"
-          v-for="venue in user.venueSummary"
-          :key="venue.location"
-        >
-          <h3>{{ venue.venue }}, {{ venue.location }}</h3>
-          <p>Shows at venue: {{ venue.shows.length }}</p>
-          <p>Avg Show Score: {{ venue.venueRating.toFixed(3) }}</p>
-          <div class="venue_show_container">
-            <div
-              class="venue_show_div"
-              v-for="show in venue.shows"
-              :key="show.date"
-            >
-              <a
-                :href="show.phishnetUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="View show details on Phish.net"
-                >{{ show.date }}</a
-              >
-              <p>{{ show.day }}</p>
-              <p>Rating: {{ show.rating.toFixed(3) }}</p>
-            </div>
-          </div>
-        </div>
-        <h1>Your Song Summary</h1>
-        <p>Total songs heard: {{ user.totalSongsHeard }}</p>
-        <div v-for="song in user.songFrequency" :key="song[0]">
-          <h4>
-            <span>{{ song[0] }}</span> (<span>{{ song[1] }}</span
-            >)
-          </h4>
-        </div>
-      </template>
-      <template v-else>
-        <h1>Add a show to see your PhriendCard.</h1>
-      </template>
+    <div v-if="loading">
+      <loading-spinner />
+    </div>
+    <div class="dashboard" align="center" v-else>
+      <div class="nav_tabs" v-if="user.showScoreAverage">
+        <p @click="activeTab = 'overview'">Overview</p>
+        <p @click="activeTab = 'shows'">Shows</p>
+        <p @click="activeTab = 'venues'">Venues</p>
+        <p @click="activeTab = 'songs'">Songs</p>
+      </div>
+      <div v-show="activeTab === 'overview'">
+        <h1>{{ user.username }}'s Phriendcard</h1>
+        <template v-if="user.showScoreAverage">
+          <user-overview :user="user" />
+        </template>
+        <template v-else>
+          <h1>Add a show to see your PhriendCard.</h1>
+        </template>
+      </div>
+      <div v-show="activeTab === 'shows'">
+        <shows-overview :shows="user.shows" />
+      </div>
+      <div v-show="activeTab === 'venues'">
+        <venues-overview :venues="user.venueSummary" />
+      </div>
+      <div v-show="activeTab === 'songs'">
+        <songs-overview
+          :songs="user.songFrequency"
+          :total-songs-heard="user.totalSongsHeard"
+        />
+      </div>
+      <!-- NEW SHOW FORM -->
       <div>
         <h3>Add a new show</h3>
         <select name="year" id="year" v-model="newShow.year" required>
@@ -76,8 +39,6 @@
           <option v-for="year in dates.years" :key="year" :value="year">{{
             year
           }}</option>
-          <!-- <option value="saab">Saab</option>
-          <option value="audi">Audi</option> -->
         </select>
         <p v-if="errors.year">{{ errors.year }}</p>
         <select name="month" id="month" v-model="newShow.month" required>
@@ -87,7 +48,6 @@
           }}</option>
         </select>
         <p v-if="errors.month">{{ errors.month }}</p>
-
         <select name="day" id="day" v-model="newShow.day" required>
           <option value="" default>Select day</option>
           <option v-for="day in dates.days" :key="day" :value="day">{{
@@ -104,17 +64,21 @@
         <p v-if="errors.message">{{ errors.message }}</p>
       </div>
     </div>
-    <!-- :disabled="!showYear || !showMonth || !showDay" -->
-    <!-- wait for content to load -->
-    <div v-else>
-      <Loading />
-    </div>
   </div>
 </template>
 <style>
+.nav_tabs {
+  display: flex;
+  justify-content: space-between;
+}
 .card {
   border: 1px solid black;
   max-width: 90%;
+}
+.overview_container {
+  max-height: 400px;
+  overflow: auto;
+  border: 1px solid grey;
 }
 
 .venue_show_container {
@@ -131,19 +95,31 @@
 </style>
 
 <script>
-import Loading from "@/components/Loading.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
+import UserOverview from "@/components/UserOverview.vue";
+import SongsOverview from "@/components/SongsOverview.vue";
+import ShowsOverview from "@/components/ShowsOverview.vue";
+import VenuesOverview from "@/components/VenuesOverview.vue";
+
 import API from "../utils/API.js";
 import dates from "../utils/dates.js";
+
 export default {
   name: "dashboard",
   components: {
-    Loading
+    "loading-spinner": LoadingSpinner,
+    "user-overview": UserOverview,
+    "songs-overview": SongsOverview,
+    "shows-overview": ShowsOverview,
+    "venues-overview": VenuesOverview
   },
   data: () => ({
     user: {},
     token: "",
     errors: {},
+    loading: true,
     dates: dates,
+    activeTab: "overview",
     newShow: {
       year: "",
       month: "",
@@ -156,16 +132,18 @@ export default {
 
     if (!token) {
       localStorage.clear();
-      this.$router.push("/");
+      return this.$router.push("/");
     }
     this.token = token;
     if (phriendData) {
       this.user = phriendData;
+      this.loading = false;
     } else {
       API.getUserInfo(this.token)
         .then(({ data }) => {
           this.user = data;
           localStorage.setItem("phriendData", JSON.stringify(data));
+          this.loading = false;
         })
         .catch(err => {
           this.errors = err.response.data;
@@ -174,19 +152,22 @@ export default {
   },
   methods: {
     addNewShow() {
+      this.loading = true;
       this.errors = {};
       API.addNewShow(this.token, this.newShow)
         .then(({ data }) => {
           this.user = data;
           localStorage.setItem("phriendData", JSON.stringify(data));
+          this.loading = false;
         })
         .catch(err => {
           console.log("err.response", err.response);
           if (err.response.status === 403) {
             localStorage.clear();
-            this.$router.push("/");
+            return this.$router.push("/");
           }
           this.errors = err.response.data;
+          this.loading = false;
         });
     }
     // TODO: add a logout
