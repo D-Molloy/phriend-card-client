@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <v-app>
     <router-view />
-  </div>
+  </v-app>
 </template>
 <script>
 export default {
@@ -12,10 +12,10 @@ export default {
 body {
   margin: 0;
 }
-#app {
+/* #app {
   width: 90%;
   margin: auto;
-}
+} */
 /* * {
   border: 1px solid black;
 } */

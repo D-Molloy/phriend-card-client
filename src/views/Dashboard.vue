@@ -10,7 +10,7 @@
         <p @click="activeTab = 'venues'">Venues</p>
         <p @click="activeTab = 'songs'">Songs</p>
       </div>
-      <div v-show="activeTab === 'overview'">
+      <div v-if="activeTab === 'overview'">
         <h1>{{ user.username }}'s Phriendcard</h1>
         <template v-if="user.showScoreAverage">
           <user-overview :user="user" />
@@ -19,54 +19,79 @@
           <h1>Add a show to see your PhriendCard.</h1>
         </template>
       </div>
-      <div v-show="activeTab === 'shows'">
-        <shows-overview :shows="user.shows" />
+      <div v-if="activeTab === 'shows'">
+        <shows-overview :shows="user.shows || []" />
       </div>
-      <div v-show="activeTab === 'venues'">
-        <venues-overview :venues="user.venueSummary" />
+      <div v-if="activeTab === 'venues'">
+        <venues-overview :venues="user.venueSummary || []" />
       </div>
-      <div v-show="activeTab === 'songs'">
+      <div v-if="activeTab === 'songs'">
         <songs-overview
           :songs="user.songFrequency"
           :total-songs-heard="user.totalSongsHeard"
         />
       </div>
       <!-- NEW SHOW FORM -->
-      <div>
-        <h3>Add a new show</h3>
-        <select name="year" id="year" v-model="newShow.year" required>
+      <h3>Add a new show</h3>
+      <div class="input_form">
+        <v-select
+          :items="dates.years"
+          label="Year"
+          v-model="newShow.year"
+          :error-messages="errors.year"
+          solo
+        />
+        <!-- <select name="year" id="year" v-model="newShow.year" required>
           <option value="" default>Select year</option>
           <option v-for="year in dates.years" :key="year" :value="year">{{
             year
           }}</option>
-        </select>
-        <p v-if="errors.year">{{ errors.year }}</p>
-        <select name="month" id="month" v-model="newShow.month" required>
+        </select> -->
+        <!-- <p v-if="errors.year">{{ errors.year }}</p> -->
+        <v-select
+          :items="dates.months"
+          label="Month"
+          v-model="newShow.month"
+          :error-messages="errors.month"
+          solo
+        />
+        <!-- <select name="month" id="month" v-model="newShow.month" required>
           <option value="" default>Select month</option>
           <option v-for="month in dates.months" :key="month" :value="month">{{
             month
           }}</option>
         </select>
-        <p v-if="errors.month">{{ errors.month }}</p>
-        <select name="day" id="day" v-model="newShow.day" required>
+        <p v-if="errors.month">{{ errors.month }}</p> -->
+        <v-select
+          :items="dates.days"
+          label="Day"
+          v-model="newShow.day"
+          :error-messages="errors.day"
+          solo
+        />
+        <!-- <select name="day" id="day" v-model="newShow.day" required>
           <option value="" default>Select day</option>
           <option v-for="day in dates.days" :key="day" :value="day">{{
             day
           }}</option>
         </select>
-        <p v-if="errors.day">{{ errors.day }}</p>
-        <button
+        <p v-if="errors.day">{{ errors.day }}</p> -->
+        <v-btn
+          color="success"
           @click="addNewShow"
           :disabled="!newShow.year || !newShow.month || !newShow.day"
         >
           Add Show
-        </button>
+        </v-btn>
         <p v-if="errors.message">{{ errors.message }}</p>
       </div>
     </div>
   </div>
 </template>
 <style>
+.input_form {
+  display: flex;
+}
 .nav_tabs {
   display: flex;
   justify-content: space-between;
@@ -166,6 +191,7 @@ export default {
             localStorage.clear();
             return this.$router.push("/");
           }
+          // TODO: check bad dates
           this.errors = err.response.data;
           this.loading = false;
         });
