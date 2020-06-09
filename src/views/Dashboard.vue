@@ -32,7 +32,7 @@
         />
       </div>
       <!-- NEW SHOW FORM -->
-      <h3>Add a new show</h3>
+      <!-- <h3>Add a new show</h3>
       <div class="input_form">
         <v-select
           :items="dates.years"
@@ -63,8 +63,59 @@
           Add Show
         </v-btn>
         <p v-if="errors.message">{{ errors.message }}</p>
-      </div>
+      </div> -->
     </div>
+    <v-bottom-sheet v-model="sheet" inset>
+      <template v-slot:activator="{ on, attrs }" title="Add Show">
+        <v-btn
+          color="green"
+          class="add-show-fab"
+          fab
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon dark>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+      <v-sheet class="text-center" height="200px">
+        <!-- <v-btn class="mt-6" text color="error" @click="sheet = !sheet"
+          >close</v-btn
+        > -->
+        <h3>Add a new show</h3>
+        <div class="input_form">
+          <v-select
+            :items="dates.years"
+            label="Year"
+            v-model="newShow.year"
+            :error-messages="errors.year"
+            solo
+          />
+          <v-select
+            :items="dates.months"
+            label="Month"
+            v-model="newShow.month"
+            :error-messages="errors.month"
+            solo
+          />
+          <v-select
+            :items="dates.days"
+            label="Day"
+            v-model="newShow.day"
+            :error-messages="errors.day"
+            solo
+          />
+          <v-btn
+            color="success"
+            @click="addNewShow"
+            :disabled="!newShow.year || !newShow.month || !newShow.day"
+          >
+            Add Show
+          </v-btn>
+          <p v-if="errors.message">{{ errors.message }}</p>
+        </div>
+      </v-sheet>
+    </v-bottom-sheet>
   </div>
 </template>
 <style>
@@ -83,6 +134,12 @@
   max-height: 400px;
   overflow: auto;
   border: 1px solid grey;
+}
+
+.add-show-fab {
+  position: fixed;
+  bottom: 3%;
+  left: 2%;
 }
 
 .venue_show_container {
@@ -128,7 +185,8 @@ export default {
       year: "",
       month: "",
       day: ""
-    }
+    },
+    sheet: false
   }),
   mounted() {
     const token = localStorage.getItem("phriendToken");

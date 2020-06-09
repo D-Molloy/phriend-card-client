@@ -1,6 +1,5 @@
 <template>
   <div v-if="user.showScoreAverage">
-    <!-- <p>Avg. Show Score: {{ user.showScoreAverage }}</p> -->
     <p>Avg. Show Score: {{ user.showScoreAverage.toFixed(3) }}</p>
     <p>Shows Attended: {{ user.shows.length }}</p>
     <hr />
@@ -12,7 +11,6 @@
       show{{ user.venueSummary[0].shows.length > 1 ? "s" : "" }})
     </p>
     <p>Top Venue: {{ topShow.venue }} ({{ topShow.venueRating }})</p>
-    <!-- <p>Top Venue: {{ topShow.venue }} ({{ topShow.venueRating.toFixed(3) }})</p> -->
     <hr />
     <p>Songs heard: {{ user.totalSongsHeard }}</p>
     <p>Frequent Songs:</p>
