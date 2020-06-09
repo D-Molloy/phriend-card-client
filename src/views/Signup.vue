@@ -91,9 +91,10 @@ export default {
       API.createUser(this.form)
         .then(({ data }) => {
           this.message = data;
+          // TODO: make sure this works
+          this.form = initialState;
           setTimeout(() => {
             this.message = "";
-            this.form = initialState;
             this.$router.push("/");
           }, 2000);
         })

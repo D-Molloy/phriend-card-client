@@ -41,13 +41,6 @@
           :error-messages="errors.year"
           solo
         />
-        <!-- <select name="year" id="year" v-model="newShow.year" required>
-          <option value="" default>Select year</option>
-          <option v-for="year in dates.years" :key="year" :value="year">{{
-            year
-          }}</option>
-        </select> -->
-        <!-- <p v-if="errors.year">{{ errors.year }}</p> -->
         <v-select
           :items="dates.months"
           label="Month"
@@ -55,13 +48,6 @@
           :error-messages="errors.month"
           solo
         />
-        <!-- <select name="month" id="month" v-model="newShow.month" required>
-          <option value="" default>Select month</option>
-          <option v-for="month in dates.months" :key="month" :value="month">{{
-            month
-          }}</option>
-        </select>
-        <p v-if="errors.month">{{ errors.month }}</p> -->
         <v-select
           :items="dates.days"
           label="Day"
@@ -69,13 +55,6 @@
           :error-messages="errors.day"
           solo
         />
-        <!-- <select name="day" id="day" v-model="newShow.day" required>
-          <option value="" default>Select day</option>
-          <option v-for="day in dates.days" :key="day" :value="day">{{
-            day
-          }}</option>
-        </select>
-        <p v-if="errors.day">{{ errors.day }}</p> -->
         <v-btn
           color="success"
           @click="addNewShow"
