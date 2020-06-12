@@ -65,7 +65,7 @@
         <p v-if="errors.message">{{ errors.message }}</p>
       </div> -->
     </div>
-    <v-bottom-sheet v-model="sheet" inset>
+    <v-bottom-sheet v-model="sheet">
       <template v-slot:activator="{ on, attrs }" title="Add Show">
         <v-btn
           color="green"
@@ -79,9 +79,6 @@
         </v-btn>
       </template>
       <v-sheet class="text-center" height="200px">
-        <!-- <v-btn class="mt-6" text color="error" @click="sheet = !sheet"
-          >close</v-btn
-        > -->
         <h3>Add a new show</h3>
         <div class="input_form">
           <v-select
