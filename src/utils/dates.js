@@ -82,4 +82,4 @@ const days = [
   "31"
 ];
 
-export default { years, months, days };
+export default { years: years.reverse(), months, days };

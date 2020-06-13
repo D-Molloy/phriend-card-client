@@ -10,10 +10,10 @@ export default {
 </script>
 <style>
 :root {
-  --font-title: "Righteous", cursive;
+  --font-title: "Lobster", cursive;
   --font-primary: "Montserrat", sans-serif;
-  --blue: #2c6e91;
-  --red: #f15a50;
+  --blue: #0055a5;
+  --red: #e51837;
   --background: #b0c4de;
 }
 body {
@@ -30,8 +30,11 @@ h5 {
   text-shadow: 1px 1px 2px var(--red);
   font-size: 2.4em;
 }
+p{
+  --font-primary: "Montserrat", sans-serif;
+}
 
-#app{
-   background-color: var(--background);
+#app {
+  background-color: var(--background);
 }
 </style>
