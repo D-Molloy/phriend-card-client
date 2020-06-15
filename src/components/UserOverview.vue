@@ -11,7 +11,7 @@
       }}
       show{{ user.venueSummary[0].shows.length > 1 ? "s" : "" }})
     </p>
-    <p>Top Venue: {{ topShow.venue }} ({{ topShow.venueRating }})</p>
+    <p>Top Venue: {{ topShow.venue }} ({{ topShow.venueRating.toFixed(3) }})</p>
     <hr />
     <p>Songs heard: {{ user.totalSongsHeard }}</p>
     <p>Frequent Songs:</p>

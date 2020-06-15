@@ -15,7 +15,7 @@ export default {
 };
 </script>
 <style>
-.loading_container{
+.loading_container {
   height: 100vh;
   display: flex;
   flex-direction: column;

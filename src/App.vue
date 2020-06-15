@@ -31,7 +31,9 @@ h5 {
   font-size: 2.4em;
 }
 p{
-  --font-primary: "Montserrat", sans-serif;
+  font-family: var(--font-primary);
+  margin-bottom: 0;
+
 }
 
 #app {

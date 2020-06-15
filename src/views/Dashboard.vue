@@ -42,13 +42,11 @@
             </template>
 
             <v-card>
-              <!-- <v-card-title primary-title> -->
               <v-card-title class="dialog_title justify-center">
                 Would you like to logout?
               </v-card-title>
               <v-divider></v-divider>
               <v-card-actions class="justify-center">
-                <!-- <v-spacer></v-spacer> -->
                 <v-btn color="error" @click="logout">
                   Yes
                 </v-btn>
@@ -80,8 +78,8 @@
       </div>
     </div>
     <!-- NEW SHOW FORM -->
-    <v-bottom-sheet v-model="sheet">
-      <template v-slot:activator="{ on, attrs }"  v-if="!loading">
+    <v-bottom-sheet v-model="sheet" inset>
+      <template v-slot:activator="{ on, attrs }">
         <v-btn
           color="green"
           class="add-show-fab"
@@ -132,7 +130,7 @@
 </template>
 <style>
 .nav_tabs {
-  height: 6vh;
+  height: 8vh;
   position: fixed;
   width: 100%;
   display: flex;
@@ -150,6 +148,7 @@
 #site_id > h5 {
   color: white;
   font-size: 1.4em;
+  margin: 0 10px;
   letter-spacing: 5px;
 }
 
@@ -187,7 +186,7 @@
 }
 
 .view_container {
-  padding-top: 6vh;
+  padding-top: 8vh;
 }
 .card {
   border: 1px solid black;
@@ -211,7 +210,7 @@
 
 @media only screen and (max-width: 775px) {
   .nav_tabs {
-    height: 8vh;
+    height: 10vh;
   }
   #site_id {
     flex: 0 0 100%; /* fg: 0, fs: 0, fb: 100% */
@@ -221,7 +220,7 @@
     width: 35px;
   }
   .view_container {
-    padding-top: 8vh;
+    padding-top: 10vh;
   }
 }
 
