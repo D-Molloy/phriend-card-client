@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="loading_container">
     <div id="wave">
       <span class="movin page"></span>
       <span class="trey"></span>
       <span class="movin fish"></span>
       <span class="movin mike"></span>
     </div>
+  <h1>Loading...</h1>
   </div>
 </template>
 <script>
@@ -14,30 +15,30 @@ export default {
 };
 </script>
 <style>
-#wave {
-  position: relative;
-  text-align: center;
-  max-width: 100%;
-  /* height: 100vh; */
-  min-height: 125px;
-  max-height: 100%;
+.loading_container {
+  height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-#wave span {
-  border: 1px solid lightgrey;
+
+#wave {
+  min-height: 125px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #wave .page {
   background: blue;
 }
 #wave .trey {
   display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  margin-right: 15px;
   background: green;
-  transform: translateY(-20px);
+  transform: translateY(-60px);
 }
 #wave .fish {
   background: red;
@@ -47,8 +48,8 @@ export default {
 }
 #wave .movin {
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 30px;
+  height: 30px;
   margin-right: 10px;
   animation: wave 1.3s linear infinite;
 }
@@ -71,7 +72,7 @@ export default {
   }
 
   30% {
-    transform: translateY(-30px);
+    transform: translateY(-60px);
   }
 }
 </style>

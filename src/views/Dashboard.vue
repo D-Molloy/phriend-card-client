@@ -4,72 +4,189 @@
       <loading-spinner />
     </div>
     <div class="dashboard" align="center" v-else>
+      <!-- Start Nav -->
       <div class="nav_tabs" v-if="user.showScoreAverage">
-        <p @click="activeTab = 'overview'">Overview</p>
-        <p @click="activeTab = 'shows'">Shows</p>
-        <p @click="activeTab = 'venues'">Venues</p>
-        <p @click="activeTab = 'songs'">Songs</p>
+        <div id="site_id">
+          <h5>PhriendScore</h5>
+        </div>
+        <div
+          :class="['nav_item', activeTab === 'overview' ? 'nav_active' : '']"
+          @click="activeTab = 'overview'"
+        >
+          <span>Overview</span>
+        </div>
+        <div
+          :class="['nav_item', activeTab === 'shows' ? 'nav_active' : '']"
+          @click="activeTab = 'shows'"
+        >
+          <span>Shows</span>
+        </div>
+        <div
+          :class="['nav_item', activeTab === 'venues' ? 'nav_active' : '']"
+          @click="activeTab = 'venues'"
+        >
+          <span>Venues</span>
+        </div>
+        <div
+          :class="['nav_item', activeTab === 'songs' ? 'nav_active' : '']"
+          @click="activeTab = 'songs'"
+        >
+          <span>Songs</span>
+        </div>
+        <div class="nav_signout">
+          <v-dialog v-model="dialog" width="300">
+            <template v-slot:activator="{ on, attrs }">
+              <span>
+                <v-icon dark v-bind="attrs" v-on="on">mdi-power</v-icon>
+              </span>
+            </template>
+
+            <v-card>
+              <v-card-title class="dialog_title justify-center">
+                Would you like to logout?
+              </v-card-title>
+              <v-divider></v-divider>
+              <v-card-actions class="justify-center">
+                <v-btn color="error" @click="logout">
+                  Yes
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
       </div>
-      <div v-show="activeTab === 'overview'">
-        <h1>{{ user.username }}'s Phriendcard</h1>
+      <!-- END NAV -->
+      <div v-if="activeTab === 'overview'" class="view_container">
         <template v-if="user.showScoreAverage">
           <user-overview :user="user" />
         </template>
         <template v-else>
-          <h1>Add a show to see your PhriendCard.</h1>
+          <h1>Add a show to see your PhriendScore.</h1>
         </template>
       </div>
-      <div v-show="activeTab === 'shows'">
-        <shows-overview :shows="user.shows" />
+      <div v-if="activeTab === 'shows'" class="view_container">
+        <shows-overview :shows="user.shows || []" />
       </div>
-      <div v-show="activeTab === 'venues'">
-        <venues-overview :venues="user.venueSummary" />
+      <div v-if="activeTab === 'venues'" class="view_container">
+        <venues-overview :venues="user.venueSummary || []" />
       </div>
-      <div v-show="activeTab === 'songs'">
+      <div v-if="activeTab === 'songs'" class="view_container">
         <songs-overview
           :songs="user.songFrequency"
           :total-songs-heard="user.totalSongsHeard"
         />
       </div>
-      <!-- NEW SHOW FORM -->
-      <div>
-        <h3>Add a new show</h3>
-        <select name="year" id="year" v-model="newShow.year" required>
-          <option value="" default>Select year</option>
-          <option v-for="year in dates.years" :key="year" :value="year">{{
-            year
-          }}</option>
-        </select>
-        <p v-if="errors.year">{{ errors.year }}</p>
-        <select name="month" id="month" v-model="newShow.month" required>
-          <option value="" default>Select month</option>
-          <option v-for="month in dates.months" :key="month" :value="month">{{
-            month
-          }}</option>
-        </select>
-        <p v-if="errors.month">{{ errors.month }}</p>
-        <select name="day" id="day" v-model="newShow.day" required>
-          <option value="" default>Select day</option>
-          <option v-for="day in dates.days" :key="day" :value="day">{{
-            day
-          }}</option>
-        </select>
-        <p v-if="errors.day">{{ errors.day }}</p>
-        <button
-          @click="addNewShow"
-          :disabled="!newShow.year || !newShow.month || !newShow.day"
-        >
-          Add Show
-        </button>
-        <p v-if="errors.message">{{ errors.message }}</p>
-      </div>
     </div>
+    <!-- NEW SHOW FORM -->
+    <v-bottom-sheet v-model="sheet" inset>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="green"
+          class="add-show-fab"
+          fab
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon dark>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+      <v-sheet class="text-center" height="200px">
+        <h3>Add a new show</h3>
+        <div class="input_form">
+          <v-select
+            :items="dates.years"
+            label="Year"
+            v-model="newShow.year"
+            :error-messages="errors.year"
+            solo
+          />
+          <v-select
+            :items="dates.months"
+            label="Month"
+            v-model="newShow.month"
+            :error-messages="errors.month"
+            solo
+          />
+          <v-select
+            :items="dates.days"
+            label="Day"
+            v-model="newShow.day"
+            :error-messages="errors.day"
+            solo
+          />
+          <v-btn
+            color="success"
+            @click="addNewShow"
+            :disabled="!newShow.year || !newShow.month || !newShow.day"
+          >
+            Add Show
+          </v-btn>
+          <p v-if="errors.message">{{ errors.message }}</p>
+        </div>
+      </v-sheet>
+    </v-bottom-sheet>
   </div>
 </template>
 <style>
 .nav_tabs {
+  height: 8vh;
+  position: fixed;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+#site_id {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  background-color: var(--blue);
+  width: 100%;
+}
+#site_id > h5 {
+  color: white;
+  font-size: 1.4em;
+  margin: 0 10px;
+  letter-spacing: 5px;
+}
+
+.nav_item {
+  font-family: var(--font-primary);
+  background-color: var(--blue);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  cursor: pointer;
+}
+
+.nav_item:hover,
+.nav_active {
+  background-color: var(--red);
+}
+
+.nav_signout {
+  /* padding: 0 5px; */
+  width: 55px;
+  background-color: var(--blue);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.dialog_title {
+  font-family: var(--font-title);
+  background-color: var(--blue);
+  color: white;
+  text-shadow: 1px 1px 2px var(--red);
+}
+
+.view_container {
+  padding-top: 8vh;
 }
 .card {
   border: 1px solid black;
@@ -81,6 +198,33 @@
   border: 1px solid grey;
 }
 
+.add-show-fab {
+  position: fixed;
+  bottom: 3%;
+  left: 2%;
+}
+
+.input_form {
+  display: flex;
+}
+
+@media only screen and (max-width: 775px) {
+  .nav_tabs {
+    height: 10vh;
+  }
+  #site_id {
+    flex: 0 0 100%; /* fg: 0, fs: 0, fb: 100% */
+  }
+  .nav_signout {
+    /* padding: 0 5px; */
+    width: 35px;
+  }
+  .view_container {
+    padding-top: 10vh;
+  }
+}
+
+/* TODO: Move to component */
 .venue_show_container {
   border: 1px solid green;
   display: flex;
@@ -124,7 +268,9 @@ export default {
       year: "",
       month: "",
       day: ""
-    }
+    },
+    sheet: false,
+    dialog: false
   }),
   mounted() {
     const token = localStorage.getItem("phriendToken");
@@ -166,11 +312,15 @@ export default {
             localStorage.clear();
             return this.$router.push("/");
           }
+          // TODO: check bad dates
           this.errors = err.response.data;
           this.loading = false;
         });
+    },
+    logout() {
+      localStorage.clear();
+      return this.$router.push("/");
     }
-    // TODO: add a logout
   }
 };
 </script>

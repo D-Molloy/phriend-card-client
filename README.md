@@ -1,5 +1,8 @@
 # phriend-card-client
 
+<!-- Tools -->
+Grid Generator - https://cssgrid-generator.netlify.app/
+Canvas Screenshot - Screenshots - http://html2canvas.hertzen.com/
 ## Project setup
 ```
 yarn install

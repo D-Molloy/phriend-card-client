@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div v-if="user.showScoreAverage">
+    <h1>{{ user.username }}'s PhriendScore</h1>
     <p>Avg. Show Score: {{ user.showScoreAverage.toFixed(3) }}</p>
     <p>Shows Attended: {{ user.shows.length }}</p>
     <hr />
@@ -68,6 +69,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import ScoresByYear from "@/components/ScoresByYear.vue";
 import ScoresByDay from "@/components/ScoresByDay.vue";
@@ -86,7 +88,7 @@ export default {
   data: () => ({
     topShow: {}
   }),
-  mounted() {
+  created() {
     this.topShow = this.user.venueSummary.reduce((best, currentValue) => {
       if (best.venueRating > currentValue.venueRating) {
         return best;
