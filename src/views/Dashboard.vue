@@ -7,7 +7,7 @@
       <!-- Start Nav -->
       <div class="nav_tabs" v-if="user.showScoreAverage">
         <div id="site_id">
-          <h5>PhriendScore</h5>
+          <h5 class="font_shadow_red">PhriendScore</h5>
         </div>
         <div
           :class="['nav_item', activeTab === 'overview' ? 'nav_active' : '']"
@@ -146,6 +146,7 @@
   width: 100%;
 }
 #site_id > h5 {
+  font-family: var(--font-title);
   color: white;
   font-size: 1.4em;
   margin: 0 10px;

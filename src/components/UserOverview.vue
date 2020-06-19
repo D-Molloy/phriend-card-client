@@ -1,42 +1,60 @@
 <template>
   <div v-if="user.showScoreAverage" class="grid">
-    <div class="grid_score item_bg">
-      <h1>
+    <div class="grid_score item">
+      <h1 class="font_title_light font_shadow_red font_xl">
         {{ user.username }}'s PhriendScore:
         {{ user.showScoreAverage.toFixed(3) }}
       </h1>
     </div>
-    <div class="grid_total_shows item_bg">
-      <p>Shows Seen: {{ user.shows.length }}</p>
+    <div class="grid_total_shows item">
+      <p class="font_heading mt-2">Shows Seen</p>
+      <p class="font_title_light font_lg">{{ user.shows.length }}</p>
     </div>
-    <div class="grid_total_songs item_bg">
-      <p>Songs heard: {{ user.totalSongsHeard }}</p>
+    <div class="grid_total_songs item">
+      <p class="font_heading mt-2">Songs Heard</p>
+      <p class="font_title_light font_lg">{{ user.totalSongsHeard }}</p>
     </div>
-    <div class="grid_venue_summary item_bg">
-      <p>Total Venues: {{ user.venueSummary.length }}</p>
-      <p>
-        Favorite venue: {{ user.venueSummary[0].venue }} ({{
-          user.venueSummary[0].shows.length
+    <div class="grid_venue_summary item">
+      <div class="d-flex justify-center align-center">
+        <p class="font_heading">Total Venues:</p>
+        <p class="font_title_light font_md mx-2">
+          {{ user.venueSummary.length }}
+        </p>
+      </div>
+
+      <p class="font_heading">
+        Favorite Venue
+      </p>
+      <p class="font_title_light font_md">
+        {{ user.venueSummary[0].venue }}
+      </p>
+      <p class="font_subtitle mb-2">
+        {{ user.venueSummary[0].shows.length }} show{{
+          user.venueSummary[0].shows.length > 1 ? "s" : ""
         }}
-        show{{ user.venueSummary[0].shows.length > 1 ? "s" : "" }})
       </p>
-      <p>
-        Best Venue: {{ topShow.venue }} ({{ topShow.venueRating.toFixed(3) }})
+      <p class="font_heading">
+        Best Venue
+      </p>
+      <p class="font_title_light font_md">
+        {{ topShow.venue }}
+      </p>
+      <p class="font_subtitle mb-2">{{ topShow.venueRating.toFixed(3) }}</p>
+    </div>
+
+    <div class="grid_frequent item">
+      <p class="font_heading">Frequent Songs:</p>
+      <p class="font_title_light font_heading" v-for="song in user.songFrequency.slice(0, 5)" :key="song[0]">
+        {{ song[0] }} ({{ song[1] }})
       </p>
     </div>
-    <div class="grid_frequent item_bg">
-      <p>Frequent Songs:</p>
-      <p v-for="song in user.songFrequency.slice(0, 3)" :key="song[0]">
-        {{ song[0] }} x {{ song[1] }}
-      </p>
-    </div>
-    <div class="grid_days item_bg">
+    <div class="grid_days item">
       <scores-by-day :days="user.avgShowScoreByDay" />
     </div>
-    <div class="grid_years item_bg">
+    <div class="grid_years item">
       <scores-by-year :years="user.avgShowScoreByYear" />
     </div>
-    <div class="grid_best item_bg">
+    <div class="grid_best item">
       <h1>Best Show</h1>
       <h3>
         {{ user.showBest.venue }}, {{ user.showBest.location }} ------
@@ -59,7 +77,7 @@
         </p>
       </div>
     </div>
-    <div class="grid_worst item_bg">
+    <div class="grid_worst item">
       <h1>Worst Show</h1>
       <h3>
         {{ user.showWorst.venue }}, {{ user.showWorst.location }} ------
@@ -84,13 +102,13 @@
     </div>
   </div>
 </template>
-<style scoped>
+<style>
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   /* grid-template-rows: repeat(5, 1fr); */
-  /* grid-template-rows: minmax(min-content, max-content); */
-  grid-template-rows: auto;
+  grid-template-rows: minmax(min-content, max-content);
+  /* grid-template-rows: auto; */
   grid-auto-rows: auto;
   grid-column-gap: 10px;
   grid-row-gap: 10px;
@@ -124,10 +142,14 @@
 .grid_worst {
   grid-area: 3 / 3 / 5 / 5;
 }
-.item_bg {
+.item {
   background-color: white;
   border: 2px solid var(--red);
   border-radius: 9px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>
 
