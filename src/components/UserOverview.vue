@@ -1,20 +1,20 @@
 <template>
   <div v-if="user.showScoreAverage" class="grid">
-    <div class="grid_score item">
-      <h1 class="font_title_light font_shadow_red font_xl">
+    <div class="grid_score item_bg flex_column_center">
+      <h1 class="font_title_light font_shadow_red font_xl mt-2">
         {{ user.username }}'s PhriendScore:
         {{ user.showScoreAverage.toFixed(3) }}
       </h1>
     </div>
-    <div class="grid_total_shows item">
+    <div class="grid_total_shows item_bg flex_column_center">
       <p class="font_heading mt-2">Shows Seen</p>
       <p class="font_title_light font_lg">{{ user.shows.length }}</p>
     </div>
-    <div class="grid_total_songs item">
+    <div class="grid_total_songs item_bg flex_column_center">
       <p class="font_heading mt-2">Songs Heard</p>
       <p class="font_title_light font_lg">{{ user.totalSongsHeard }}</p>
     </div>
-    <div class="grid_venue_summary item">
+    <div class="grid_venue_summary item_bg flex_column_center">
       <div class="d-flex justify-center align-center">
         <p class="font_heading">Total Venues:</p>
         <p class="font_title_light font_md mx-2">
@@ -29,9 +29,9 @@
         {{ user.venueSummary[0].venue }}
       </p>
       <p class="font_subtitle mb-2">
-        {{ user.venueSummary[0].shows.length }} show{{
+        ({{ user.venueSummary[0].shows.length }} show{{
           user.venueSummary[0].shows.length > 1 ? "s" : ""
-        }}
+        }})
       </p>
       <p class="font_heading">
         Best Venue
@@ -39,65 +39,107 @@
       <p class="font_title_light font_md">
         {{ topShow.venue }}
       </p>
-      <p class="font_subtitle mb-2">{{ topShow.venueRating.toFixed(3) }}</p>
+      <p class="font_subtitle mb-2">({{ topShow.venueRating.toFixed(3) }})</p>
     </div>
 
-    <div class="grid_frequent item">
-      <p class="font_heading">Frequent Songs:</p>
-      <p class="font_title_light font_heading" v-for="song in user.songFrequency.slice(0, 5)" :key="song[0]">
+    <div class="grid_frequent item_bg flex_column_center">
+      <p class="font_heading mt-2">Frequent Songs</p>
+      <p
+        class="font_title_light font_heading"
+        v-for="song in user.songFrequency.slice(0, 6)"
+        :key="song[0]"
+      >
         {{ song[0] }} ({{ song[1] }})
       </p>
     </div>
-    <div class="grid_days item">
+    <div class="grid_days item_bg">
       <scores-by-day :days="user.avgShowScoreByDay" />
     </div>
-    <div class="grid_years item">
+    <div class="grid_years item_bg">
       <scores-by-year :years="user.avgShowScoreByYear" />
     </div>
-    <div class="grid_best item">
-      <h1>Best Show</h1>
-      <h3>
-        {{ user.showBest.venue }}, {{ user.showBest.location }} ------
-        {{ user.showBest.day }},
-        {{ user.showBest.date }}
-      </h3>
-      <p>
-        Show Rating: {{ user.showBest.rating.toFixed(3) }} | Show Song Count:
-        {{ user.showBest.setlist.songCount }}
-      </p>
-      <a
-        :href="user.showBest.phishnetUrl"
-        target="_blank"
-        rel="noopener noreferrer"
-        >View show details on Phish.net</a
-      >
-      <div v-for="(value, key) in user.showBest.setlist" :key="key">
-        <p v-if="key.substring(0, 3) === 'Set'">
-          {{ key }}: <span>{{ value.join(", ") }}</span>
+    <div class="grid_best item_bg px-4">
+      <div class="d-flex mt-2">
+        <p class="font_title_light font_heading font_shadow_red">Best Show</p>
+        <v-spacer />
+        <a
+          :href="user.showBest.phishnetUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="external_link"
+          title="View on phish.net"
+        >
+          <v-icon>mdi-open-in-new</v-icon>
+        </a>
+      </div>
+      <div class="d-flex font_md">
+        <p class="font-weight-bold">
+          {{ user.showBest.venue }}
+        </p>
+        <v-spacer />
+        <p>
+          {{ user.showBest.rating.toFixed(3) }}
         </p>
       </div>
-    </div>
-    <div class="grid_worst item">
-      <h1>Worst Show</h1>
-      <h3>
-        {{ user.showWorst.venue }}, {{ user.showWorst.location }} ------
-        {{ user.showWorst.day }},
-        {{ user.showWorst.date }}
-      </h3>
-      <p>
-        Show Rating: {{ user.showWorst.rating.toFixed(3) }} | Show Song Count:
-        {{ user.showWorst.setlist.songCount }}
-      </p>
-      <a
-        :href="user.showWorst.phishnetUrl"
-        target="_blank"
-        rel="noopener noreferrer"
-        >View show details on Phish.net</a
-      >
-      <div v-for="(value, key) in user.showWorst.setlist" :key="key">
-        <p v-if="key.substring(0, 3) === 'Set'">
-          {{ key }}: <span>{{ value.join(", ") }}</span>
+      <div class="d-flex">
+        <p class="flex-grow-1 text-left">{{ user.showBest.location }}</p>
+        <p class="flex-grow-1 text-center">
+          {{ user.showBest.date }} ({{ user.showBest.day }})
         </p>
+        <p class="flex-grow-1 text-right">
+          Song Count: {{ user.showBest.setlist.songCount }}
+        </p>
+      </div>
+      <hr />
+      <div v-for="(value, key) in user.showBest.setlist" :key="key">
+        <div v-if="key.substring(0, 3) === 'Set'">
+          <p class="text-left font-weight-bold">
+            {{ key }}:
+            <span class="font-weight-regular">{{ value.join(", ") }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="grid_worst item_bg px-4">
+      <div class="d-flex mt-2">
+        <p class="font_title_light font_heading font_shadow_red">Worst Show</p>
+        <v-spacer />
+        <a
+          :href="user.showWorst.phishnetUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="external_link"
+          title="View on phish.net"
+        >
+          <v-icon>mdi-open-in-new</v-icon>
+        </a>
+      </div>
+      <div class="d-flex font_md ">
+        <p class="font-weight-bold">
+          {{ user.showWorst.venue }}
+        </p>
+        <v-spacer />
+        <p>
+          {{ user.showWorst.rating.toFixed(3) }}
+        </p>
+      </div>
+      <div class="d-flex">
+        <p class="flex-grow-1 text-left">{{ user.showWorst.location }}</p>
+        <p class="flex-grow-1 text-center">
+          {{ user.showWorst.date }} ({{ user.showWorst.day }})
+        </p>
+        <p class="flex-grow-1 text-right">
+          Song Count: {{ user.showWorst.setlist.songCount }}
+        </p>
+      </div>
+      <hr />
+      <div v-for="(value, key) in user.showWorst.setlist" :key="key">
+        <div v-if="key.substring(0, 3) === 'Set'">
+          <p class="text-left font-weight-bold">
+            {{ key }}:
+            <span class="font-weight-regular">{{ value.join(", ") }}</span>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -142,13 +184,15 @@
 .grid_worst {
   grid-area: 3 / 3 / 5 / 5;
 }
-.item {
+.item_bg {
   background-color: white;
   border: 2px solid var(--red);
   border-radius: 9px;
+}
+.flex_column_center {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 </style>

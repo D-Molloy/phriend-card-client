@@ -179,6 +179,7 @@
   align-items: center;
   cursor: pointer;
 }
+
 .dialog_title {
   font-family: var(--font-title);
   background-color: var(--blue);

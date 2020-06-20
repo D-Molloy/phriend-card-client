@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Best Years</h1>
+    <p class="font_heading mt-2">Best Years</p>
 
     <table>
       <tr>
@@ -16,12 +16,7 @@
     </table>
   </div>
 </template>
-<style scoped>
-td {
-  text-align: center;
-  vertical-align: middle;
-}
-</style>
+
 <script>
 export default {
   name: "ScoresByYear",

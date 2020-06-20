@@ -19,20 +19,29 @@ export default {
 body {
   margin: 0;
 }
+#app {
+  background-color: var(--background);
+}
 
-/* h1,
-h2,
-h3,
-h4,
-h5 {
-
-  color: var(--blue);
-  text-shadow: 1px 1px 2px var(--red);
-  font-size: 2.4em;
-} */
-
-
-
+p,
+th,
+td {
+  font-family: var(--font-primary);
+  margin-bottom: 0 !important;
+}
+table {
+  width: 100%
+}
+th {
+  width: calc(100% / 3)
+}
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+.external_link{
+  text-decoration: none;
+}
 /* Font Sizes */
 .font_xl {
   font-size: 4em;
@@ -71,16 +80,5 @@ h5 {
   text-shadow: none;
   font-size: 1em;
   font-style: italic;
-}
-
-p,
-th,
-td {
-  font-family: var(--font-primary);
-  margin-bottom: 0 !important;
-}
-
-#app {
-  background-color: var(--background);
 }
 </style>
