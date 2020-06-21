@@ -39,7 +39,7 @@ td {
   text-align: center;
   vertical-align: middle;
 }
-.external_link{
+.external_link {
   text-decoration: none;
 }
 /* Font Sizes */

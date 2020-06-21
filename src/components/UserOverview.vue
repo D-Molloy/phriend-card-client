@@ -58,90 +58,8 @@
     <div class="grid_years item_bg">
       <scores-by-year :years="user.avgShowScoreByYear" />
     </div>
-    <div class="grid_best item_bg px-4">
-      <div class="d-flex mt-2">
-        <p class="font_title_light font_heading font_shadow_red">Best Show</p>
-        <v-spacer />
-        <a
-          :href="user.showBest.phishnetUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="external_link"
-          title="View on phish.net"
-        >
-          <v-icon>mdi-open-in-new</v-icon>
-        </a>
-      </div>
-      <div class="d-flex font_md">
-        <p class="font-weight-bold">
-          {{ user.showBest.venue }}
-        </p>
-        <v-spacer />
-        <p>
-          {{ user.showBest.rating.toFixed(3) }}
-        </p>
-      </div>
-      <div class="d-flex">
-        <p class="flex-grow-1 text-left">{{ user.showBest.location }}</p>
-        <p class="flex-grow-1 text-center">
-          {{ user.showBest.date }} ({{ user.showBest.day }})
-        </p>
-        <p class="flex-grow-1 text-right">
-          Song Count: {{ user.showBest.setlist.songCount }}
-        </p>
-      </div>
-      <hr />
-      <div v-for="(value, key) in user.showBest.setlist" :key="key">
-        <div v-if="key.substring(0, 3) === 'Set'">
-          <p class="text-left font-weight-bold">
-            {{ key }}:
-            <span class="font-weight-regular">{{ value.join(", ") }}</span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="grid_worst item_bg px-4">
-      <div class="d-flex mt-2">
-        <p class="font_title_light font_heading font_shadow_red">Worst Show</p>
-        <v-spacer />
-        <a
-          :href="user.showWorst.phishnetUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="external_link"
-          title="View on phish.net"
-        >
-          <v-icon>mdi-open-in-new</v-icon>
-        </a>
-      </div>
-      <div class="d-flex font_md ">
-        <p class="font-weight-bold">
-          {{ user.showWorst.venue }}
-        </p>
-        <v-spacer />
-        <p>
-          {{ user.showWorst.rating.toFixed(3) }}
-        </p>
-      </div>
-      <div class="d-flex">
-        <p class="flex-grow-1 text-left">{{ user.showWorst.location }}</p>
-        <p class="flex-grow-1 text-center">
-          {{ user.showWorst.date }} ({{ user.showWorst.day }})
-        </p>
-        <p class="flex-grow-1 text-right">
-          Song Count: {{ user.showWorst.setlist.songCount }}
-        </p>
-      </div>
-      <hr />
-      <div v-for="(value, key) in user.showWorst.setlist" :key="key">
-        <div v-if="key.substring(0, 3) === 'Set'">
-          <p class="text-left font-weight-bold">
-            {{ key }}:
-            <span class="font-weight-regular">{{ value.join(", ") }}</span>
-          </p>
-        </div>
-      </div>
-    </div>
+    <show-display :show="user.showBest" card-type="best" />
+    <show-display :show="user.showWorst" card-type="worst" />
   </div>
 </template>
 <style>
@@ -200,6 +118,7 @@
 <script>
 import ScoresByYear from "@/components/ScoresByYear.vue";
 import ScoresByDay from "@/components/ScoresByDay.vue";
+import ShowDisplay from "@/components/ShowDisplay.vue";
 
 export default {
   name: "UserOverview",
@@ -210,7 +129,8 @@ export default {
   },
   components: {
     "scores-by-year": ScoresByYear,
-    "scores-by-day": ScoresByDay
+    "scores-by-day": ScoresByDay,
+    "show-display": ShowDisplay
   },
   data: () => ({
     topShow: {}
