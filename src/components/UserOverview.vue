@@ -1,10 +1,12 @@
 <template>
   <div v-if="user.showScoreAverage" class="grid">
-    <div class="grid_score item_bg flex_column_center">
-      <h1 class="font_title_light font_shadow_red font_xl mt-2">
+    <div class="grid_score item_bg pt-2 d-flex justify-center">
+      <p class="font_title_light font_shadow_red font_xl ">
         {{ user.username }}'s PhriendScore:
+      </p>
+      <p class="font_title_light font_shadow_red font_xl ml-3">
         {{ user.showScoreAverage.toFixed(3) }}
-      </h1>
+      </p>
     </div>
     <div class="grid_total_shows item_bg flex_column_center">
       <p class="font_title_light font_heading font_shadow_red mt-2">
@@ -121,6 +123,66 @@
   flex-direction: column;
   justify-content: start;
   align-items: center;
+}
+
+/* TABLE SCREENS 1200px -  */
+@media only screen and (max-width: 1200px) {
+  .grid_score {
+    grid-area: 1 / 1 / 2 / 5;
+  }
+  .grid_total_shows {
+    grid-area: 2 / 1 / 3 / 3;
+  }
+  .grid_total_songs {
+    grid-area: 2 / 3 / 3 / 5;
+  }
+  .grid_venue_summary {
+    grid-area: 3 / 1 / 5 / 3;
+  }
+  .grid_frequent {
+    grid-area: 3 / 3 / 5 / 5;
+  }
+  .grid_days {
+    grid-area: 5 / 1 / 7 / 3;
+  }
+  .grid_years {
+    grid-area: 5 / 3 / 7 / 5;
+  }
+  .grid_best {
+    grid-area: 7 / 1 / 9 / 5;
+  }
+  .grid_worst {
+    grid-area: 9 / 1 / 11 / 5;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .grid_score {
+    grid-area: 1 / 1 / 2 / 5;
+  }
+  .grid_total_shows {
+    grid-area: 2 / 1 / 3 / 3;
+  }
+  .grid_total_songs {
+    grid-area: 2 / 3 / 3 / 5;
+  }
+  .grid_venue_summary {
+    grid-area: 3 / 1 / 5 / 5;
+  }
+  .grid_frequent {
+    grid-area: 5 / 1 / 7 / 5;
+  }
+  .grid_days {
+    grid-area: 7 / 1 / 9 / 5;
+  }
+  .grid_years {
+    grid-area: 9 / 1 / 11 / 5;
+  }
+  .grid_best {
+    grid-area: 11 / 1 / 13 / 5;
+  }
+  .grid_worst {
+    grid-area: 13 / 1 / 15 / 5;
+  }
 }
 </style>
 
