@@ -1,12 +1,12 @@
 <template>
   <div>
-    <h1>Best Years</h1>
+    <p class="font_title_light font_heading font_shadow_red mt-2">Best Years</p>
 
     <table>
       <tr>
         <th>Year</th>
         <th># Shows</th>
-        <th>Avg.Score</th>
+        <th>Avg. Score</th>
       </tr>
       <tr v-for="year in years" :key="year.year">
         <td>{{ year.year }}</td>
@@ -16,12 +16,7 @@
     </table>
   </div>
 </template>
-<style scoped>
-td {
-  text-align: center;
-  vertical-align: middle;
-}
-</style>
+
 <script>
 export default {
   name: "ScoresByYear",

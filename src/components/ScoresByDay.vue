@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>Best Days</h1>
+    <p class="font_title_light font_heading font_shadow_red mt-2">Best Days</p>
     <table>
       <tr>
         <th>Day</th>
         <th># Shows</th>
-        <th>Avg.Score</th>
+        <th>Avg. Score</th>
       </tr>
       <tr v-for="day in days" :key="day.day">
         <td>{{ day.day }}</td>
@@ -15,12 +15,6 @@
     </table>
   </div>
 </template>
-<style scoped>
-td {
-  text-align: center;
-  vertical-align: middle;
-}
-</style>
 <script>
 export default {
   name: "ScoresByDay",
