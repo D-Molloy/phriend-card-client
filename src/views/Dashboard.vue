@@ -87,43 +87,59 @@
           dark
           v-bind="attrs"
           v-on="on"
+          @click="resetSheet"
         >
           <v-icon dark>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <v-sheet class="text-center" height="200px">
-        <h3>Add a new show</h3>
-        <div class="input_form">
-          <v-select
-            :items="dates.years"
-            label="Year"
-            v-model="newShow.year"
-            :error-messages="errors.year"
-            solo
-          />
-          <v-select
-            :items="dates.months"
-            label="Month"
-            v-model="newShow.month"
-            :error-messages="errors.month"
-            solo
-          />
-          <v-select
-            :items="dates.days"
-            label="Day"
-            v-model="newShow.day"
-            :error-messages="errors.day"
-            solo
-          />
+      <v-sheet class="text-center" height="300px">
+        <p class="font_title_light font_shadow_red font_lg pt-3">Add a new show</p>
+        <v-container>
+          <v-row no-gutters class="d-flex justify-space-around">
+            <v-col cols="3">
+              <!-- <div class="input_form"> -->
+              <v-select
+                :items="dates.years"
+                label="Year"
+                v-model="newShow.year"
+                :error-messages="errors.year"
+                class="font_heading"
+                solo
+              />
+            </v-col>
+            <v-col cols="3">
+              <v-select
+                :items="dates.months"
+                label="Month"
+                v-model="newShow.month"
+                :error-messages="errors.month"
+                solo
+              />
+            </v-col>
+            <v-col cols="3">
+              <v-select
+                :items="dates.days"
+                label="Day"
+                v-model="newShow.day"
+                :error-messages="errors.day"
+                solo
+              />
+            </v-col>
+
+            <!-- </div> -->
+          </v-row>
+          <p class="pb-2 font_heading red--text" v-show="errors.message">
+            {{ errors.message }}
+          </p>
           <v-btn
             color="success"
+            large
             @click="addNewShow"
             :disabled="!newShow.year || !newShow.month || !newShow.day"
           >
             Add Show
           </v-btn>
-          <p v-if="errors.message">{{ errors.message }}</p>
-        </div>
+        </v-container>
       </v-sheet>
     </v-bottom-sheet>
   </div>
@@ -250,6 +266,11 @@ import VenuesOverview from "@/components/VenuesOverview.vue";
 import API from "../utils/API.js";
 import dates from "../utils/dates.js";
 
+const initialNewShow = {
+  year: "",
+  month: "",
+  day: ""
+};
 export default {
   name: "dashboard",
   components: {
@@ -266,11 +287,7 @@ export default {
     loading: true,
     dates: dates,
     activeTab: "overview",
-    newShow: {
-      year: "",
-      month: "",
-      day: ""
-    },
+    newShow: initialNewShow,
     sheet: false,
     dialog: false
   }),
@@ -318,6 +335,12 @@ export default {
           this.errors = err.response.data;
           this.loading = false;
         });
+    },
+    resetSheet() {
+      this.errors.message = "";
+      this.newShow.year = "";
+      this.newShow.month = "";
+      this.newShow.day = "";
     },
     logout() {
       localStorage.clear();

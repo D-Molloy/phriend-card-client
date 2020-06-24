@@ -7,18 +7,24 @@
       </h1>
     </div>
     <div class="grid_total_shows item_bg flex_column_center">
-      <p class="font_title_light font_heading font_shadow_red mt-2">Shows Seen</p>
+      <p class="font_title_light font_heading font_shadow_red mt-2">
+        Shows Seen
+      </p>
       <!-- <p class="font_heading mt-2">Shows Seen</p> -->
       <p class="font_lg">{{ user.shows.length }}</p>
     </div>
     <div class="grid_total_songs item_bg flex_column_center">
-      <p class="font_title_light font_heading font_shadow_red mt-2">Songs Heard</p>
+      <p class="font_title_light font_heading font_shadow_red mt-2">
+        Songs Heard
+      </p>
       <p class="font_lg">{{ user.totalSongsHeard }}</p>
     </div>
     <div class="grid_venue_summary item_bg flex_column_center">
       <div class="d-flex justify-center align-center mt-2">
-        <p class="font_title_light font_heading font_shadow_red">Total Venues:</p>
-        <p class="font_md mx-2">
+        <p class="font_title_light font_heading font_shadow_red">
+          Total Venues:
+        </p>
+        <p class="font_heading mx-2">
           {{ user.venueSummary.length }}
         </p>
       </div>
@@ -26,7 +32,7 @@
       <p class="font_title_light font_heading font_shadow_red">
         Favorite Venue
       </p>
-      <p class="font_md">
+      <p class="font_heading">
         {{ user.venueSummary[0].venue }}
       </p>
       <p class="font_subtitle">
@@ -37,14 +43,16 @@
       <p class="font_title_light font_heading font_shadow_red">
         Best Venue
       </p>
-      <p class="font_md">
+      <p class="font_heading">
         {{ topShow.venue }}
       </p>
       <p class="font_subtitle mb-2">({{ topShow.venueRating.toFixed(3) }})</p>
     </div>
 
     <div class="grid_frequent item_bg flex_column_center">
-      <p class="font_title_light font_heading font_shadow_red mt-2">Frequent Songs</p>
+      <p class="font_title_light font_heading font_shadow_red mt-2">
+        Frequent Songs
+      </p>
       <p
         class="font_heading"
         v-for="song in user.songFrequency.slice(0, 6)"

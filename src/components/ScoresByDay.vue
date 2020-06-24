@@ -5,7 +5,7 @@
       <tr>
         <th>Day</th>
         <th># Shows</th>
-        <th>Avg.Score</th>
+        <th>Avg. Score</th>
       </tr>
       <tr v-for="day in days" :key="day.day">
         <td>{{ day.day }}</td>

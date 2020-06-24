@@ -6,7 +6,7 @@
       <tr>
         <th>Year</th>
         <th># Shows</th>
-        <th>Avg.Score</th>
+        <th>Avg. Score</th>
       </tr>
       <tr v-for="year in years" :key="year.year">
         <td>{{ year.year }}</td>
