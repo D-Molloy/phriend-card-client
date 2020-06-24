@@ -1,28 +1,27 @@
 <template>
   <div v-if="user.showScoreAverage" class="grid">
-    <div class="grid_score item_bg pt-2 d-flex justify-center">
-      <p class="font_title_light font_shadow_red font_xl ">
+    <div class="grid_score item_bg pt-2 d-flex justify-center flex-wrap">
+      <p class="font_title_light font_shadow_red font_xl title_small">
         {{ user.username }}'s PhriendScore:
       </p>
-      <p class="font_title_light font_shadow_red font_xl ml-3">
+      <p class="font_title_light font_shadow_red font_xl mx-3 ">
         {{ user.showScoreAverage.toFixed(3) }}
       </p>
     </div>
-    <div class="grid_total_shows item_bg flex_column_center">
+    <div class="grid_total_shows item_bg d-flex flex-column justify-center">
       <p class="font_title_light font_heading font_shadow_red mt-2">
         Shows Seen
       </p>
-      <!-- <p class="font_heading mt-2">Shows Seen</p> -->
       <p class="font_lg">{{ user.shows.length }}</p>
     </div>
-    <div class="grid_total_songs item_bg flex_column_center">
+    <div class="grid_total_songs item_bg d-flex flex-column justify-center">
       <p class="font_title_light font_heading font_shadow_red mt-2">
         Songs Heard
       </p>
       <p class="font_lg">{{ user.totalSongsHeard }}</p>
     </div>
-    <div class="grid_venue_summary item_bg flex_column_center">
-      <div class="d-flex justify-center align-center mt-2">
+    <div class="grid_venue_summary item_bg d-flex flex-column justify-center">
+      <div class="d-flex flex-column align-center">
         <p class="font_title_light font_heading font_shadow_red">
           Total Venues:
         </p>
@@ -30,28 +29,36 @@
           {{ user.venueSummary.length }}
         </p>
       </div>
+      <div class="d-flex">
+        <div class="d-lex flex-column flex-grow-1">
+          <p class="font_title_light font_heading font_shadow_red">
+            Favorite Venue
+          </p>
+          <p class="font_heading">
+            {{ user.venueSummary[0].venue }}
+          </p>
 
-      <p class="font_title_light font_heading font_shadow_red">
-        Favorite Venue
-      </p>
-      <p class="font_heading">
-        {{ user.venueSummary[0].venue }}
-      </p>
-      <p class="font_subtitle">
-        ({{ user.venueSummary[0].shows.length }} show{{
-          user.venueSummary[0].shows.length > 1 ? "s" : ""
-        }})
-      </p>
-      <p class="font_title_light font_heading font_shadow_red">
-        Best Venue
-      </p>
-      <p class="font_heading">
-        {{ topShow.venue }}
-      </p>
-      <p class="font_subtitle mb-2">({{ topShow.venueRating.toFixed(3) }})</p>
+          <p class="font_subtitle">
+            ({{ user.venueSummary[0].shows.length }} show{{
+              user.venueSummary[0].shows.length > 1 ? "s" : ""
+            }})
+          </p>
+        </div>
+        <div class="d-lex flex-column flex-grow-1">
+          <p class="font_title_light font_heading font_shadow_red">
+            Best Venue
+          </p>
+          <p class="font_heading">
+            {{ topShow.venue }}
+          </p>
+          <p class="font_subtitle mb-2">
+            ({{ topShow.venueRating.toFixed(3) }})
+          </p>
+        </div>
+      </div>
     </div>
 
-    <div class="grid_frequent item_bg flex_column_center">
+    <div class="grid_frequent item_bg d-flex flex-column justify-center">
       <p class="font_title_light font_heading font_shadow_red mt-2">
         Frequent Songs
       </p>
@@ -156,6 +163,10 @@
   }
 }
 @media only screen and (max-width: 650px) {
+  .title_small {
+    flex-basis: 100%;
+    font-size: 2.25em;
+  }
   .grid_score {
     grid-area: 1 / 1 / 2 / 5;
   }
