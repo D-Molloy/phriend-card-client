@@ -39,14 +39,14 @@
         {{ show.venue }}
       </p>
       <v-spacer />
-      <p>
+      <p class="font-weight-bold">
         {{ show.rating.toFixed(3) }}
       </p>
     </div>
     <div class="d-flex">
-      <p class="flex-grow-1 text-left">{{ show.location }}</p>
-      <p class="flex-grow-1 text-center">{{ show.date }} ({{ show.day }})</p>
-      <p class="flex-grow-1 text-right">
+      <p class="flex-grow-1 text-left loc_data">{{ show.location }}</p>
+      <p class="flex-grow-1 text-center loc_data">{{ show.date }} ({{ show.day }})</p>
+      <p class="flex-grow-1 text-right loc_data">
         Song Count: {{ show.setlist.songCount }}
       </p>
     </div>
@@ -61,6 +61,14 @@
     </div>
   </div>
 </template>
+<style scoped>
+@media only screen and (max-width: 650px) {
+  .loc_data{
+    font-size: 12px;
+  }
+}
+</style>
+
 <script>
 export default {
   name: "ShowsOverview",

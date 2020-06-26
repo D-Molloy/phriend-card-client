@@ -20,21 +20,21 @@
       </p>
       <p class="font_lg">{{ user.totalSongsHeard }}</p>
     </div>
-    <div class="grid_venue_summary item_bg d-flex flex-column justify-center">
-      <div class="d-flex flex-column align-center">
+    <div class="grid_venue_summary item_bg d-flex flex-column justify-start">
+      <div class="d-flex flex-column align-center mt-2">
         <p class="font_title_light font_heading font_shadow_red">
-          Total Venues:
+          Total Venues
         </p>
-        <p class="font_heading mx-2">
+        <p class="font_lg mx-2">
           {{ user.venueSummary.length }}
         </p>
       </div>
-      <div class="d-flex">
+      <div class="d-flex mt-3">
         <div class="d-lex flex-column flex-grow-1">
           <p class="font_title_light font_heading font_shadow_red">
-            Favorite Venue
+            Favorite
           </p>
-          <p class="font_heading">
+          <p class="font_heading ">
             {{ user.venueSummary[0].venue }}
           </p>
 
@@ -44,9 +44,9 @@
             }})
           </p>
         </div>
-        <div class="d-lex flex-column flex-grow-1">
+        <div class="d-flex flex-column flex-grow-1">
           <p class="font_title_light font_heading font_shadow_red">
-            Best Venue
+            Best
           </p>
           <p class="font_heading">
             {{ topShow.venue }}
@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div class="grid_frequent item_bg d-flex flex-column justify-center">
+    <div class="grid_frequent item_bg d-flex flex-column pb-3">
       <p class="font_title_light font_heading font_shadow_red mt-2">
         Frequent Songs
       </p>
@@ -70,10 +70,11 @@
         {{ song[0] }} ({{ song[1] }})
       </p>
     </div>
-    <div class="grid_days item_bg">
+    
+    <div class="grid_days item_bg pb-3">
       <scores-by-day :days="user.avgShowScoreByDay" />
     </div>
-    <div class="grid_years item_bg">
+    <div class="grid_years item_bg pb-3">
       <scores-by-year :years="user.avgShowScoreByYear" />
     </div>
     <show-display :show="user.showBest" card-type="best" />
@@ -165,7 +166,7 @@
 @media only screen and (max-width: 650px) {
   .title_small {
     flex-basis: 100%;
-    font-size: 2.25em;
+    font-size: 2em;
   }
   .grid_score {
     grid-area: 1 / 1 / 2 / 5;

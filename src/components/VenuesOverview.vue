@@ -1,4 +1,5 @@
 <template>
+<!-- TODO: Add venue score by day -->
   <div>
     <h1>Your Venue Summary ({{ venues.length }})</h1>
     <div class="overview_container">

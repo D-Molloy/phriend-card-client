@@ -219,7 +219,7 @@
 .add-show-fab {
   position: fixed;
   bottom: 3%;
-  left: 2%;
+  right: 2%;
 }
 
 .input_form {
