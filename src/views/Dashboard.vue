@@ -65,7 +65,11 @@
         </template>
       </div>
       <div v-if="activeTab === 'shows'" class="view_container">
-        <shows-overview :shows="user.shows || []" />
+        <shows-overview
+          :bestScore="user.showBest.rating.toFixed(3)"
+          :worstScore="user.showWorst.rating.toFixed(3)"
+          :shows="user.shows || []"
+        />
       </div>
       <div v-if="activeTab === 'venues'" class="view_container">
         <venues-overview :venues="user.venueSummary || []" />
@@ -93,7 +97,9 @@
         </v-btn>
       </template>
       <v-sheet class="text-center" height="300px">
-        <p class="font_title_light font_shadow_red font_lg pt-3">Add a new show</p>
+        <p class="font_title_light font_shadow_red font_lg pt-3">
+          Add a new show
+        </p>
         <v-container>
           <v-row no-gutters class="d-flex justify-space-around">
             <v-col cols="3">
@@ -151,6 +157,7 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  z-index: 1;
 }
 
 #site_id {

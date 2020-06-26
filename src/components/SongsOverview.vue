@@ -1,7 +1,14 @@
 <template>
   <div>
-    <h1>Your Song Summary</h1>
+        <p class="font_lg">
+      Shared in the groove
+      <span class="font_shadow_w-hite font_heading font_title_light">{{
+        totalSongsHeard
+      }}</span>
+      times.
+    </p>
     <p>Total songs heard: {{ totalSongsHeard }}</p>
+    
     <!-- TODO: remove outer-div when possible -->
     <div class="overview_container">
       <div v-for="song in songs" :key="song[0]">

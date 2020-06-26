@@ -71,15 +71,22 @@ td {
   color: var(--blue);
   letter-spacing: 1.5px;
 }
-.font_title_dark {
-  font-family: var(--font-title);
-  color: var(--blue);
-}
+
 .font_shadow_red {
   text-shadow: 1px 1px 2px var(--red);
 }
 .font_shadow_blue {
   text-shadow: 1px 1px 2px var(--blue);
+}
+.font_shadow_white {
+  text-shadow: 1px 1px 2px white;
+}
+
+.text_green {
+  color: green;
+}
+.text_red {
+  color: red;
 }
 
 .font_subtitle {
