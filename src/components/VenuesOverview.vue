@@ -10,7 +10,7 @@
       <p class="ml-2 subtitle">venue{{ venues.length > 1 ? "s" : null }}</p>
     </div>
     <div
-      class=" item_bg show_card_lg pa-4 ma-5"
+      class="item_bg show_card_lg pa-4 ma-5"
       v-for="venue in venues"
       :key="venue.location"
     >
@@ -19,7 +19,7 @@
           <p class="font-weight-bold font_lg text-left mobile_title">
             {{ venue.venue }}
           </p>
-          <p class="font_heading">{{ venue.location }}</p>
+          <p class="font_heading ">{{ venue.location }}</p>
         </div>
         <v-spacer />
         <div class="text-right">
@@ -61,7 +61,7 @@
 <style scoped>
 .show_card {
   max-width: 30%;
-  min-width: 170px;
+  min-width: 250px;
 }
 
 .show_card_lg {
@@ -77,10 +77,13 @@
 }
 
 @media only screen and (max-width: 650px) {
+
   .loc_data {
     font-size: 12px;
   }
-
+  .font_md{
+    font-size:1.3em
+  }
   .mobile_title {
     font-size: 2em;
   }
