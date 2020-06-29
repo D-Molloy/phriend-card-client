@@ -22,17 +22,18 @@
           <span>Shows</span>
         </div>
         <div
-          :class="['nav_item', activeTab === 'venues' ? 'nav_active' : '']"
-          @click="activeTab = 'venues'"
-        >
-          <span>Venues</span>
-        </div>
-        <div
           :class="['nav_item', activeTab === 'songs' ? 'nav_active' : '']"
           @click="activeTab = 'songs'"
         >
           <span>Songs</span>
         </div>
+        <div
+          :class="['nav_item', activeTab === 'venues' ? 'nav_active' : '']"
+          @click="activeTab = 'venues'"
+        >
+          <span>Venues</span>
+        </div>
+
         <div class="nav_signout">
           <v-dialog v-model="dialog" width="300">
             <template v-slot:activator="{ on, attrs }">
@@ -65,7 +66,11 @@
         </template>
       </div>
       <div v-if="activeTab === 'shows'" class="view_container">
-        <shows-overview :shows="user.shows || []" />
+        <shows-overview
+          :bestScore="user.showBest.rating.toFixed(3)"
+          :worstScore="user.showWorst.rating.toFixed(3)"
+          :shows="user.shows || []"
+        />
       </div>
       <div v-if="activeTab === 'venues'" class="view_container">
         <venues-overview :venues="user.venueSummary || []" />
@@ -93,10 +98,12 @@
         </v-btn>
       </template>
       <v-sheet class="text-center" height="300px">
-        <p class="font_title_light font_shadow_red font_lg pt-3">Add a new show</p>
+        <p class="font_title_light font_shadow_red font_lg pt-3">
+          Add a new show
+        </p>
         <v-container>
           <v-row no-gutters class="d-flex justify-space-around">
-            <v-col cols="3">
+            <v-col cols="4">
               <!-- <div class="input_form"> -->
               <v-select
                 :items="dates.years"
@@ -107,7 +114,7 @@
                 solo
               />
             </v-col>
-            <v-col cols="3">
+            <v-col cols="4">
               <v-select
                 :items="dates.months"
                 label="Month"
@@ -116,7 +123,7 @@
                 solo
               />
             </v-col>
-            <v-col cols="3">
+            <v-col cols="4">
               <v-select
                 :items="dates.days"
                 label="Day"
@@ -151,6 +158,7 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  z-index: 1;
 }
 
 #site_id {
@@ -210,16 +218,12 @@
   border: 1px solid black;
   max-width: 90%;
 }
-.overview_container {
-  max-height: 400px;
-  overflow: auto;
-  border: 1px solid grey;
-}
+
 
 .add-show-fab {
   position: fixed;
   bottom: 3%;
-  left: 2%;
+  right: 2%;
 }
 
 .input_form {
@@ -231,7 +235,7 @@
     height: 10vh;
   }
   #site_id {
-    flex: 0 0 100%; /* fg: 0, fs: 0, fb: 100% */
+    flex: 0 0 100%; 
   }
   .nav_signout {
     /* padding: 0 5px; */
@@ -240,19 +244,6 @@
   .view_container {
     padding-top: 10vh;
   }
-}
-
-/* TODO: Move to component */
-.venue_show_container {
-  border: 1px solid green;
-  display: flex;
-  overflow-x: auto;
-}
-.venue_show_div {
-  border: 1px solid black;
-  margin: 0 10px;
-  padding: 5px;
-  min-width: 100px;
 }
 </style>
 

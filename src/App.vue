@@ -22,6 +22,9 @@ body {
 #app {
   background-color: var(--background);
 }
+table {
+  width: 100%;
+}
 
 p,
 th,
@@ -29,11 +32,14 @@ td {
   font-family: var(--font-primary);
   margin-bottom: 0 !important;
 }
-table {
-  width: 100%
+th,
+td {
+  font-size: 1.2em;
 }
+
 th {
-  width: calc(100% / 3)
+  width: calc(100% / 3);
+  font-style: italic;
 }
 td {
   text-align: center;
@@ -56,23 +62,31 @@ td {
 }
 
 .font_heading {
-  font-size: 1.5em;
+  font-size: 1.4em;
 }
 
 /* Font Styles */
 .font_title_light {
   font-family: var(--font-title);
   color: var(--blue);
+  letter-spacing: 1.5px;
 }
-.font_title_dark {
-  font-family: var(--font-title);
-  color: var(--blue);
-}
+
 .font_shadow_red {
   text-shadow: 1px 1px 2px var(--red);
 }
 .font_shadow_blue {
   text-shadow: 1px 1px 2px var(--blue);
+}
+.font_shadow_white {
+  text-shadow: 1px 1px 2px white;
+}
+
+.text_green {
+  color: green;
+}
+.text_red {
+  color: red;
 }
 
 .font_subtitle {
