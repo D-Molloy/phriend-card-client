@@ -37,15 +37,6 @@
           {{ show.venue }}
         </p>
         <v-spacer />
-        <!-- :class="[
-      'item_bg',
-      'px-4',
-      cardType === 'worst'
-        ? 'grid_worst'
-        : cardType === 'best'
-        ? 'grid_best'
-        : ''
-    ]" -->
         <p
           :class="[
             'font-weight-bold',
@@ -85,8 +76,6 @@
 </template>
 <style scoped>
 .show_card {
-  /* flex-shrink: 1; */
-  /* flex-basis:automax */
   max-width: 30%;
   min-width: 170px;
 }
