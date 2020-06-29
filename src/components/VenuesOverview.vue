@@ -7,7 +7,9 @@
       <p class="font_shadow_red font_heading font_title_light">
         {{ venues.length }}
       </p>
-      <p class="ml-2 subtitle">venue{{ venues.length > 1 ? "s" : null }}</p>
+      <p class="ml-2 title_descrip">
+        venue{{ venues.length > 1 ? "s" : null }}
+      </p>
     </div>
     <div
       class="item_bg show_card_lg pa-4 ma-5"
@@ -59,11 +61,12 @@
   </div>
 </template>
 <style scoped>
-.show_card {
-  max-width: 30%;
-  min-width: 250px;
+.title_descrip {
+  font-size: 0.5em;
 }
-
+.show_card {
+  width: 200px;
+}
 .show_card_lg {
   max-width: 850px;
 }
@@ -77,19 +80,18 @@
 }
 
 @media only screen and (max-width: 650px) {
-
   .loc_data {
     font-size: 12px;
   }
-  .font_md{
-    font-size:1.3em
+  .font_md {
+    font-size: 1.3em;
   }
   .mobile_title {
-    font-size: 2em;
+    font-size: 1.8em;
   }
 
   .font_heading {
-    font-size: 1em;
+    font-size: 0.75em;
   }
 }
 </style>
