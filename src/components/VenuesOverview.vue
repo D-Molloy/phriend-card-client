@@ -1,9 +1,7 @@
 <template>
   <!-- TODO: Add venue score by day -->
   <div>
-    <div
-      class="item_bg show_card my-5 d-flex justify-center align-center font_lg"
-    >
+    <div class="item_bg show_card my-5 px-2 d-flex justify-center align-center font_lg">
       <p class="font_shadow_red font_heading font_title_light">
         {{ venues.length }}
       </p>

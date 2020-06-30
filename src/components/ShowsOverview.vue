@@ -1,6 +1,6 @@
 <template>
   <div class="my-5 d-flex flex-column justify-center align-center">
-    <div class="item_bg font_lg d-flex align-center px-4">
+    <div class="item_bg font_lg d-flex align-center px-4 ">
       <p class="font_shadow_red font_heading font_title_light ">
         {{ shows.length }}
       </p>
