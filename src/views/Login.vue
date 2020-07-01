@@ -1,5 +1,5 @@
 <template>
-  <v-card  class="mx-auto my-auto">
+  <v-card class="mx-auto my-auto">
     <v-card-title>
       <p class="font_title_light font_shadow_red font_md">Login</p>
     </v-card-title>

@@ -58,7 +58,11 @@
         >Create Account</v-btn
       >
       <v-spacer />
-      <v-btn large outlined color="red darken-1 my-2 white--text" @click="toLogin"
+      <v-btn
+        large
+        outlined
+        color="red darken-1 my-2 white--text"
+        @click="toLogin"
         >Login</v-btn
       >
     </v-card-actions>
@@ -100,8 +104,8 @@ export default {
         })
         .catch(err => {
           // TODO: setup error-message on 500
-          console.log("error", err);
-          console.log("error", err.response);
+          // console.log("error", err);
+          // console.log("error", err.response);
           this.errors = err.response.data;
         });
     },

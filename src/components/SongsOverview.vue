@@ -40,8 +40,8 @@
     justify-content: center;
   }
   .font_heading {
-  font-size: 3em;
-}
+    font-size: 3em;
+  }
   .font_title {
     font-size: 1em;
   }
