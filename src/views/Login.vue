@@ -1,7 +1,7 @@
 <template>
-  <v-card width="400" class="mx-auto my-auto">
+  <v-card  class="mx-auto my-auto">
     <v-card-title>
-      <h1>Login</h1>
+      <p class="font_title_light font_shadow_red font_md">Login</p>
     </v-card-title>
     <v-card-text>
       <v-form>
@@ -29,12 +29,16 @@
       </v-form>
     </v-card-text>
     <v-divider />
-    <v-card-actions>
+    <v-card-actions class="px-3">
       <v-btn large color="blue darken-3 my-2 white--text" @click="loginUser"
         >Login</v-btn
       >
       <v-spacer />
-      <v-btn large color="red darken-1 my-2 white--text" @click="toSignup"
+      <v-btn
+        large
+        outlined
+        color="red darken-1 my-2 white--text"
+        @click="toSignup"
         >Create Account</v-btn
       >
     </v-card-actions>
