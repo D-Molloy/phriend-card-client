@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <div
-      class="item_bg show_card my-5 d-flex justify-center align-center font_lg"
-    >
-      <p class="font_shadow_red font_heading font_title_light">
+  <div class="my-5 d-flex flex-column justify-center align-center">
+    <div class="item_bg font_lg d-flex align-center px-4 ">
+      <p class="font_shadow_red font_heading font_title_light ">
         {{ shows.length }}
       </p>
-      <p class="ml-2 subtitle">show{{ shows.length > 1 ? "s" : null }}</p>
+      <p class="subtitle pl-2">show{{ shows.length > 1 ? "s" : null }}</p>
     </div>
     <!-- TODO: add remove show button -->
     <div
@@ -75,10 +73,6 @@
   </div>
 </template>
 <style scoped>
-.show_card {
-  max-width: 30%;
-  min-width: 170px;
-}
 .subtitle {
   font-size: 0.5em;
 }

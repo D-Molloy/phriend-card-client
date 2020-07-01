@@ -2,7 +2,7 @@
   <!-- TODO: Add venue score by day -->
   <div>
     <div
-      class="item_bg show_card my-5 d-flex justify-center align-center font_lg"
+      class="item_bg show_card my-5 px-2 d-flex justify-center align-center font_lg"
     >
       <p class="font_shadow_red font_heading font_title_light">
         {{ venues.length }}
@@ -25,12 +25,12 @@
         </div>
         <v-spacer />
         <div class="text-right">
-          <p>
+          <p class="font_heading">
             Avg. Score:<span class="font-weight-bold font_md">
               {{ venue.venueRating.toFixed(3) }}</span
             >
           </p>
-          <p>
+          <p class="font_heading">
             Shows:
             <span class="font-weight-bold font_md">{{
               venue.shows.length

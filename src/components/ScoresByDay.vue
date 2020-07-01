@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="font_title_light font_heading font_shadow_red mt-2">Best Days</p>
+    <p class="font_title_light font_heading font_shadow_red mt-2">Day Rank</p>
     <table>
       <tr>
         <th>Day</th>

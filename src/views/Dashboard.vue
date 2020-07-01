@@ -219,7 +219,6 @@
   max-width: 90%;
 }
 
-
 .add-show-fab {
   position: fixed;
   bottom: 3%;
@@ -235,7 +234,7 @@
     height: 10vh;
   }
   #site_id {
-    flex: 0 0 100%; 
+    flex: 0 0 100%;
   }
   .nav_signout {
     /* padding: 0 5px; */
@@ -317,7 +316,7 @@ export default {
           this.loading = false;
         })
         .catch(err => {
-          console.log("err.response", err.response);
+          // console.log("err.response", err.response);
           if (err.response.status === 403) {
             localStorage.clear();
             return this.$router.push("/");
