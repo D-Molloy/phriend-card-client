@@ -1,20 +1,20 @@
 <template>
-  <div class="d-flex flex-column align-center pb-10">
+  <div class="d-flex flex-column jsutify-center align-center pb-10">
     <div
-      class="item_bg font_md d-flex justify-center align-center my-5 mx-2 px-2"
+      class="item_bg show_card d-flex justify-center align-center my-5  px-2"
     >
-      <span class="subtitle">
+      <p class="font_title">
         Shared in the groove
-      </span>
-      <span class="font_shadow_red font_title_light font_heading mx-3">
+      </p>
+      <p class="font_shadow_red font_title_light font_heading mx-2">
         {{ totalSongsHeard }}
-      </span>
-      <span class="subtitle">
+      </p>
+      <p class="font_title">
         times.
-      </span>
+      </p>
     </div>
-    <div class="item_bg ml-2 mr-1">
-      <p class="font_heading ma-2" v-for="song in songs" :key="song[0]">
+    <div class="item_bg mx-2">
+      <p class="font_title ma-2" v-for="song in songs" :key="song[0]">
         <span>{{ song[0] }}</span> (<span>{{ song[1] }}</span
         >)
       </p>
@@ -22,8 +22,14 @@
   </div>
 </template>
 <style scoped>
-.subtitle {
-  font-size: 1em;
+.font_heading {
+  font-size: 4em;
+}
+.font_subtitle {
+  font-size: 2em;
+}
+.font_title {
+  font-size: 1.5em;
 }
 
 @media only screen and (max-width: 650px) {
@@ -33,11 +39,11 @@
     align-items: center;
     justify-content: center;
   }
-  .font_md {
-    font-size: 1.3em;
-  }
   .font_heading {
-    font-size: 2.3em;
+  font-size: 3em;
+}
+  .font_title {
+    font-size: 1em;
   }
 }
 </style>

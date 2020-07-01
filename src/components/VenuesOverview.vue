@@ -25,12 +25,12 @@
         </div>
         <v-spacer />
         <div class="text-right">
-          <p>
+          <p class="font_heading">
             Avg. Score:<span class="font-weight-bold font_md">
               {{ venue.venueRating.toFixed(3) }}</span
             >
           </p>
-          <p>
+          <p class="font_heading">
             Shows:
             <span class="font-weight-bold font_md">{{
               venue.shows.length
