@@ -1,17 +1,24 @@
 <template>
-  <div class="loading_container">
-    <div id="wave">
-      <span class="movin page"></span>
-      <span class="trey"></span>
-      <span class="movin fish"></span>
-      <span class="movin mike"></span>
+  <div>
+    <nav-bar />
+    <div class="loading_container">
+      <div id="wave">
+        <span class="movin page"></span>
+        <span class="trey"></span>
+        <span class="movin fish"></span>
+        <span class="movin mike"></span>
+      </div>
+      <p class="font_lg font_title_light font_shadow_red">Loading...</p>
     </div>
-  <h1>Loading...</h1>
   </div>
 </template>
 <script>
+import NavBar from "@/components/NavBar.vue";
 export default {
-  name: "LoadingSpinner"
+  name: "LoadingSpinner",
+  components: {
+    "nav-bar": NavBar
+  }
 };
 </script>
 <style>

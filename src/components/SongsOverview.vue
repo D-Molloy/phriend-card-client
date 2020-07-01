@@ -14,7 +14,7 @@
       </span>
     </div>
     <div class="item_bg ml-2 mr-1">
-      <p class="font_md ma-2" v-for="song in songs" :key="song[0]">
+      <p class="font_heading ma-2" v-for="song in songs" :key="song[0]">
         <span>{{ song[0] }}</span> (<span>{{ song[1] }}</span
         >)
       </p>
