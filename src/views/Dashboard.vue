@@ -62,7 +62,9 @@
           <user-overview :user="user" />
         </template>
         <template v-else>
-          <h1>Add a show to see your PhriendScore.</h1>
+          <p class="font_lg text-center">
+            Press the green button to get started!
+          </p>
         </template>
       </div>
       <div v-if="activeTab === 'shows'" class="view_container">
