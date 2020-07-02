@@ -66,9 +66,15 @@ td {
 }
 
 /* Font Styles */
+/* TODO: change to font_title_blue */
 .font_title_light {
   font-family: var(--font-title);
   color: var(--blue);
+  letter-spacing: 1.5px;
+}
+.font_title_red {
+  font-family: var(--font-title);
+  color: var(--red);
   letter-spacing: 1.5px;
 }
 
