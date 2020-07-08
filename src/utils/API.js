@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const url = "http://localhost:8081";
-// const url = "https://phriendscore-api.herokuapp.com";
+// const url = "http://localhost:8081";
+const url = "https://phriendscore-api.herokuapp.com";
 
 export default {
   // Signin - create new account
