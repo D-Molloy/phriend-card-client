@@ -28,7 +28,9 @@
         </a>
         <!-- TODO: add pointer icon -->
         <v-icon class="mx-3">mdi-refresh</v-icon>
-        <v-icon class="icon_delete ">mdi-delete-forever</v-icon>
+        <v-icon @click="toggleRemoveShowDialog(show)" class="icon_delete"
+          >mdi-delete-forever</v-icon
+        >
       </div>
       <div class="d-flex align-center">
         <p class="font-weight-bold font_lg text-left mobile_title">
@@ -103,6 +105,9 @@
 export default {
   name: "ShowsOverview",
   props: {
+    toggleRemoveShowDialog: {
+      type: Function
+    },
     shows: {
       type: Array
     },

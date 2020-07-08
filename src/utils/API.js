@@ -12,13 +12,19 @@ export default {
   loginUser: loginCreds => {
     return axios.post(`${url}/api/auth/login`, loginCreds);
   },
-  // // Dashboard - get private details of logged-in user
-  getUserInfo: function(token) {
+  // Dashboard - get private details of logged-in user
+  getUserInfo: token => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     return axios.get(`${url}/api/setlist/`);
   },
-  addNewShow: function(token, showDate) {
+  // Add a new show to User's show array
+  addNewShow: (token, showDate) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     return axios.post(`${url}/api/setlist/`, showDate);
+  },
+  // Remove show from Users's show array
+  removeShow: (token, id) => {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    return axios.delete(`${url}/api/setlist/${id}`);
   }
 };

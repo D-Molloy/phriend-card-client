@@ -35,7 +35,7 @@
         </div>
 
         <div class="nav_signout">
-          <v-dialog v-model="dialog" width="300">
+          <v-dialog v-model="logOffDialog" width="300">
             <template v-slot:activator="{ on, attrs }">
               <span>
                 <v-icon dark v-bind="attrs" v-on="on">mdi-power</v-icon>
@@ -69,10 +69,30 @@
       </div>
       <div v-if="activeTab === 'shows'" class="view_container">
         <shows-overview
+          :toggleRemoveShowDialog="toggleRemoveShowDialog"
           :bestScore="user.showBest.rating.toFixed(3)"
           :worstScore="user.showWorst.rating.toFixed(3)"
-          :shows="user.shows || []"
+          :shows="user.shows"
         />
+        <div class="nav_signout">
+          <v-dialog v-model="removeShowDialog" width="350">
+            <v-card>
+              <v-card-title class="dialog_title justify-center">
+                Remove this show?
+              </v-card-title>
+              <v-divider></v-divider>
+              <p class="text-center font_lg">{{ removeShowInfo.venue }}</p>
+              <p class="text-center font_heading">
+                {{ removeShowInfo.day }}, {{ removeShowInfo.date }}
+              </p>
+              <v-card-actions class="justify-center">
+                <v-btn color="error" @click="removeShow">
+                  Yes
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
       </div>
       <div v-if="activeTab === 'venues'" class="view_container">
         <venues-overview :venues="user.venueSummary || []" />
@@ -247,7 +267,6 @@
   }
 }
 </style>
-
 <script>
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import UserOverview from "@/components/UserOverview.vue";
@@ -281,7 +300,14 @@ export default {
     activeTab: "overview",
     newShow: initialNewShow,
     sheet: false,
-    dialog: false
+    logOffDialog: false,
+    removeShowDialog: false,
+    removeShowInfo: {
+      venue: "",
+      date: "",
+      day: "",
+      _id: ""
+    }
   }),
   mounted() {
     const token = localStorage.getItem("phriendToken");
@@ -318,7 +344,6 @@ export default {
           this.loading = false;
         })
         .catch(err => {
-          // console.log("err.response", err.response);
           if (err.response.status === 403) {
             localStorage.clear();
             return this.$router.push("/");
@@ -327,6 +352,24 @@ export default {
           this.errors = err.response.data;
           this.loading = false;
         });
+    },
+    toggleRemoveShowDialog({ venue, date, day, _id }) {
+      this.removeShowInfo = { venue, date, day, _id };
+      this.removeShowDialog = true;
+    },
+    removeShow() {
+      this.loading = true;
+
+      API.removeShow(this.token, this.removeShowInfo._id).then(({ data }) => {
+        this.user = data;
+        this.removeShowDialog = false;
+        this.removeShowInfo.venue = "";
+        this.removeShowInfo.date = "";
+        this.removeShowInfo.day = "";
+        this.removeShowInfo._id = "";
+        this.loading = false;
+      });
+      // .catch(err => {console.log(err)});
     },
     resetSheet() {
       this.errors.message = "";
