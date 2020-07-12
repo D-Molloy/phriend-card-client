@@ -360,16 +360,23 @@ export default {
     removeShow() {
       this.loading = true;
 
-      API.removeShow(this.token, this.removeShowInfo._id).then(({ data }) => {
-        this.user = data;
-        this.removeShowDialog = false;
-        this.removeShowInfo.venue = "";
-        this.removeShowInfo.date = "";
-        this.removeShowInfo.day = "";
-        this.removeShowInfo._id = "";
-        this.loading = false;
-      });
-      // .catch(err => {console.log(err)});
+      API.removeShow(this.token, this.removeShowInfo._id)
+        .then(({ data }) => {
+          this.user = data;
+          this.removeShowDialog = false;
+          this.removeShowInfo.venue = "";
+          this.removeShowInfo.date = "";
+          this.removeShowInfo.day = "";
+          this.removeShowInfo._id = "";
+          this.loading = false;
+          console.log(data);
+        })
+        .catch(err => {
+          if (err.response.status === 403) {
+            localStorage.clear();
+            return this.$router.push("/");
+          }
+        });
     },
     resetSheet() {
       this.errors.message = "";
