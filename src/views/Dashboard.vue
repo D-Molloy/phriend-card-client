@@ -369,7 +369,6 @@ export default {
           this.removeShowInfo.day = "";
           this.removeShowInfo._id = "";
           this.loading = false;
-          console.log(data);
         })
         .catch(err => {
           if (err.response.status === 403) {
