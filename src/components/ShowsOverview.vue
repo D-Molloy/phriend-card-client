@@ -6,7 +6,6 @@
       </p>
       <p class="subtitle pl-2">show{{ shows.length > 1 ? "s" : null }}</p>
     </div>
-    <!-- TODO: add remove show button -->
     <div
       v-for="show in shows"
       :key="show.date"
@@ -21,13 +20,13 @@
           :href="show.phishnetUrl"
           target="_blank"
           rel="noopener noreferrer"
-          class="external_link"
+          class="external_link mx-3"
           title="View on phish.net"
         >
           <v-icon>mdi-open-in-new</v-icon>
         </a>
         <!-- TODO: add pointer icon -->
-        <v-icon class="mx-3">mdi-refresh</v-icon>
+        <!-- <v-icon class="mx-3">mdi-refresh</v-icon> -->
         <v-icon @click="toggleRemoveShowDialog(show)" class="icon_delete"
           >mdi-delete-forever</v-icon
         >
