@@ -1,8 +1,11 @@
 <template>
   <div class="mx-auto">
-    <p class=" font_heading mt-10 mb-n5">Welcome to</p>
-    <p class="text-center title_height font_xl font_title_red font_shadow_blue">PhriendScore</p>
+    <p class="font_heading mt-10 mb-n5">Welcome to</p>
+    <p class="text-center title_height font_xl font_title_red font_shadow_blue">
+      PhriendScore
+    </p>
     <p class="text-right font-italic mb-10">Personalized Phish statistics</p>
+    <!-- <p>{{ joke }}</p> -->
     <v-card>
       <v-card-title>
         <p class="font_title_light font_shadow_red font_md">Login</p>
@@ -63,12 +66,20 @@ export default {
     form: initialState,
     errors: {},
     showPassword: false
+    // joke: ""
   }),
   mounted() {
     if (localStorage.getItem("phriendToken")) {
       this.$router.push("/dashboard");
     }
+    // this.joke = this.$store.getters.getCurrentJoke;
+    // this.$store.dispatch("setCurrentJoke");
   },
+  // computed: {
+  //   joke() {
+  //     return this.$store.getters.getCurrentJoke;
+  //   }
+  // },
   methods: {
     loginUser() {
       this.errors = {};
