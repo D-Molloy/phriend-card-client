@@ -19,8 +19,8 @@
             autocomplete="email"
             prepend-icon="mdi-email"
             :error-messages="errors.email"
-            autofocus
             required
+            :rules="[v => !!v || 'Email is required']"
           />
           <v-text-field
             label="Password"
@@ -32,8 +32,12 @@
             @click:append="showPassword = !showPassword"
             :error-messages="errors.password"
             required
+            :rules="[v => !!v || 'Password is required']"
           />
         </v-form>
+        <p v-if="errors.message" align="center" class="red--text">
+          {{ errors.message }}
+        </p>
       </v-card-text>
       <v-divider />
       <v-card-actions class="px-3">
@@ -54,8 +58,6 @@
 </template>
 
 <script>
-import API from "../utils/API.js";
-
 const initialState = {
   email: "",
   password: ""
@@ -64,33 +66,22 @@ export default {
   name: "Login",
   data: () => ({
     form: initialState,
-    errors: {},
     showPassword: false
-    // joke: ""
   }),
   mounted() {
     if (localStorage.getItem("phriendToken")) {
       this.$router.push("/dashboard");
     }
-    // this.joke = this.$store.getters.getCurrentJoke;
-    // this.$store.dispatch("setCurrentJoke");
   },
-  // computed: {
-  //   joke() {
-  //     return this.$store.getters.getCurrentJoke;
-  //   }
-  // },
+  computed: {
+    errors() {
+      return this.$store.getters.getLoginErrors;
+    }
+  },
   methods: {
     loginUser() {
-      this.errors = {};
-      API.loginUser(this.form)
-        .then(({ data: { token } }) => {
-          localStorage.setItem("phriendToken", token);
-          this.$router.push("/dashboard");
-        })
-        .catch(err => {
-          this.errors = err.response.data;
-        });
+      if (!this.form.email || !this.form.password) return;
+      this.$store.dispatch("loginUser", this.form);
     },
     toSignup() {
       this.$router.push("/create");

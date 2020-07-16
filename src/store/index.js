@@ -1,63 +1,58 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import router from "../router/index.js";
 import API from "../utils/API.js";
 Vue.use(Vuex);
-// const url = "https://icanhazdadjoke.com";
-// const headers = { Accept: "application/json" };
 
 const initialState = {
   login: {
     email: "",
-    password: ""
+    password: "",
+    message: ""
   }
 };
+
 export default new Vuex.Store({
   state: {
     currentJoke: "How bout that Corona Virus?",
     loginErrors: initialState.login,
-    user: {}
+    user: {},
+    token: ""
   },
-  // synchronous
+  // synchronous - commit
   mutations: {
-    setCurrentJoke(state, payload) {
-      state.currentJoke = payload;
-      state.allJokes.push(payload);
-    },
     setLoginErrors(state, payload) {
       state.loginErrors = payload;
     },
     clearLoginErrors(state) {
       state.loginErrors = initialState.login;
     },
-    setUser(state,payload){
+    setUser(state, payload) {
       state.user = payload;
     },
-    clearUser(state){
-      state.user={};
+    clearUser(state) {
+      state.user = {};
     }
+    // setToken(state, paylad) {}
   },
-  // asynchronous
+  // asynchronous - dispatch
   actions: {
-    // async setCurrentJoke(state) {
-    //   const joke = await fetch(url, { headers });
-    //   const j = await joke.json();
-    //   state.commit("setCurrentJoke", j.joke);
-    // }
-    async loginUser(loginCreds) {
-      console.log("loginCreds", loginCreds);
-      this.errors = {};
-      API.loginUser(this.form)
+    loginUser(state, loginCreds) {
+      state.commit("clearLoginErrors");
+      API.loginUser(loginCreds)
         .then(({ data: { token } }) => {
           localStorage.setItem("phriendToken", token);
-          this.$router.push("/dashboard");
+          router.push("/dashboard");
         })
         .catch(err => {
-          this.errors = err.response.data;
+          // this.errors = err.response.data;
+          state.commit("setLoginErrors", err.response.data);
         });
     }
   },
   modules: {},
   getters: {
-    getCurrentJoke: state => state.currentJoke
+    getUser: state => state.user,
+    getLoginErrors: state => state.loginErrors
   }
 });
