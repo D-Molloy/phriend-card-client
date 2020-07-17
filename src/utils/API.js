@@ -5,7 +5,6 @@ let url;
 if (process.env.NETLIFY) {
   url = "https://phriendscore-api.herokuapp.com";
 } else {
-  // url = "https://phriendscore-api.herokuapp.com";
   url = "http://localhost:8081";
 }
 

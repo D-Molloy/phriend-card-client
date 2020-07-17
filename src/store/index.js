@@ -2,12 +2,15 @@ import Vue from "vue";
 import Vuex from "vuex";
 import router from "../router/index.js";
 import API from "../utils/API.js";
+
 Vue.use(Vuex);
 
 const initialState = {
-  login: {
+  form: {
+    username: "",
     email: "",
     password: "",
+    confirmPassword: "",
     message: ""
   }
 };
@@ -15,18 +18,31 @@ const initialState = {
 export default new Vuex.Store({
   state: {
     currentJoke: "How bout that Corona Virus?",
-    loginErrors: initialState.login,
+    formErrors: initialState.form,
+    signupSuccessMsg: "",
     user: {},
     token: ""
   },
   // synchronous - commit
   mutations: {
-    setLoginErrors(state, payload) {
-      state.loginErrors = payload;
+    /**
+     * Login/Signup mutations
+     */
+    setFormErrors(state, payload) {
+      state.formErrors = payload;
     },
-    clearLoginErrors(state) {
-      state.loginErrors = initialState.login;
+    clearFormErrors(state) {
+      state.formErrors = initialState.form;
     },
+    setSignupSuccessMsg(state, payload) {
+      state.signupSuccessMsg = payload;
+    },
+    clearSignupSuccessMsg(state) {
+      state.signupSuccessMsg = "";
+    },
+    /**
+     * Dashboard mutations
+     */
     setUser(state, payload) {
       state.user = payload;
     },
@@ -37,6 +53,9 @@ export default new Vuex.Store({
   },
   // asynchronous - dispatch
   actions: {
+    /**
+     * Login/Signup actions
+     */
     loginUser(state, loginCreds) {
       state.commit("clearLoginErrors");
       API.loginUser(loginCreds)
@@ -45,14 +64,39 @@ export default new Vuex.Store({
           router.push("/dashboard");
         })
         .catch(err => {
-          // this.errors = err.response.data;
+          if (err.response.status === 500) {
+            return state.commit("setFormErrors", {
+              message: "Problem on our end.  Please try again later."
+            });
+          }
           state.commit("setLoginErrors", err.response.data);
+        });
+    },
+    createUser(state, signupCreds) {
+      state.commit("clearFormErrors");
+      API.createUser(signupCreds)
+        .then(({ data }) => {
+          state.commit("setSignupSuccessMsg", data);
+          setTimeout(() => {
+            state.commit("clearSignupSuccessMsg");
+            router.push("/");
+          }, 2000);
+        })
+        .catch(err => {
+          if (err.response.status === 500) {
+            return state.commit("setFormErrors", {
+              message: "Problem on our end.  Please try again later."
+            });
+          }
+
+          state.commit("setFormErrors", err.response.data);
         });
     }
   },
   modules: {},
   getters: {
     getUser: state => state.user,
-    getLoginErrors: state => state.loginErrors
+    getFormErrors: state => state.formErrors,
+    getSignupSuccessMsg: state => state.signupSuccessMsg
   }
 });

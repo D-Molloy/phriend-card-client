@@ -75,7 +75,7 @@ export default {
   },
   computed: {
     errors() {
-      return this.$store.getters.getLoginErrors;
+      return this.$store.getters.getFormErrors;
     }
   },
   methods: {
