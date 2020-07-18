@@ -186,7 +186,7 @@ export default {
   mounted() {
     const token = localStorage.getItem("phriendToken");
     const phriendData = JSON.parse(localStorage.getItem("phriendData"));
-
+    this.$store.commit("setLoadingTrue");
     if (!token) {
       localStorage.removeItem("phriendData");
       localStorage.removeItem("phriendToken");

@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto">
+  <div class="mx-auto view_container">
     <p class="font_heading heading mt-5 mb-n5 ml-sm-3">
       Welcome to
     </p>
@@ -90,9 +90,6 @@
   height: 75px;
 }
 @media only screen and (max-width: 775px) {
-  /* .font_heading.mt-10{
-    margin-top:20px
-  } */
   .font_heading.heading {
     font-size: 20px;
     /* margin-top:10px; */
@@ -141,6 +138,7 @@ export default {
       this.form = initialState;
     },
     toLogin() {
+      this.form = initialState;
       this.$router.push("/");
     }
   }

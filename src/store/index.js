@@ -27,7 +27,7 @@ export default new Vuex.Store({
     signupSuccessMsg: "",
     user: {},
     token: "",
-    loading: true,
+    loading: false,
     dashboardErrors: { ...initialState.dashboard },
     addShowForm: { ...initialState.dashboard },
     activeTab: "overview"

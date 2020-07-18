@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto">
+  <div class="mx-auto view_container">
     <p class="font_heading mt-10 mb-n5">Welcome to</p>
     <p class="text-center title_height font_xl font_title_red font_shadow_blue">
       PhriendScore
@@ -81,9 +81,11 @@ export default {
   methods: {
     loginUser() {
       if (!this.form.email || !this.form.password) return;
+      this.form = initialState;
       this.$store.dispatch("loginUser", this.form);
     },
     toSignup() {
+      this.form = initialState;
       this.$router.push("/create");
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="nav_tabs" v-if="user.showScoreAverage">
+  <div class="nav_tabs">
     <div id="site_id">
       <h5 class="font_shadow_red">PhriendScore</h5>
     </div>
@@ -105,6 +105,7 @@ export default {
   height: 8vh;
   position: fixed;
   width: 100%;
+  background-color: var(--blue);
   display: flex;
   flex-wrap: wrap;
   z-index: 1;
