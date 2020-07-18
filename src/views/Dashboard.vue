@@ -126,7 +126,7 @@
       </template>
       <v-sheet class="text-center" height="300px">
         <p class="font_title_light font_shadow_red font_lg pt-3">
-          Add a new show
+          Add a Show
         </p>
         <v-container>
           <v-row no-gutters class="d-flex justify-space-around">
@@ -169,7 +169,9 @@
             color="success"
             large
             @click="addNewShow"
-            :disabled="!newShow.year || !newShow.month || !newShow.day"
+            :disabled="
+              !newShow.year || !newShow.month || !newShow.day || loading
+            "
           >
             Add Show
           </v-btn>
@@ -282,11 +284,6 @@ import VenuesOverview from "@/components/VenuesOverview.vue";
 import API from "../utils/API.js";
 import dates from "../utils/dates.js";
 
-const initialNewShow = {
-  year: "",
-  month: "",
-  day: ""
-};
 export default {
   name: "dashboard",
   components: {
@@ -297,13 +294,8 @@ export default {
     "venues-overview": VenuesOverview
   },
   data: () => ({
-    // user: {},
-    // token: "",
-    // loading: true,
-    errors: {},
     dates: dates,
     activeTab: "overview",
-    newShow: initialNewShow,
     sheet: false,
     logOffDialog: false,
     removeShowDialog: false,
@@ -315,6 +307,14 @@ export default {
     }
   }),
   computed: {
+    newShow: {
+      get() {
+        return this.$store.state.addShowForm;
+      },
+      set(value) {
+        this.$store.commit("updateAddShowForm", value);
+      }
+    },
     loading() {
       return this.$store.getters.getLoadingState;
     },
@@ -323,6 +323,9 @@ export default {
     },
     token() {
       return this.$store.getters.getUserToken;
+    },
+    errors() {
+      return this.$store.getters.getDashboardErrors;
     }
   },
   mounted() {
@@ -334,47 +337,19 @@ export default {
       localStorage.removeItem("phriendToken");
       return this.$router.push("/");
     }
-    // this.token = token;
     this.$store.commit("setToken", token);
     if (phriendData) {
-      // this.user = phriendData;
       this.$store.commit("setUser", phriendData);
-      // this.loading = false;
       this.$store.commit("setLoadingFalse");
     } else {
       this.$store.dispatch("getUserInfo");
-      // API.getUserInfo(this.token)
-      //   .then(({ data }) => {
-      //     this.user = data;
-      //     localStorage.setItem("phriendData", JSON.stringify(data));
-      //     this.loading = false;
-      //   })
-      //   .catch(err => {
-      //     this.errors = err.response.data;
-      //   });
     }
   },
   methods: {
     addNewShow() {
-      // this.loading = true;
       this.$store.commit("setLoadingTrue");
-      this.errors = {};
-      API.addNewShow(this.token, this.newShow)
-        .then(({ data }) => {
-          this.$store.commit("setUser", data);
-          localStorage.setItem("phriendData", JSON.stringify(data));
-          // this.loading = false;
-          this.$store.commit("setLoadingFalse");
-        })
-        .catch(err => {
-          if (err.response.status === 403) {
-            localStorage.clear();
-            return this.$router.push("/");
-          }
-          // TODO: check bad dates
-          this.errors = err.response.data;
-          this.$store.commit("setLoadingFalse");
-        });
+      this.$store.commit("clearDashboardErrors");
+      this.$store.dispatch("addNewShow");
     },
     toggleRemoveShowDialog({ venue, date, day, _id }) {
       this.removeShowInfo = { venue, date, day, _id };
@@ -401,10 +376,8 @@ export default {
         });
     },
     resetSheet() {
-      this.errors.message = "";
-      this.newShow.year = "";
-      this.newShow.month = "";
-      this.newShow.day = "";
+      this.$store.commit("clearDashboardErrors");
+      this.$store.commit("resetAddShowForm");
     },
     logout() {
       localStorage.clear();

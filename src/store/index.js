@@ -23,12 +23,13 @@ const initialState = {
 
 export default new Vuex.Store({
   state: {
-    formErrors: initialState.form,
+    formErrors: { ...initialState.form },
     signupSuccessMsg: "",
     user: {},
     token: "",
     loading: true,
-    dashboardErrors: initialState.dashboardErrors
+    dashboardErrors: { ...initialState.dashboard },
+    addShowForm: { ...initialState.dashboard }
   },
   // synchronous - commit
   mutations: {
@@ -39,7 +40,7 @@ export default new Vuex.Store({
       state.formErrors = payload;
     },
     clearFormErrors(state) {
-      state.formErrors = initialState.form;
+      state.formErrors = { ...initialState.form };
     },
     setSignupSuccessMsg(state, payload) {
       state.signupSuccessMsg = payload;
@@ -72,7 +73,13 @@ export default new Vuex.Store({
       state.dashboardErrors = payload;
     },
     clearDashboardErrors(state) {
-      state.dashboardErrors = initialState.dashboard;
+      state.dashboardErrors = { ...initialState.dashboard };
+    },
+    updateAddShowForm(state, payload) {
+      state.addShowForm = payload;
+    },
+    resetAddShowForm(state) {
+      state.addShowForm = { ...initialState.dashboard };
     }
   },
   // asynchronous - dispatch
@@ -122,10 +129,8 @@ export default new Vuex.Store({
     getUserInfo(state) {
       API.getUserInfo(state.getters.getUserToken)
         .then(({ data }) => {
-          // this.user = data;
           state.commit("setUser", data);
           localStorage.setItem("phriendData", JSON.stringify(data));
-          // this.loading = false;
           state.commit("setLoadingFalse");
         })
         .catch(err => {
@@ -134,7 +139,23 @@ export default new Vuex.Store({
             localStorage.removeItem("phriendToken");
             return router.push("/");
           }
-          // this.errors = err.response.data;
+          state.commit("setDashboardErrors", err.response.data);
+          state.commit("setLoadingFalse");
+        });
+    },
+    addNewShow(state) {
+      API.addNewShow(state.getters.getUserToken, state.getters.getAddShowForm)
+        .then(({ data }) => {
+          state.commit("setUser", data);
+          localStorage.setItem("phriendData", JSON.stringify(data));
+          state.commit("setLoadingFalse");
+        })
+        .catch(err => {
+          console.log("err", err);
+          if (err.response.status === 403) {
+            localStorage.clear();
+            return router.push("/");
+          }
           state.commit("setDashboardErrors", err.response.data);
           state.commit("setLoadingFalse");
         });
@@ -149,6 +170,7 @@ export default new Vuex.Store({
     getUser: state => state.user,
     getUserToken: state => state.token,
     getLoadingState: state => state.loading,
-    getDashboardErrors: state => state.dashboardErrors
+    getDashboardErrors: state => state.dashboardErrors,
+    getAddShowForm: state => state.addShowForm
   }
 });
