@@ -1,8 +1,9 @@
 import axios from "axios";
 
 let url;
-
-if (process.env.NETLIFY) {
+let deployed = true;
+// if (process.env.NETLIFY) {
+if (deployed) {
   url = "https://phriendscore-api.herokuapp.com";
 } else {
   url = "http://localhost:8081";
