@@ -144,6 +144,8 @@ export default new Vuex.Store({
         });
     },
     addNewShow(state) {
+      state.commit("setLoadingTrue");
+      state.commit("clearDashboardErrors");
       API.addNewShow(state.getters.getUserToken, state.getters.getAddShowForm)
         .then(({ data }) => {
           state.commit("setUser", data);
@@ -153,11 +155,30 @@ export default new Vuex.Store({
         .catch(err => {
           console.log("err", err);
           if (err.response.status === 403) {
-            localStorage.clear();
+            localStorage.removeItem("phriendData");
+            localStorage.removeItem("phriendToken");
             return router.push("/");
           }
           state.commit("setDashboardErrors", err.response.data);
           state.commit("setLoadingFalse");
+        });
+    },
+    removeShow(state, showToRemove) {
+      state.commit("setLoadingTrue");
+      API.removeShow(state.getters.getUserToken, showToRemove)
+        .then(({ data }) => {
+          state.commit("setUser", data);
+          // this.user = data;
+
+          // this.loading = false;
+          state.commit("setLoadingFalse");
+        })
+        .catch(err => {
+          if (err.response.status === 403) {
+            localStorage.removeItem("phriendData");
+            localStorage.removeItem("phriendToken");
+            return this.$router.push("/");
+          }
         });
     }
   },

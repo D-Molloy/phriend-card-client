@@ -86,7 +86,7 @@
                 Remove this show?
               </v-card-title>
               <v-divider></v-divider>
-              <p class="text-center font_lg">{{ removeShowInfo.venue }}</p>
+              <p class="text-center font_md">{{ removeShowInfo.venue }}</p>
               <p class="text-center font_heading">
                 {{ removeShowInfo.day }}, {{ removeShowInfo.date }}
               </p>
@@ -281,7 +281,6 @@ import SongsOverview from "@/components/SongsOverview.vue";
 import ShowsOverview from "@/components/ShowsOverview.vue";
 import VenuesOverview from "@/components/VenuesOverview.vue";
 
-import API from "../utils/API.js";
 import dates from "../utils/dates.js";
 
 export default {
@@ -347,8 +346,6 @@ export default {
   },
   methods: {
     addNewShow() {
-      this.$store.commit("setLoadingTrue");
-      this.$store.commit("clearDashboardErrors");
       this.$store.dispatch("addNewShow");
     },
     toggleRemoveShowDialog({ venue, date, day, _id }) {
@@ -356,31 +353,20 @@ export default {
       this.removeShowDialog = true;
     },
     removeShow() {
-      this.loading = true;
-
-      API.removeShow(this.token, this.removeShowInfo._id)
-        .then(({ data }) => {
-          this.user = data;
-          this.removeShowDialog = false;
-          this.removeShowInfo.venue = "";
-          this.removeShowInfo.date = "";
-          this.removeShowInfo.day = "";
-          this.removeShowInfo._id = "";
-          this.loading = false;
-        })
-        .catch(err => {
-          if (err.response.status === 403) {
-            localStorage.clear();
-            return this.$router.push("/");
-          }
-        });
+      this.$store.dispatch("removeShow", this.removeShowInfo._id);
+      this.removeShowDialog = false;
+      this.removeShowInfo.venue = "";
+      this.removeShowInfo.date = "";
+      this.removeShowInfo.day = "";
+      this.removeShowInfo._id = "";
     },
     resetSheet() {
       this.$store.commit("clearDashboardErrors");
       this.$store.commit("resetAddShowForm");
     },
     logout() {
-      localStorage.clear();
+      localStorage.removeItem("phriendData");
+      localStorage.removeItem("phriendToken");
       return this.$router.push("/");
     }
   }
