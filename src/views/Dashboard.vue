@@ -4,59 +4,6 @@
       <loading-spinner />
     </div>
     <div class="dashboard" align="center" v-else>
-      <!-- Start Nav -->
-      <div class="nav_tabs" v-if="user.showScoreAverage">
-        <div id="site_id">
-          <h5 class="font_shadow_red">PhriendScore</h5>
-        </div>
-        <div
-          :class="['nav_item', activeTab === 'overview' ? 'nav_active' : '']"
-          @click="activeTab = 'overview'"
-        >
-          <span>Overview</span>
-        </div>
-        <div
-          :class="['nav_item', activeTab === 'shows' ? 'nav_active' : '']"
-          @click="activeTab = 'shows'"
-        >
-          <span>Shows</span>
-        </div>
-        <div
-          :class="['nav_item', activeTab === 'songs' ? 'nav_active' : '']"
-          @click="activeTab = 'songs'"
-        >
-          <span>Songs</span>
-        </div>
-        <div
-          :class="['nav_item', activeTab === 'venues' ? 'nav_active' : '']"
-          @click="activeTab = 'venues'"
-        >
-          <span>Venues</span>
-        </div>
-
-        <div class="nav_signout">
-          <v-dialog v-model="logOffDialog" width="300">
-            <template v-slot:activator="{ on, attrs }">
-              <span>
-                <v-icon dark v-bind="attrs" v-on="on">mdi-power</v-icon>
-              </span>
-            </template>
-
-            <v-card>
-              <v-card-title class="dialog_title justify-center">
-                Would you like to logout?
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-card-actions class="justify-center">
-                <v-btn color="error" @click="logout">
-                  Yes
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </div>
-      </div>
-      <!-- END NAV -->
       <div v-if="activeTab === 'overview'" class="view_container">
         <user-overview v-if="user.showScoreAverage" :user="user" />
         <!-- <template v-if="user.showScoreAverage">
@@ -180,100 +127,7 @@
     </v-bottom-sheet>
   </div>
 </template>
-<style>
-.nav_tabs {
-  height: 8vh;
-  position: fixed;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  z-index: 1;
-}
 
-#site_id {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  background-color: var(--blue);
-  width: 100%;
-}
-#site_id > h5 {
-  font-family: var(--font-title);
-  color: white;
-  font-size: 1.4em;
-  margin: 0 10px;
-  letter-spacing: 5px;
-}
-
-.nav_item {
-  font-family: var(--font-primary);
-  background-color: var(--blue);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  cursor: pointer;
-}
-
-.nav_item:hover,
-.nav_active {
-  background-color: var(--red);
-}
-
-.nav_signout {
-  /* padding: 0 5px; */
-  width: 55px;
-  background-color: var(--blue);
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.dialog_title {
-  font-family: var(--font-title);
-  background-color: var(--blue);
-  color: white;
-  text-shadow: 1px 1px 2px var(--red);
-}
-
-.view_container {
-  padding-top: 8vh;
-}
-.card {
-  border: 1px solid black;
-  max-width: 90%;
-}
-
-.add-show-fab {
-  position: fixed;
-  bottom: 3%;
-  right: 2%;
-}
-
-.input_form {
-  display: flex;
-}
-
-@media only screen and (max-width: 775px) {
-  .nav_tabs {
-    height: 10vh;
-  }
-  #site_id {
-    flex: 0 0 100%;
-  }
-  .nav_signout {
-    /* padding: 0 5px; */
-    width: 35px;
-  }
-  .view_container {
-    padding-top: 10vh;
-  }
-}
-</style>
 <script>
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import UserOverview from "@/components/UserOverview.vue";
@@ -294,9 +148,8 @@ export default {
   },
   data: () => ({
     dates: dates,
-    activeTab: "overview",
+    // activeTab: "overview",
     sheet: false,
-    logOffDialog: false,
     removeShowDialog: false,
     removeShowInfo: {
       venue: "",
@@ -313,6 +166,9 @@ export default {
       set(value) {
         this.$store.commit("updateAddShowForm", value);
       }
+    },
+    activeTab() {
+      return this.$store.getters.getActiveTab;
     },
     loading() {
       return this.$store.getters.getLoadingState;
@@ -363,12 +219,42 @@ export default {
     resetSheet() {
       this.$store.commit("clearDashboardErrors");
       this.$store.commit("resetAddShowForm");
-    },
-    logout() {
-      localStorage.removeItem("phriendData");
-      localStorage.removeItem("phriendToken");
-      return this.$router.push("/");
     }
   }
 };
 </script>
+<style>
+.view_container {
+  padding-top: 8vh;
+}
+.card {
+  border: 1px solid black;
+  max-width: 90%;
+}
+
+.add-show-fab {
+  position: fixed;
+  bottom: 3%;
+  right: 2%;
+}
+
+.input_form {
+  display: flex;
+}
+
+@media only screen and (max-width: 775px) {
+  .nav_tabs {
+    height: 10vh;
+  }
+  #site_id {
+    flex: 0 0 100%;
+  }
+  .nav_signout {
+    /* padding: 0 5px; */
+    width: 35px;
+  }
+  .view_container {
+    padding-top: 10vh;
+  }
+}
+</style>

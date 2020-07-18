@@ -29,10 +29,23 @@ export default new Vuex.Store({
     token: "",
     loading: true,
     dashboardErrors: { ...initialState.dashboard },
-    addShowForm: { ...initialState.dashboard }
+    addShowForm: { ...initialState.dashboard },
+    activeTab: "overview"
   },
   // synchronous - commit
   mutations: {
+    /**
+     * Global
+     */
+    setLoadingTrue(state) {
+      state.loading = true;
+    },
+    setLoadingFalse(state) {
+      state.loading = false;
+    },
+    setActiveTab(state, tab) {
+      state.activeTab = tab;
+    },
     /**
      * Login/Signup mutations
      */
@@ -62,12 +75,6 @@ export default new Vuex.Store({
     },
     clearToken(state) {
       state.token = "";
-    },
-    setLoadingTrue(state) {
-      state.loading = true;
-    },
-    setLoadingFalse(state) {
-      state.loading = false;
     },
     setDashboardErrors(state, payload) {
       state.dashboardErrors = payload;
@@ -168,6 +175,7 @@ export default new Vuex.Store({
       API.removeShow(state.getters.getUserToken, showToRemove)
         .then(({ data }) => {
           state.commit("setUser", data);
+          localStorage.setItem("phriendData", JSON.stringify(data));
           state.commit("setLoadingFalse");
         })
         .catch(err => {
@@ -181,13 +189,15 @@ export default new Vuex.Store({
   },
   modules: {},
   getters: {
+    // Gloabl
+    getLoadingState: state => state.loading,
+    getActiveTab: state => state.activeTab,
     // Login/Signup
     getFormErrors: state => state.formErrors,
     getSignupSuccessMsg: state => state.signupSuccessMsg,
     // Dashboard
     getUser: state => state.user,
     getUserToken: state => state.token,
-    getLoadingState: state => state.loading,
     getDashboardErrors: state => state.dashboardErrors,
     getAddShowForm: state => state.addShowForm
   }
