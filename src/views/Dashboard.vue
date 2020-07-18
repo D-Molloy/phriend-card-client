@@ -11,7 +11,6 @@
       </div>
       <div v-if="activeTab === 'shows'" class="view_container">
         <shows-overview
-          v-if="user.showScoreAverage"
           :toggleRemoveShowDialog="toggleRemoveShowDialog"
           :bestScore="user.showBest.rating.toFixed(3)"
           :worstScore="user.showWorst.rating.toFixed(3)"
