@@ -160,7 +160,6 @@ export default new Vuex.Store({
           state.commit("setLoadingFalse");
         })
         .catch(err => {
-          console.log("err", err);
           if (err.response.status === 403) {
             localStorage.removeItem("phriendData");
             localStorage.removeItem("phriendToken");
@@ -174,6 +173,7 @@ export default new Vuex.Store({
       state.commit("setLoadingTrue");
       API.removeShow(state.getters.getUserToken, showToRemove)
         .then(({ data }) => {
+          state.commit("setActiveTab", "overview");
           state.commit("setUser", data);
           localStorage.setItem("phriendData", JSON.stringify(data));
           state.commit("setLoadingFalse");

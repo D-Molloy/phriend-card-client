@@ -1,29 +1,22 @@
 <template>
-  <div>
-    <nav-bar />
-    <div class="loading_container">
-      <div id="wave">
-        <span class="movin page"></span>
-        <span class="trey"></span>
-        <span class="movin fish"></span>
-        <span class="movin mike"></span>
-      </div>
-      <p class="font_lg font_title_light font_shadow_red">Loading...</p>
+  <div class="loading_container">
+    <div id="wave">
+      <span class="movin page"></span>
+      <span class="trey"></span>
+      <span class="movin fish"></span>
+      <span class="movin mike"></span>
     </div>
+    <p class="font_lg font_title_light font_shadow_red">Loading...</p>
   </div>
 </template>
 <script>
-import NavBar from "@/components/NavBar.vue";
 export default {
-  name: "LoadingSpinner",
-  components: {
-    "nav-bar": NavBar
-  }
+  name: "LoadingSpinner"
 };
 </script>
 <style>
 .loading_container {
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

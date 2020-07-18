@@ -5,22 +5,13 @@
     </div>
     <div class="dashboard" align="center" v-else>
       <div v-if="activeTab === 'overview'" class="view_container">
+        <!-- <user-overview v-if="user.showScoreAverage" /> -->
         <user-overview v-if="user.showScoreAverage" :user="user" />
-        <!-- <template v-if="user.showScoreAverage">
-          <user-overview :user="user" />
-        </template> -->
-        <div v-else>
-          <p class="font_lg text-center">
-            Press the green button to get started!
-          </p>
-        </div>
-        <!-- <template v-else>
-          <p class="font_lg text-center">
-            Press the green button to get started!
-          </p> -->
+        <greeting-message v-else />
       </div>
       <div v-if="activeTab === 'shows'" class="view_container">
         <shows-overview
+          v-if="user.showScoreAverage"
           :toggleRemoveShowDialog="toggleRemoveShowDialog"
           :bestScore="user.showBest.rating.toFixed(3)"
           :worstScore="user.showWorst.rating.toFixed(3)"
@@ -134,6 +125,7 @@ import UserOverview from "@/components/UserOverview.vue";
 import SongsOverview from "@/components/SongsOverview.vue";
 import ShowsOverview from "@/components/ShowsOverview.vue";
 import VenuesOverview from "@/components/VenuesOverview.vue";
+import GreetingMessage from "@/components/GreetingMessage.vue";
 
 import dates from "../utils/dates.js";
 
@@ -141,6 +133,7 @@ export default {
   name: "dashboard",
   components: {
     "loading-spinner": LoadingSpinner,
+    "greeting-message": GreetingMessage,
     "user-overview": UserOverview,
     "songs-overview": SongsOverview,
     "shows-overview": ShowsOverview,
@@ -198,6 +191,7 @@ export default {
       this.$store.commit("setLoadingFalse");
     } else {
       this.$store.dispatch("getUserInfo");
+      this.$store.commit("setLoadingFalse");
     }
   },
   methods: {
