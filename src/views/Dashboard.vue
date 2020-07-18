@@ -58,14 +58,19 @@
       </div>
       <!-- END NAV -->
       <div v-if="activeTab === 'overview'" class="view_container">
-        <template v-if="user.showScoreAverage">
+        <user-overview v-if="user.showScoreAverage" :user="user" />
+        <!-- <template v-if="user.showScoreAverage">
           <user-overview :user="user" />
-        </template>
-        <template v-else>
+        </template> -->
+        <div v-else>
           <p class="font_lg text-center">
             Press the green button to get started!
           </p>
-        </template>
+        </div>
+        <!-- <template v-else>
+          <p class="font_lg text-center">
+            Press the green button to get started!
+          </p> -->
       </div>
       <div v-if="activeTab === 'shows'" class="view_container">
         <shows-overview
@@ -292,9 +297,9 @@ export default {
     "venues-overview": VenuesOverview
   },
   data: () => ({
-    user: {},
-    token: "",
-    loading: true,
+    // user: {},
+    // token: "",
+    // loading: true,
     errors: {},
     dates: dates,
     activeTab: "overview",
@@ -309,39 +314,57 @@ export default {
       _id: ""
     }
   }),
+  computed: {
+    loading() {
+      return this.$store.getters.getLoadingState;
+    },
+    user() {
+      return this.$store.getters.getUser;
+    },
+    token() {
+      return this.$store.getters.getUserToken;
+    }
+  },
   mounted() {
     const token = localStorage.getItem("phriendToken");
     const phriendData = JSON.parse(localStorage.getItem("phriendData"));
 
     if (!token) {
-      localStorage.clear();
+      localStorage.removeItem("phriendData");
+      localStorage.removeItem("phriendToken");
       return this.$router.push("/");
     }
-    this.token = token;
+    // this.token = token;
+    this.$store.commit("setToken", token);
     if (phriendData) {
-      this.user = phriendData;
-      this.loading = false;
+      // this.user = phriendData;
+      this.$store.commit("setUser", phriendData);
+      // this.loading = false;
+      this.$store.commit("setLoadingFalse");
     } else {
-      API.getUserInfo(this.token)
-        .then(({ data }) => {
-          this.user = data;
-          localStorage.setItem("phriendData", JSON.stringify(data));
-          this.loading = false;
-        })
-        .catch(err => {
-          this.errors = err.response.data;
-        });
+      this.$store.dispatch("getUserInfo");
+      // API.getUserInfo(this.token)
+      //   .then(({ data }) => {
+      //     this.user = data;
+      //     localStorage.setItem("phriendData", JSON.stringify(data));
+      //     this.loading = false;
+      //   })
+      //   .catch(err => {
+      //     this.errors = err.response.data;
+      //   });
     }
   },
   methods: {
     addNewShow() {
-      this.loading = true;
+      // this.loading = true;
+      this.$store.commit("setLoadingTrue");
       this.errors = {};
       API.addNewShow(this.token, this.newShow)
         .then(({ data }) => {
-          this.user = data;
+          this.$store.commit("setUser", data);
           localStorage.setItem("phriendData", JSON.stringify(data));
-          this.loading = false;
+          // this.loading = false;
+          this.$store.commit("setLoadingFalse");
         })
         .catch(err => {
           if (err.response.status === 403) {
@@ -350,7 +373,7 @@ export default {
           }
           // TODO: check bad dates
           this.errors = err.response.data;
-          this.loading = false;
+          this.$store.commit("setLoadingFalse");
         });
     },
     toggleRemoveShowDialog({ venue, date, day, _id }) {

@@ -12,6 +12,12 @@ const initialState = {
     password: "",
     confirmPassword: "",
     message: ""
+  },
+  dashboard: {
+    message: "",
+    year: "",
+    month: "",
+    day: ""
   }
 };
 
@@ -21,7 +27,8 @@ export default new Vuex.Store({
     signupSuccessMsg: "",
     user: {},
     token: "",
-    loading: true
+    loading: true,
+    dashboardErrors: initialState.dashboardErrors
   },
   // synchronous - commit
   mutations: {
@@ -48,8 +55,25 @@ export default new Vuex.Store({
     },
     clearUser(state) {
       state.user = {};
+    },
+    setToken(state, payload) {
+      state.token = payload;
+    },
+    clearToken(state) {
+      state.token = "";
+    },
+    setLoadingTrue(state) {
+      state.loading = true;
+    },
+    setLoadingFalse(state) {
+      state.loading = false;
+    },
+    setDashboardErrors(state, payload) {
+      state.dashboardErrors = payload;
+    },
+    clearDashboardErrors(state) {
+      state.dashboardErrors = initialState.dashboard;
     }
-    // setToken(state, paylad) {}
   },
   // asynchronous - dispatch
   actions: {
@@ -57,7 +81,7 @@ export default new Vuex.Store({
      * Login/Signup actions
      */
     loginUser(state, loginCreds) {
-      state.commit("clearLoginErrors");
+      state.commit("clearFormErrors");
       API.loginUser(loginCreds)
         .then(({ data: { token } }) => {
           localStorage.setItem("phriendToken", token);
@@ -91,18 +115,40 @@ export default new Vuex.Store({
 
           state.commit("setFormErrors", err.response.data);
         });
-    }
+    },
     /**
-     * Dashboard mutations
+     * Dashboard actions
      */
-    // getUserInfo(state, jwt){
-
-    // }
+    getUserInfo(state) {
+      API.getUserInfo(state.getters.getUserToken)
+        .then(({ data }) => {
+          // this.user = data;
+          state.commit("setUser", data);
+          localStorage.setItem("phriendData", JSON.stringify(data));
+          // this.loading = false;
+          state.commit("setLoadingFalse");
+        })
+        .catch(err => {
+          if (err.response.status === 403) {
+            localStorage.removeItem("phriendData");
+            localStorage.removeItem("phriendToken");
+            return router.push("/");
+          }
+          // this.errors = err.response.data;
+          state.commit("setDashboardErrors", err.response.data);
+          state.commit("setLoadingFalse");
+        });
+    }
   },
   modules: {},
   getters: {
-    getUser: state => state.user,
+    // Login/Signup
     getFormErrors: state => state.formErrors,
-    getSignupSuccessMsg: state => state.signupSuccessMsg
+    getSignupSuccessMsg: state => state.signupSuccessMsg,
+    // Dashboard
+    getUser: state => state.user,
+    getUserToken: state => state.token,
+    getLoadingState: state => state.loading,
+    getDashboardErrors: state => state.dashboardErrors
   }
 });
