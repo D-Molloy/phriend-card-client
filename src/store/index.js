@@ -17,11 +17,11 @@ const initialState = {
 
 export default new Vuex.Store({
   state: {
-    currentJoke: "How bout that Corona Virus?",
     formErrors: initialState.form,
     signupSuccessMsg: "",
     user: {},
-    token: ""
+    token: "",
+    loading: true
   },
   // synchronous - commit
   mutations: {
@@ -69,7 +69,7 @@ export default new Vuex.Store({
               message: "Problem on our end.  Please try again later."
             });
           }
-          state.commit("setLoginErrors", err.response.data);
+          state.commit("setFormErrors", err.response.data);
         });
     },
     createUser(state, signupCreds) {
@@ -92,6 +92,12 @@ export default new Vuex.Store({
           state.commit("setFormErrors", err.response.data);
         });
     }
+    /**
+     * Dashboard mutations
+     */
+    // getUserInfo(state, jwt){
+
+    // }
   },
   modules: {},
   getters: {

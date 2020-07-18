@@ -294,8 +294,8 @@ export default {
   data: () => ({
     user: {},
     token: "",
-    errors: {},
     loading: true,
+    errors: {},
     dates: dates,
     activeTab: "overview",
     newShow: initialNewShow,
