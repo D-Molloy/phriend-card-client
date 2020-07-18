@@ -1,7 +1,12 @@
 import axios from "axios";
 
-// const url = "http://localhost:8081";
-const url = "https://phriendscore-api.herokuapp.com";
+let url;
+
+if (process.env.NETLIFY) {
+  url = "https://phriendscore-api.herokuapp.com";
+} else {
+  url = "http://localhost:8081";
+}
 
 export default {
   // Signin - create new account

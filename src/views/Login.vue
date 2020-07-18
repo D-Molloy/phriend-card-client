@@ -1,8 +1,11 @@
 <template>
-  <div class="mx-auto">
-    <p class=" font_heading mt-10 mb-n5">Welcome to</p>
-    <p class="text-center title_height font_xl font_title_red font_shadow_blue">PhriendScore</p>
+  <div class="mx-auto view_container">
+    <p class="font_heading mt-10 mb-n5">Welcome to</p>
+    <p class="text-center title_height font_xl font_title_red font_shadow_blue">
+      PhriendScore
+    </p>
     <p class="text-right font-italic mb-10">Personalized Phish statistics</p>
+    <!-- <p>{{ joke }}</p> -->
     <v-card>
       <v-card-title>
         <p class="font_title_light font_shadow_red font_md">Login</p>
@@ -16,8 +19,8 @@
             autocomplete="email"
             prepend-icon="mdi-email"
             :error-messages="errors.email"
-            autofocus
             required
+            :rules="[v => !!v || 'Email is required']"
           />
           <v-text-field
             label="Password"
@@ -29,8 +32,12 @@
             @click:append="showPassword = !showPassword"
             :error-messages="errors.password"
             required
+            :rules="[v => !!v || 'Password is required']"
           />
         </v-form>
+        <p v-if="errors.message" align="center" class="red--text">
+          {{ errors.message }}
+        </p>
       </v-card-text>
       <v-divider />
       <v-card-actions class="px-3">
@@ -51,8 +58,6 @@
 </template>
 
 <script>
-import API from "../utils/API.js";
-
 const initialState = {
   email: "",
   password: ""
@@ -61,7 +66,6 @@ export default {
   name: "Login",
   data: () => ({
     form: initialState,
-    errors: {},
     showPassword: false
   }),
   mounted() {
@@ -69,19 +73,19 @@ export default {
       this.$router.push("/dashboard");
     }
   },
+  computed: {
+    errors() {
+      return this.$store.getters.getFormErrors;
+    }
+  },
   methods: {
     loginUser() {
-      this.errors = {};
-      API.loginUser(this.form)
-        .then(({ data: { token } }) => {
-          localStorage.setItem("phriendToken", token);
-          this.$router.push("/dashboard");
-        })
-        .catch(err => {
-          this.errors = err.response.data;
-        });
+      if (!this.form.email || !this.form.password) return;
+      this.form = initialState;
+      this.$store.dispatch("loginUser", this.form);
     },
     toSignup() {
+      this.form = initialState;
       this.$router.push("/create");
     }
   }

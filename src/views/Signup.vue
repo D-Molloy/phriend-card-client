@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto">
+  <div class="mx-auto view_container">
     <p class="font_heading heading mt-5 mb-n5 ml-sm-3">
       Welcome to
     </p>
@@ -24,6 +24,7 @@
             :error-messages="errors.username"
             autofocus
             required
+            :rules="[v => !!v || 'Username is required']"
           />
           <v-text-field
             label="Email"
@@ -34,6 +35,7 @@
             :error-messages="errors.email"
             autofocus
             required
+            :rules="[v => !!v || 'Email is required']"
           />
           <v-text-field
             label="Password"
@@ -45,6 +47,7 @@
             @click:append="showPassword = !showPassword"
             :error-messages="errors.password"
             required
+            :rules="[v => !!v || 'Password is required']"
           />
           <v-text-field
             label="Confirm Password"
@@ -52,11 +55,14 @@
             v-model="form.confirmPassword"
             autocomplete="current-password"
             prepend-icon="mdi-lock"
-            required
             :error-messages="errors.confirmPassword"
+            required
+            :rules="[v => !!v || 'Password confirmation is required']"
           />
 
-          <p v-if="message" align="center" class="green--text">{{ message }}</p>
+          <p v-if="signupSuccessMsg" align="center" class="green--text">
+            {{ signupSuccessMsg }}
+          </p>
           <p v-if="errors.message" align="center" class="red--text">
             {{ errors.message }}
           </p>
@@ -84,9 +90,6 @@
   height: 75px;
 }
 @media only screen and (max-width: 775px) {
-  /* .font_heading.mt-10{
-    margin-top:20px
-  } */
   .font_heading.heading {
     font-size: 20px;
     /* margin-top:10px; */
@@ -101,8 +104,6 @@
 </style>
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
-import API from "../utils/API.js";
 
 const initialState = {
   username: "",
@@ -114,32 +115,30 @@ export default {
   name: "signup",
   data: () => ({
     form: initialState,
-    message: "",
-    errors: {},
     showPassword: false
   }),
-
+  computed: {
+    errors() {
+      return this.$store.getters.getFormErrors;
+    },
+    signupSuccessMsg() {
+      return this.$store.getters.getSignupSuccessMsg;
+    }
+  },
   methods: {
     signup() {
-      this.errors = {};
-      API.createUser(this.form)
-        .then(({ data }) => {
-          this.message = data;
-          // TODO: make sure this works
-          this.form = initialState;
-          setTimeout(() => {
-            this.message = "";
-            this.$router.push("/");
-          }, 2000);
-        })
-        .catch(err => {
-          // TODO: setup error-message on 500
-          // console.log("error", err);
-          // console.log("error", err.response);
-          this.errors = err.response.data;
-        });
+      if (
+        !this.form.email ||
+        !this.form.password ||
+        !this.form.confirmPassword ||
+        !this.form.username
+      )
+        return;
+      this.$store.dispatch("createUser", this.form);
+      this.form = initialState;
     },
     toLogin() {
+      this.form = initialState;
       this.$router.push("/");
     }
   }
