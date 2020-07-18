@@ -168,9 +168,6 @@ export default new Vuex.Store({
       API.removeShow(state.getters.getUserToken, showToRemove)
         .then(({ data }) => {
           state.commit("setUser", data);
-          // this.user = data;
-
-          // this.loading = false;
           state.commit("setLoadingFalse");
         })
         .catch(err => {
