@@ -9,7 +9,7 @@
     <div
       v-for="show in shows"
       :key="show.date"
-      class="item_bg show_card_lg px-4 ma-5"
+      class="item_bg show_card_lg ml-4 mr-2 my-5 px-3"
     >
       <div class="d-flex align-center mt-2">
         <p class="font_heading font-weight-bold">
