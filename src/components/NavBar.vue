@@ -29,27 +29,28 @@
       >
         <span>Venues</span>
       </div>
-      <div class="nav_signout">
-        <v-dialog v-model="logOffDialog" width="300">
-          <template v-slot:activator="{ on, attrs }">
-            <span>
-              <v-icon dark v-bind="attrs" v-on="on">mdi-power</v-icon>
-            </span>
-          </template>
+    </div>
+    <v-spacer v-else />
+    <div class="nav_signout" v-if="user.username">
+      <v-dialog v-model="logOffDialog" width="300">
+        <template v-slot:activator="{ on, attrs }">
+          <span>
+            <v-icon dark v-bind="attrs" v-on="on">mdi-power</v-icon>
+          </span>
+        </template>
 
-          <v-card>
-            <v-card-title class="dialog_title justify-center">
-              Would you like to logout?
-            </v-card-title>
-            <v-divider></v-divider>
-            <v-card-actions class="justify-center">
-              <v-btn color="error" @click="logout">
-                Yes
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </div>
+        <v-card>
+          <v-card-title class="dialog_title justify-center">
+            Would you like to logout?
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-actions class="justify-center">
+            <v-btn color="error" @click="logout">
+              Yes
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </div>
 </template>
@@ -75,6 +76,7 @@ export default {
     logout() {
       this.logOffDialog = false;
       this.$store.commit("clearUser");
+      this.$store.commit("setActiveTab", "overview")
       localStorage.removeItem("phriendData");
       localStorage.removeItem("phriendToken");
       return this.$router.push("/");

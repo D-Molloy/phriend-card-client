@@ -27,7 +27,7 @@ export default new Vuex.Store({
     signupSuccessMsg: "",
     user: {},
     token: "",
-    loading: false,
+    loading: true,
     dashboardErrors: { ...initialState.dashboard },
     addShowForm: { ...initialState.dashboard },
     activeTab: "overview"
@@ -41,7 +41,7 @@ export default new Vuex.Store({
       state.loading = true;
     },
     setLoadingFalse(state) {
-      state.loading = false;
+      setTimeout(() => (state.loading = false), 1000);
     },
     setActiveTab(state, tab) {
       state.activeTab = tab;
@@ -96,6 +96,7 @@ export default new Vuex.Store({
      */
     loginUser(state, loginCreds) {
       state.commit("clearFormErrors");
+      state.commit("setLoadingTrue");
       API.loginUser(loginCreds)
         .then(({ data: { token } }) => {
           localStorage.setItem("phriendToken", token);
@@ -138,7 +139,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           state.commit("setUser", data);
           localStorage.setItem("phriendData", JSON.stringify(data));
-          state.commit("setLoadingFalse");
+          // state.commit("setLoadingFalse");
         })
         .catch(err => {
           if (err.response.status === 403) {
@@ -147,7 +148,7 @@ export default new Vuex.Store({
             return router.push("/");
           }
           state.commit("setDashboardErrors", err.response.data);
-          state.commit("setLoadingFalse");
+          // state.commit("setLoadingFalse");
         });
     },
     addNewShow(state) {
