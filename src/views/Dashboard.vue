@@ -6,7 +6,7 @@
     <div class="dashboard" align="center" v-else>
       <div v-if="activeTab === 'overview'" class="view_container">
         <!-- <user-overview v-if="user.showScoreAverage" /> -->
-        <user-overview v-if="user.showScoreAverage" :user="user" />
+        <user-overview v-if="user.shows.length > 0" :user="user" />
         <greeting-message v-else />
       </div>
       <div v-if="activeTab === 'shows'" class="view_container">
@@ -57,6 +57,7 @@
           v-bind="attrs"
           v-on="on"
           @click="resetSheet"
+          :disabled="loading"
         >
           <v-icon dark>mdi-plus</v-icon>
         </v-btn>
@@ -140,7 +141,6 @@ export default {
   },
   data: () => ({
     dates: dates,
-    // activeTab: "overview",
     sheet: false,
     removeShowDialog: false,
     removeShowInfo: {
@@ -178,7 +178,6 @@ export default {
   mounted() {
     const token = localStorage.getItem("phriendToken");
     const phriendData = JSON.parse(localStorage.getItem("phriendData"));
-    this.$store.commit("setLoadingTrue");
     if (!token) {
       localStorage.removeItem("phriendData");
       localStorage.removeItem("phriendToken");
