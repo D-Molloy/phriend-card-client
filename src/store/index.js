@@ -103,7 +103,7 @@ export default new Vuex.Store({
           router.push("/dashboard");
         })
         .catch(err => {
-          if (err.response.status === 500) {
+          if (err.message === "Network Error") {
             return state.commit("setFormErrors", {
               message: "Problem on our end.  Please try again later."
             });
@@ -122,7 +122,7 @@ export default new Vuex.Store({
           }, 2000);
         })
         .catch(err => {
-          if (err.response.status === 500) {
+          if (err.message === "Network Error") {
             return state.commit("setFormErrors", {
               message: "Problem on our end.  Please try again later."
             });

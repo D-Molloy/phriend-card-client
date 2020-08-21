@@ -54,14 +54,6 @@
         >
       </v-card-actions>
     </v-card>
-    <!-- <div class="footer">
-      <p>
-        Data courtesy of
-        <a href="https://phish.net/" target="_blank" rel="noopener noreferrer"
-          >Phish.net</a
-        >
-      </p>
-    </div> -->
     <credit-footer />
   </div>
 </template>
@@ -94,10 +86,11 @@ export default {
   methods: {
     loginUser() {
       if (!this.form.email || !this.form.password) return;
-      this.form = initialState;
       this.$store.dispatch("loginUser", this.form);
+      this.form = initialState;
     },
     toSignup() {
+      this.$store.commit("clearFormErrors");
       this.form = initialState;
       this.$router.push("/create");
     }
