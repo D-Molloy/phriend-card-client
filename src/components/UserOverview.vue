@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="screenshot">
     <div v-if="user.showScoreAverage" class="grid">
       <div class="grid_score item_bg pt-2 d-flex justify-center flex-wrap">
         <p class="font_title_light font_shadow_red font_xl title_small">
@@ -85,6 +85,9 @@
   </div>
 </template>
 <style>
+/* .screenshot {
+  border: 1px solid black;
+} */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

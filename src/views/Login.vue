@@ -11,7 +11,7 @@
         <p class="font_title_light font_shadow_red font_md">Login</p>
       </v-card-title>
       <v-card-text>
-        <v-form>
+        <v-form @submit.prevent="loginUser">
           <v-text-field
             label="Email"
             type="text"
