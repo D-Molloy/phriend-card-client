@@ -142,6 +142,7 @@ export default {
       this.form = initialState;
     },
     toLogin() {
+      this.$store.commit("clearFormErrors");
       this.form = initialState;
       this.$router.push("/");
     }

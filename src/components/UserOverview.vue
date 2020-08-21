@@ -2,13 +2,23 @@
   <div>
     <div ref="screenshot" class="screenshot">
       <div v-if="user.showScoreAverage" class="grid">
-        <div class="grid_score item_bg pt-2 d-flex justify-center flex-wrap">
-          <p class="font_title_light font_shadow_red font_xl title_small">
+        <div
+          class="grid_score item_bg pt-2 d-flex justify-center flex-wrap phriendscore_title"
+        >
+          <p class="font_title_light font_shadow_red font_xl title_small ">
             {{ user.username }}'s PhriendScore:
           </p>
           <p class="font_title_light font_shadow_red font_xl mx-3 ">
             {{ user.showScoreAverage.toFixed(3) }}
           </p>
+          <v-tooltip bottom color="#01579B">
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon class="phriendscore_info" v-bind="attrs" v-on="on"
+                >mdi-information-outline</v-icon
+              >
+            </template>
+            <span>The average score of all the shows you've seen.</span>
+          </v-tooltip>
         </div>
         <div class="grid_total_shows item_bg d-flex flex-column justify-center">
           <p class="font_title_light font_heading font_shadow_red mt-2">
@@ -100,14 +110,23 @@
   </div>
 </template>
 <style>
+.phriendscore_info {
+  text-shadow: none;
+  position: absolute !important;
+  top: 4px;
+  right: 4px;
+}
+.phriendscore_title {
+  position: relative;
+}
 .screenshot {
   background-color: var(--background);
   text-shadow: none;
 }
 .screenshot_fab {
   position: fixed;
-  bottom: 12%;
-  right: 2%;
+  bottom: 14vh;
+  right: 2vh;
 }
 
 .grid {
