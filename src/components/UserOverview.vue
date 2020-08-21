@@ -1,84 +1,87 @@
 <template>
-  <div v-if="user.showScoreAverage" class="grid">
-    <div class="grid_score item_bg pt-2 d-flex justify-center flex-wrap">
-      <p class="font_title_light font_shadow_red font_xl title_small">
-        {{ user.username }}'s PhriendScore:
-      </p>
-      <p class="font_title_light font_shadow_red font_xl mx-3 ">
-        {{ user.showScoreAverage.toFixed(3) }}
-      </p>
-    </div>
-    <div class="grid_total_shows item_bg d-flex flex-column justify-center">
-      <p class="font_title_light font_heading font_shadow_red mt-2">
-        Shows Seen
-      </p>
-      <p class="font_lg">{{ user.shows.length }}</p>
-    </div>
-    <div class="grid_total_songs item_bg d-flex flex-column justify-center">
-      <p class="font_title_light font_heading font_shadow_red mt-2">
-        Songs Heard
-      </p>
-      <p class="font_lg">{{ user.totalSongsHeard }}</p>
-    </div>
-    <div class="grid_venue_summary item_bg d-flex flex-column justify-start">
-      <div class="d-flex flex-column align-center mt-2">
-        <p class="font_title_light font_heading font_shadow_red">
-          Total Venues
+  <div>
+    <div v-if="user.showScoreAverage" class="grid">
+      <div class="grid_score item_bg pt-2 d-flex justify-center flex-wrap">
+        <p class="font_title_light font_shadow_red font_xl title_small">
+          {{ user.username }}'s PhriendScore:
         </p>
-        <p class="font_lg mx-2">
-          {{ user.venueSummary.length }}
+        <p class="font_title_light font_shadow_red font_xl mx-3 ">
+          {{ user.showScoreAverage.toFixed(3) }}
         </p>
       </div>
-      <div class="d-flex mt-3">
-        <div class="d-lex flex-column flex-grow-1">
+      <div class="grid_total_shows item_bg d-flex flex-column justify-center">
+        <p class="font_title_light font_heading font_shadow_red mt-2">
+          Shows Seen
+        </p>
+        <p class="font_lg">{{ user.shows.length }}</p>
+      </div>
+      <div class="grid_total_songs item_bg d-flex flex-column justify-center">
+        <p class="font_title_light font_heading font_shadow_red mt-2">
+          Songs Heard
+        </p>
+        <p class="font_lg">{{ user.totalSongsHeard }}</p>
+      </div>
+      <div class="grid_venue_summary item_bg d-flex flex-column justify-start">
+        <div class="d-flex flex-column align-center mt-2">
           <p class="font_title_light font_heading font_shadow_red">
-            Favorite
+            Total Venues
           </p>
-          <p class="font_heading ">
-            {{ user.venueSummary[0].venue }}
-          </p>
-
-          <p class="font_subtitle">
-            ({{ user.venueSummary[0].shows.length }} show{{
-              user.venueSummary[0].shows.length > 1 ? "s" : ""
-            }})
+          <p class="font_lg mx-2">
+            {{ user.venueSummary.length }}
           </p>
         </div>
-        <div class="d-flex flex-column flex-grow-1">
-          <p class="font_title_light font_heading font_shadow_red">
-            Best
-          </p>
-          <p class="font_heading">
-            {{ topShow.venue }}
-          </p>
-          <p class="font_subtitle mb-2">
-            ({{ topShow.venueRating.toFixed(3) }})
-          </p>
+        <div class="d-flex mt-3">
+          <div class="d-lex flex-column flex-grow-1">
+            <p class="font_title_light font_heading font_shadow_red">
+              Favorite
+            </p>
+            <p class="font_heading ">
+              {{ user.venueSummary[0].venue }}
+            </p>
+
+            <p class="font_subtitle">
+              ({{ user.venueSummary[0].shows.length }} show{{
+                user.venueSummary[0].shows.length > 1 ? "s" : ""
+              }})
+            </p>
+          </div>
+          <div class="d-flex flex-column flex-grow-1">
+            <p class="font_title_light font_heading font_shadow_red">
+              Best
+            </p>
+            <p class="font_heading">
+              {{ topShow.venue }}
+            </p>
+            <p class="font_subtitle mb-2">
+              ({{ topShow.venueRating.toFixed(3) }})
+            </p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="grid_frequent item_bg d-flex flex-column pb-3">
-      <p class="font_title_light font_heading font_shadow_red mt-2">
-        Frequent Songs
-      </p>
-      <p
-        class="font_heading"
-        v-for="song in user.songFrequency.slice(0, 6)"
-        :key="song[0]"
-      >
-        {{ song[0] }} ({{ song[1] }})
-      </p>
-    </div>
+      <div class="grid_frequent item_bg d-flex flex-column pb-3">
+        <p class="font_title_light font_heading font_shadow_red mt-2">
+          Frequent Songs
+        </p>
+        <p
+          class="font_heading"
+          v-for="song in user.songFrequency.slice(0, 6)"
+          :key="song[0]"
+        >
+          {{ song[0] }} ({{ song[1] }})
+        </p>
+      </div>
 
-    <div class="grid_days item_bg pb-3">
-      <scores-by-day :days="user.avgShowScoreByDay" />
+      <div class="grid_days item_bg pb-3">
+        <scores-by-day :days="user.avgShowScoreByDay" />
+      </div>
+      <div class="grid_years item_bg pb-3">
+        <scores-by-year :years="user.avgShowScoreByYear" />
+      </div>
+      <show-display :show="user.showBest" card-type="best" />
+      <show-display :show="user.showWorst" card-type="worst" />
     </div>
-    <div class="grid_years item_bg pb-3">
-      <scores-by-year :years="user.avgShowScoreByYear" />
-    </div>
-    <show-display :show="user.showBest" card-type="best" />
-    <show-display :show="user.showWorst" card-type="worst" />
+    <credit-footer />
   </div>
 </template>
 <style>
@@ -202,6 +205,7 @@
 import ScoresByYear from "@/components/ScoresByYear.vue";
 import ScoresByDay from "@/components/ScoresByDay.vue";
 import ShowDisplay from "@/components/ShowDisplay.vue";
+import CreditFooter from "@/components/CreditFooter.vue";
 
 export default {
   name: "UserOverview",
@@ -213,7 +217,8 @@ export default {
   components: {
     "scores-by-year": ScoresByYear,
     "scores-by-day": ScoresByDay,
-    "show-display": ShowDisplay
+    "show-display": ShowDisplay,
+    "credit-footer": CreditFooter
   },
   data: () => ({
     topShow: {}

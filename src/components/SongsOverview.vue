@@ -19,6 +19,7 @@
         >)
       </p>
     </div>
+    <credit-footer />
   </div>
 </template>
 <style scoped>
@@ -49,8 +50,12 @@
 </style>
 
 <script>
+import CreditFooter from "@/components/CreditFooter.vue";
 export default {
   name: "SongsOverview",
+  components: {
+    "credit-footer": CreditFooter
+  },
   props: {
     songs: {
       type: Array

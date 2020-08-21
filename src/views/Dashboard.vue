@@ -116,6 +116,7 @@
         </v-container>
       </v-sheet>
     </v-bottom-sheet>
+    <!-- <credit-footer /> -->
   </div>
 </template>
 
@@ -126,6 +127,7 @@ import SongsOverview from "@/components/SongsOverview.vue";
 import ShowsOverview from "@/components/ShowsOverview.vue";
 import VenuesOverview from "@/components/VenuesOverview.vue";
 import GreetingMessage from "@/components/GreetingMessage.vue";
+// import CreditFooter from "@/components/CreditFooter.vue";
 
 import dates from "../utils/dates.js";
 
@@ -137,7 +139,8 @@ export default {
     "user-overview": UserOverview,
     "songs-overview": SongsOverview,
     "shows-overview": ShowsOverview,
-    "venues-overview": VenuesOverview
+    "venues-overview": VenuesOverview,
+    // "credit-footer": CreditFooter
   },
   data: () => ({
     dates: dates,

@@ -83,6 +83,14 @@
         >
       </v-card-actions>
     </v-card>
+    <div class="footer">
+      <p>
+        Data courtesy of
+        <a href="https://phish.net/" target="_blank" rel="noopener noreferrer"
+          >Phish.net</a
+        >
+      </p>
+    </div>
   </div>
 </template>
 <style>
