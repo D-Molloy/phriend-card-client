@@ -139,7 +139,7 @@ export default {
     "user-overview": UserOverview,
     "songs-overview": SongsOverview,
     "shows-overview": ShowsOverview,
-    "venues-overview": VenuesOverview,
+    "venues-overview": VenuesOverview
     // "credit-footer": CreditFooter
   },
   data: () => ({
