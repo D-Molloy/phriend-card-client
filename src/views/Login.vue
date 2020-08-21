@@ -6,12 +6,12 @@
     </p>
     <p class="text-right font-italic mb-10">Personalized Phish statistics</p>
     <!-- <p>{{ joke }}</p> -->
-    <v-card>
+    <v-card min-width="326">
       <v-card-title>
         <p class="font_title_light font_shadow_red font_md">Login</p>
       </v-card-title>
       <v-card-text>
-        <v-form>
+        <v-form @submit.prevent="loginUser">
           <v-text-field
             label="Email"
             type="text"
@@ -54,16 +54,29 @@
         >
       </v-card-actions>
     </v-card>
+    <!-- <div class="footer">
+      <p>
+        Data courtesy of
+        <a href="https://phish.net/" target="_blank" rel="noopener noreferrer"
+          >Phish.net</a
+        >
+      </p>
+    </div> -->
+    <credit-footer />
   </div>
 </template>
-
 <script>
+import CreditFooter from "@/components/CreditFooter.vue";
+
 const initialState = {
   email: "",
   password: ""
 };
 export default {
   name: "Login",
+  components: {
+    "credit-footer": CreditFooter
+  },
   data: () => ({
     form: initialState,
     showPassword: false
@@ -89,6 +102,5 @@ export default {
       this.$router.push("/create");
     }
   }
-  // components: { Navbar }
 };
 </script>

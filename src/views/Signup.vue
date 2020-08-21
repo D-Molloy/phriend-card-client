@@ -9,7 +9,7 @@
     <p class="text-right font-italic mb-5 mr-3">
       Personalized Phish statistics
     </p>
-    <v-card class="mx-auto my-auto p3-3">
+    <v-card min-width="326">
       <v-card-title>
         <p class="font_title_light font_shadow_red font_md">Create Account</p>
       </v-card-title>
@@ -83,6 +83,7 @@
         >
       </v-card-actions>
     </v-card>
+    <credit-footer />
   </div>
 </template>
 <style>
@@ -104,7 +105,7 @@
 </style>
 <script>
 // @ is an alias to /src
-
+import CreditFooter from "@/components/CreditFooter.vue";
 const initialState = {
   username: "",
   email: "",
@@ -113,6 +114,9 @@ const initialState = {
 };
 export default {
   name: "signup",
+  components: {
+    "credit-footer": CreditFooter
+  },
   data: () => ({
     form: initialState,
     showPassword: false

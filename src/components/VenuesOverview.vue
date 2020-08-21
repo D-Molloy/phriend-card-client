@@ -58,6 +58,7 @@
         </div>
       </div>
     </div>
+    <credit-footer />
   </div>
 </template>
 <style scoped>
@@ -96,8 +97,13 @@
 }
 </style>
 <script>
+import CreditFooter from "@/components/CreditFooter.vue";
+
 export default {
   name: "ShowsOverview",
+  components: {
+    "credit-footer": CreditFooter
+  },
   props: {
     venues: {
       type: Array
