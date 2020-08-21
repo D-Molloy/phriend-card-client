@@ -229,8 +229,10 @@ export default {
 
 .add-show-fab {
   position: fixed;
-  bottom: 3%;
-  right: 2%;
+  /* bottom: 3%;
+  right: 2%; */
+  bottom: 3vh;
+  right: 2vh;
 }
 
 .input_form {
