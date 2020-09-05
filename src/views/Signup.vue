@@ -7,7 +7,7 @@
       PhriendScore
     </p>
     <p class="text-right font-italic mb-5 mr-3">
-      Personalized Phish statistics
+      Personalized Phish Statistics
     </p>
     <v-card min-width="326">
       <v-card-title>

@@ -94,7 +94,6 @@
         <show-display :show="user.showBest" card-type="best" />
         <show-display :show="user.showWorst" card-type="worst" />
       </div>
-
       <credit-footer />
     </div>
     <v-btn

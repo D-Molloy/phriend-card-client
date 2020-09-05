@@ -41,6 +41,7 @@ export default new Vuex.Store({
       state.loading = true;
     },
     setLoadingFalse(state) {
+      // state.loading = false
       setTimeout(() => (state.loading = false), 1000);
     },
     setActiveTab(state, tab) {
@@ -100,6 +101,7 @@ export default new Vuex.Store({
       API.loginUser(loginCreds)
         .then(({ data: { token } }) => {
           localStorage.setItem("phriendToken", token);
+          state.commit("setLoadingFalse");
           router.push("/dashboard");
         })
         .catch(err => {

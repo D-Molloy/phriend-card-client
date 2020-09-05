@@ -1,10 +1,11 @@
 <template>
   <div class="footer">
+    <p>www.phriendscore.com</p>
     <p>
       Data courtesy of
       <a href="https://phish.net/" target="_blank" rel="noopener noreferrer"
         >Phish.net</a
-      >
+      >.
     </p>
   </div>
 </template>

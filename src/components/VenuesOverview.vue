@@ -77,7 +77,7 @@
 }
 .venue_show_div {
   margin: 0 10px;
-  padding: 5px;
+  background-color: var(--background);
 }
 
 @media only screen and (max-width: 650px) {

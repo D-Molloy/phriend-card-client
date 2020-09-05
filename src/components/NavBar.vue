@@ -12,16 +12,16 @@
         <span>Overview</span>
       </div>
       <div
-        :class="['nav_item', activeTab === 'shows' ? 'nav_active' : '']"
-        @click="setActiveTab('shows')"
-      >
-        <span>Shows</span>
-      </div>
-      <div
         :class="['nav_item', activeTab === 'songs' ? 'nav_active' : '']"
         @click="setActiveTab('songs')"
       >
         <span>Songs</span>
+      </div>
+      <div
+        :class="['nav_item', activeTab === 'shows' ? 'nav_active' : '']"
+        @click="setActiveTab('shows')"
+      >
+        <span>Shows</span>
       </div>
       <div
         :class="['nav_item', activeTab === 'venues' ? 'nav_active' : '']"
@@ -76,7 +76,7 @@ export default {
     logout() {
       this.logOffDialog = false;
       this.$store.commit("clearUser");
-      this.$store.commit("setActiveTab", "overview")
+      this.$store.commit("setActiveTab", "overview");
       localStorage.removeItem("phriendData");
       localStorage.removeItem("phriendToken");
       return this.$router.push("/");
