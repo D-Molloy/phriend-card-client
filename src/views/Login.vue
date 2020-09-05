@@ -4,7 +4,7 @@
     <p class="text-center title_height font_xl font_title_red font_shadow_blue">
       PhriendScore
     </p>
-    <p class="text-right font-italic mb-10">Personalized Phish statistics</p>
+    <p class="text-right font-italic mb-10">Personalized Phish Statistics</p>
     <!-- <p>{{ joke }}</p> -->
     <v-card min-width="326">
       <v-card-title>
@@ -15,6 +15,7 @@
           <v-text-field
             label="Email"
             type="text"
+            class="email_input"
             v-model="form.email"
             autocomplete="email"
             prepend-icon="mdi-email"
