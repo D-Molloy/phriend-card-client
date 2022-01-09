@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const years = [
   "1983",
   "1984",
@@ -32,7 +33,8 @@ const years = [
   "2018",
   "2019",
   "2020",
-  "2021"
+  "2021",
+   "2022"
 ];
 
 const months = [
