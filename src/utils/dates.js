@@ -1,43 +1,14 @@
 /* eslint-disable prettier/prettier */
-const years = [
-  "1983",
-  "1984",
-  "1985",
-  "1986",
-  "1987",
-  "1988",
-  "1989",
-  "1990",
-  "1991",
-  "1992",
-  "1993",
-  "1994",
-  "1995",
-  "1996",
-  "1997",
-  "1998",
-  "1999",
-  "2000",
-  "2002",
-  "2003",
-  "2004",
-  "2009",
-  "2010",
-  "2011",
-  "2012",
-  "2013",
-  "2014",
-  "2015",
-  "2016",
-  "2017",
-  "2018",
-  "2019",
-  "2020",
-  "2021",
-  "2022",
-  "2023"
-];
 
+const getYears = function () {
+  const startYear = 1983;
+  var currentYear = new Date().getFullYear();
+  var years = []
+  for (var i = startYear; i <= currentYear; i++) {
+    years.push(i);
+  }
+  return years;
+}
 
 const months = [
   "01",
@@ -87,4 +58,4 @@ const days = [
   "31"
 ];
 
-export default { years: years.reverse(), months, days };
+export default { years: getYears().reverse(), months, days };
